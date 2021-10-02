@@ -59,27 +59,30 @@ public class Exercicios1 {
 
         boolean trocou = true;
 
-        System.out.println(numeros.size());
+        int iteracoes = 0;
 
         while (trocou) {
+
+            iteracoes += 1;
 
             trocou = false;
 
             for (int i=0; i<numeros.size() - 1; i++) {
 
-                System.out.println("estamos no indice " + i);
+                //System.out.println("estamos no indice " + i);
 
                 if(numeros.get(i) > numeros.get(i+1)) {
 
                     int pos1 = numeros.get(i);
                     int pos2 = numeros.get(i+1);
-
                     numeros.set(i, pos2);
                     numeros.set(i+1, pos1);
                     trocou = true;
                 }
             }
         }
+
+        System.out.println("Foram necessarias " + iteracoes + " iteracoes");
 
         return numeros;
     }

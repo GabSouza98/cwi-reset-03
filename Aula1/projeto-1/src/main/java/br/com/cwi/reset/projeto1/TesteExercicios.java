@@ -8,7 +8,7 @@ public class TesteExercicios {
     public static void main(String[] args) {
         Exercicios1 exercicio = new Exercicios1();
 
-        List<Integer> numeros = Arrays.asList(10, 1564, 200, 120, 15, 12, 144);
+        List<Integer> numeros = Arrays.asList(10, 200, 1564, 120, 15, 12, 144);
 
         int somaLista = exercicio.somarLista(numeros);
         System.out.println("Resultado esperado -> 2065, Resultado obtido -> " + somaLista);
