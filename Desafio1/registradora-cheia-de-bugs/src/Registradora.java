@@ -2,9 +2,9 @@
 public class Registradora {
 
     public static void main(String[] args) {
-//        primeiroBug();
+        primeiroBug();
 
-        segundoBug();
+//        segundoBug();
 
 //        terceiroBug();
 //
@@ -36,7 +36,7 @@ public class Registradora {
 
     private static void primeiroBug() {
         DataProjeto.criarDataComCozinhaFuncionando();
-        String item = "sanduiche";
+        String item = "pao";
         int quantidade = 4;
 
         double precoTotal = registrarItem(item, quantidade);
