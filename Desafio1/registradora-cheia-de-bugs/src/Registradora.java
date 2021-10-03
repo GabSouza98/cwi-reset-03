@@ -2,9 +2,9 @@
 public class Registradora {
 
     public static void main(String[] args) {
-        primeiroBug();
+//        primeiroBug();
 
-//        segundoBug();
+        segundoBug();
 
 //        terceiroBug();
 //
@@ -22,8 +22,13 @@ public class Registradora {
             if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
                 if (!DataProjeto.cozinhaEmFuncionamento()) {
                     System.out.println("Cozinha fechada!");
+                    System.out.println("A reposição deste item não está disponível");
+
+                    double quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
+                    System.out.println(String.format("Quantidade em estoque: %.1f", quantidadeEmEstoque));
+                } else {
+                    ReposicaoCozinha.reporItem(item);
                 }
-                ReposicaoCozinha.reporItem(item);
             }
 
             if ("leite".equals(item) || "cafe".equals(item)) {
@@ -47,7 +52,7 @@ public class Registradora {
     private static void segundoBug() {
         DataProjeto.criarDataComCozinhaEncerradaMasComDiaUtil();
         String item = "torta";
-        int quantidade = 10;
+        int quantidade = 3;
 
         double precoTotal = registrarItem(item, quantidade);
 
