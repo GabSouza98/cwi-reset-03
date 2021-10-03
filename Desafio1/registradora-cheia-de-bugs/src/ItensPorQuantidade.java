@@ -33,4 +33,48 @@ public class ItensPorQuantidade {
         return quantidadeEmEstoque;
     }
 
+    public static void retiraItem(String item, int quantidade) {
+
+        if ("pao".equals(item)) {
+            if (pao - quantidade >= 0) {
+                pao -= quantidade;
+            } else {
+                pao = 0;
+            }
+        }
+
+        if ("torta".equals(item)) {
+            if (torta - quantidade >= 0) {
+                torta -= quantidade;
+            } else {
+                torta = 0;
+            }
+        }
+
+        if ("sanduiche".equals(item)) {
+            if (sanduiche - quantidade >= 0) {
+                sanduiche -= quantidade;
+            } else {
+                sanduiche = 0;
+            }
+        }
+
+        if ("leite".equals(item)) {
+            if (leite - quantidade >= 0) {
+                leite -= quantidade;
+            } else {
+                leite = 0;
+            }
+        }
+
+        if ("cafe".equals(item)) {
+            if (cafe - quantidade >= 0) {
+                cafe -= quantidade;
+            } else {
+                cafe = 0;
+            }
+        }
+
+    }
+
 }

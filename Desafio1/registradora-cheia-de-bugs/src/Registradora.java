@@ -6,9 +6,9 @@ public class Registradora {
 
 //        segundoBug();
 
-        terceiroBug();
+//        terceiroBug();
 //
-//        quartoBug();
+        quartoBug();
 //
 //        quintoBug();
 //
@@ -17,6 +17,14 @@ public class Registradora {
 
     private static double registrarItem(String item, int quantidade) {
 
+        //Verifica se a quantidade pedida não é maior que a quantidade em estoque
+        int quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
+        if (quantidade>quantidadeEmEstoque) {
+            quantidade = quantidadeEmEstoque;
+        }
+
+        //Método para descontar do estoque a quantidade pedida deste item
+        ItensPorQuantidade.retiraItem(item, quantidade);
 
         double precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
 
@@ -26,10 +34,10 @@ public class Registradora {
                     System.out.println("Cozinha fechada!");
                     System.out.println("A reposição deste item não está disponível");
 
-                    int quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
                     System.out.println(String.format("Quantidade em estoque: %d", quantidadeEmEstoque));
                 } else {
                     ReposicaoCozinha.reporItem(item);
+                    System.out.println("Feita a reposição do item " +item);
                 }
             }
 
