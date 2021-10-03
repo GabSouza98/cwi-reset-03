@@ -1,6 +1,11 @@
 public class RelacaoPesoPreco {
 
     public static double retornaPrecoProduto(String item, int qtd) {
+
+        int qntEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
+        if (qtd>qntEmEstoque) {
+            qtd = qntEmEstoque;
+        }
         double precoTotal = 0;
 
         //É vendido por kilo, e cada pao pesa 60g. Cliente solicita a quantidade de paes.

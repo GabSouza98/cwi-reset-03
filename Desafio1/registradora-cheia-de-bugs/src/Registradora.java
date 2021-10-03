@@ -4,9 +4,9 @@ public class Registradora {
     public static void main(String[] args) {
 //        primeiroBug();
 
-        segundoBug();
+//        segundoBug();
 
-//        terceiroBug();
+        terceiroBug();
 //
 //        quartoBug();
 //
@@ -16,6 +16,8 @@ public class Registradora {
     }
 
     private static double registrarItem(String item, int quantidade) {
+
+
         double precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
 
         if (QuantidadeMinimaItem.precisaReposicao(item)) {
@@ -24,8 +26,8 @@ public class Registradora {
                     System.out.println("Cozinha fechada!");
                     System.out.println("A reposição deste item não está disponível");
 
-                    double quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
-                    System.out.println(String.format("Quantidade em estoque: %.1f", quantidadeEmEstoque));
+                    int quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
+                    System.out.println(String.format("Quantidade em estoque: %d", quantidadeEmEstoque));
                 } else {
                     ReposicaoCozinha.reporItem(item);
                 }
@@ -52,7 +54,7 @@ public class Registradora {
     private static void segundoBug() {
         DataProjeto.criarDataComCozinhaEncerradaMasComDiaUtil();
         String item = "torta";
-        int quantidade = 3;
+        int quantidade = 10;
 
         double precoTotal = registrarItem(item, quantidade);
 

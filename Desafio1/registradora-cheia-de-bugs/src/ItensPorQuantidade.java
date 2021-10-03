@@ -6,9 +6,9 @@ public class ItensPorQuantidade {
     static int leite = 20; // a reposicao pode variar de 10 a 50 itens
     static int cafe = 20; // a reposicao pode variar de 10 a 50 itens
 
-    public static double retornaQuantidadeEmEstoque(String item) {
+    public static int retornaQuantidadeEmEstoque(String item) {
 
-        double quantidadeEmEstoque = 0;
+        int quantidadeEmEstoque = 0;
 
         if ("pao".equals(item)) {
             quantidadeEmEstoque = pao;
