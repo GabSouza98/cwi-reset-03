@@ -1,7 +1,7 @@
 public class QuantidadeMinimaItem {
 
     public static boolean precisaReposicao(String item) {
-        if ("paes".equals(item)) {
+        if ("pao".equals(item)) {
             return ItensPorQuantidade.pao < 600;
         }
 
