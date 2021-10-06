@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Registradora {
@@ -29,18 +30,13 @@ public class Registradora {
         while(opcao != 3) {
 
             if(opcao == 1) {
-                System.out.println("Digite o nome do item que você deseja comprar");
-                System.out.println("Opções: pao, torta, sanduiche, leite, cafe");
-                String item = scanner.next();
-                System.out.println("Digite a quantidade que deseja comprar");
-                int quantidade = scanner.nextInt();
-                double precoTotal = registrarItem(item, quantidade);
-                System.out.println(String.format("Valor total: %.2f", precoTotal));
-
+                comprar();
             } else if(opcao == 2) {
-                break;
+                if (logar()) {
+                    alteraPreco();
+                }
             } else {
-                System.out.println("Digite um valor válido por favor.");
+                System.out.println("Digite uma opção válida por favor.");
             }
             boasVindas();
             opcao = scanner.nextInt();
@@ -53,6 +49,70 @@ public class Registradora {
         System.out.println("Digite 1 para realizar uma compra");
         System.out.println("Digite 2 para alterar o preço de um produto");
         System.out.println("Digite 3 para finalizar o programa");
+    }
+
+    public static boolean logar() {
+        boolean acesso = false;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Por favor, identifique-se:");
+        System.out.print("Digite seu usuario: ");
+        String usuario = scanner.next();
+        System.out.print("Digite sua senha: ");
+        String senha = scanner.next();  //mais tarde tentarei implementar algo que deixe a senha como "*"
+        if (verificaPermissao(usuario, senha)) {
+            acesso = true;
+        }
+        return acesso;
+    }
+
+    public static void alteraPreco() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Digite o produto que deseja alterar o preco: ");
+        String produto = scanner.next();
+        System.out.print("Digite o novo preço: ");
+        double novoPreco = scanner.nextDouble();
+        PrecoPorProduto.alteraPreco(produto, novoPreco);
+    }
+
+    public static boolean verificaPermissao(String usuario, String senha) {
+
+        boolean permissao = false;
+
+        //Claro que o ideal seria verificar num banco de dados se os dados fecham, mas assim já da pra brincar
+        ArrayList<String> usuarios = new ArrayList<>();
+        usuarios.add("Gabriel");
+        usuarios.add("Neto");
+        usuarios.add("Amanda");
+        usuarios.add("admin");
+
+        ArrayList<String> senhas = new ArrayList<>();
+        senhas.add("123");
+        senhas.add("456");
+        senhas.add("789");
+        senhas.add("admin");
+
+        if (usuarios.contains(usuario)) {
+            int i = usuarios.indexOf(usuario); //retorna a posição do usuario, se houver um usuario com esse nome
+            if (senhas.get(i).equals(senha)) {
+                permissao = true;
+            } else {
+                System.out.println("Senha incorreta :(");
+            }
+        } else {
+            System.out.println("Usuario não encontrado :(");
+        }
+        return permissao;
+    }
+
+    public static void comprar() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Digite o nome do item que você deseja comprar");
+        System.out.println("Opções: pao, torta, sanduiche, leite, cafe");
+        String item = scanner.next();
+        System.out.println("Digite a quantidade que deseja comprar");
+        int quantidade = scanner.nextInt();
+        double precoTotal = registrarItem(item, quantidade);
+        System.out.println(String.format("Valor total: R$ %.2f", precoTotal));
     }
 
     private static double registrarItem(String item, int quantidade) {
