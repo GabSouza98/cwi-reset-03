@@ -9,15 +9,14 @@ public class Registradora {
 //          menu();
 //        primeiroBug();
 
-        segundoBug();
-
+//        segundoBug();
 //        terceiroBug();
 //
 //        quartoBug();
 //
 //        quintoBug();
 //
-//        sextoBug();
+        sextoBug();
     }
 
     public static void menu() {
@@ -117,37 +116,82 @@ public class Registradora {
 
     private static double registrarItem(String item, int quantidade) {
 
+        //Cria variavel de preço vazia, para ser preenchida nos blocos de IF
+        double precoItem = 0;
         //Verifica se a quantidade pedida não é maior que a quantidade em estoque
         int quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
         if (quantidade>quantidadeEmEstoque) {
-            quantidade = quantidadeEmEstoque;
-        }
 
-        //Método para descontar do estoque a quantidade pedida deste item
-        ItensPorQuantidade.retiraItem(item, quantidade);
+            //CASO EM QUE A QUANTIDADE PEDIDA NÃO ESTÁ DISPONÍVEL NO ESTOQUE
+            //Necessário completar o que falta do pedido para poder retirar
 
-        double precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
 
-        if (QuantidadeMinimaItem.precisaReposicao(item)) {
             if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
                 if (!DataProjeto.cozinhaEmFuncionamento()) {
                     System.out.println("Cozinha fechada!");
                     System.out.println("A reposição deste item não está disponível");
-
-                    System.out.println(String.format("Quantidade em estoque: %d", quantidadeEmEstoque - quantidade));
+                    System.out.println(String.format("Quantidade em estoque: %d", quantidadeEmEstoque));
+                    quantidade = quantidadeEmEstoque;
                 } else {
-                    ReposicaoCozinha.reporItem(item);
-                    System.out.println("Feita a reposição do item " +item);
+                    while (quantidade<quantidadeEmEstoque) {
+                        ReposicaoCozinha.reporItem(item);
+                        System.out.println("Feita a reposição do item " + item);
+                        quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
+                    }
+                }
+            }
+            if ("leite".equals(item) || "cafe".equals(item)) {
+                while (quantidade<quantidadeEmEstoque) {
+                    ReposicaoFornecedor.reporItem(item);
+                    System.out.println("Feita a reposição do item " + item);
+                    quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
                 }
             }
 
-            if ("leite".equals(item) || "cafe".equals(item)) {
-                ReposicaoFornecedor.reporItem(item);
+            ItensPorQuantidade.retiraItem(item, quantidade);
+            precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+
+            //REFATORAR
+            if (QuantidadeMinimaItem.precisaReposicao(item)) {
+                if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
+                    if (!DataProjeto.cozinhaEmFuncionamento()) {
+                        System.out.println("Item indisponível");
+                    } else {
+                        ReposicaoCozinha.reporItem(item);
+                        System.out.println("Feita a reposição do item " + item);
+                    }
+                }
+                if ("leite".equals(item) || "cafe".equals(item)) {
+                    ReposicaoFornecedor.reporItem(item);
+                    System.out.println("Feita a reposição do item " + item);
+                }
+            }
+        } else {
+            //CASO EM QUE A QUANTIDADE PEDIDA ESTÁ DISPONÍVEL NO ESTOQUE
+            //Método para descontar do estoque a quantidade pedida deste item
+            ItensPorQuantidade.retiraItem(item, quantidade);
+            precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+            if (QuantidadeMinimaItem.precisaReposicao(item)) {
+                if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
+                    if (!DataProjeto.cozinhaEmFuncionamento()) {
+                        System.out.println("Cozinha fechada!");
+                        System.out.println("A reposição deste item não está disponível");
+                        System.out.println(String.format("Quantidade em estoque: %d", quantidadeEmEstoque - quantidade));
+                    } else {
+                        ReposicaoCozinha.reporItem(item);
+                        System.out.println("Feita a reposição do item " + item);
+                    }
+                }
+                if ("leite".equals(item) || "cafe".equals(item)) {
+                    ReposicaoFornecedor.reporItem(item);
+                    System.out.println("Feita a reposição do item " + item);
+                }
             }
         }
-
         return precoItem;
     }
+
+
 
     private static void primeiroBug() {
         DataProjeto.criarDataComCozinhaFuncionando();
