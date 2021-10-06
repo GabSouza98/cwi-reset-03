@@ -1,7 +1,11 @@
+import java.util.Scanner;
 
 public class Registradora {
 
     public static void main(String[] args) {
+
+
+          menu();
 //        primeiroBug();
 
 //        segundoBug();
@@ -12,7 +16,43 @@ public class Registradora {
 //
 //        quintoBug();
 //
-        sextoBug();
+//        sextoBug();
+    }
+
+    public static void menu() {
+
+        DataProjeto.criarDataComCozinhaFuncionando();
+        boasVindas();
+        Scanner scanner = new Scanner(System.in);
+        int opcao = scanner.nextInt();
+
+        while(opcao != 3) {
+
+            if(opcao == 1) {
+                System.out.println("Digite o nome do item que você deseja comprar");
+                System.out.println("Opções: pao, torta, sanduiche, leite, cafe");
+                String item = scanner.next();
+                System.out.println("Digite a quantidade que deseja comprar");
+                int quantidade = scanner.nextInt();
+                double precoTotal = registrarItem(item, quantidade);
+                System.out.println(String.format("Valor total: %.2f", precoTotal));
+
+            } else if(opcao == 2) {
+                break;
+            } else {
+                System.out.println("Digite um valor válido por favor.");
+            }
+            boasVindas();
+            opcao = scanner.nextInt();
+        }
+        System.out.println("Você saiu do programa. Volte sempre!");
+    }
+
+    public static void boasVindas() {
+        System.out.println("Bem vindo a padaria Reseter!");
+        System.out.println("Digite 1 para realizar uma compra");
+        System.out.println("Digite 2 para alterar o preço de um produto");
+        System.out.println("Digite 3 para finalizar o programa");
     }
 
     private static double registrarItem(String item, int quantidade) {
