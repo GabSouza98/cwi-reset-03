@@ -8,11 +8,11 @@ public class Registradora {
 
 //        terceiroBug();
 //
-        quartoBug();
+//        quartoBug();
 //
 //        quintoBug();
 //
-//        sextoBug();
+        sextoBug();
     }
 
     private static double registrarItem(String item, int quantidade) {
@@ -34,7 +34,7 @@ public class Registradora {
                     System.out.println("Cozinha fechada!");
                     System.out.println("A reposição deste item não está disponível");
 
-                    System.out.println(String.format("Quantidade em estoque: %d", quantidadeEmEstoque));
+                    System.out.println(String.format("Quantidade em estoque: %d", quantidadeEmEstoque - quantidade));
                 } else {
                     ReposicaoCozinha.reporItem(item);
                     System.out.println("Feita a reposição do item " +item);
