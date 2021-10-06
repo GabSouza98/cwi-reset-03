@@ -6,10 +6,10 @@ public class Registradora {
     public static void main(String[] args) {
 
 
-          menu();
+//          menu();
 //        primeiroBug();
 
-//        segundoBug();
+        segundoBug();
 
 //        terceiroBug();
 //
@@ -151,11 +151,9 @@ public class Registradora {
 
     private static void primeiroBug() {
         DataProjeto.criarDataComCozinhaFuncionando();
-        String item = "pao";
+        String item = "sanduiche";
         int quantidade = 4;
-
         double precoTotal = registrarItem(item, quantidade);
-
         System.out.println(String.format("Valor total: %.2f", precoTotal));
     }
 

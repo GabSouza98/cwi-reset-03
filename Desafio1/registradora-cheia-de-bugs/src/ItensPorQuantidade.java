@@ -1,7 +1,7 @@
 public class ItensPorQuantidade {
 
     static int pao = 3600;
-    static int torta = 4;
+    static int torta = 64; //cada torta possui 16 fatias e começamos com 4 tortas.
     static int sanduiche = 20;
     static int leite = 20;
     static int cafe = 20;
