@@ -1,6 +1,9 @@
 public class ReposicaoCozinha {
 
     static void reporItem(String item) {
+
+        /* Esta função soma a quantidade produzida de um item ao seu estoque atual */
+
         if ("pao".equals(item)) {
             ItensPorQuantidade.pao += 3600;
         }

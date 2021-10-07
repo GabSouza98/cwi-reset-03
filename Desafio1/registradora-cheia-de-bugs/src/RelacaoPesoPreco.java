@@ -2,6 +2,9 @@ public class RelacaoPesoPreco {
 
     public static double retornaPrecoProduto(String item, int qtd) {
 
+        /* Esta função realiza o cálculo do preço de cada item para suas quantidades,
+        já considerando as unidades de pedidos de cada item (unidade, fatia) */
+
         double precoTotal = 0;
 
         //É vendido por kilo, e cada pao pesa 60g. Cliente solicita a quantidade de paes.

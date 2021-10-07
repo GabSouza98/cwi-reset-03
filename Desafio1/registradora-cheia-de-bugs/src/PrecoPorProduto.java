@@ -1,5 +1,7 @@
 public class PrecoPorProduto {
 
+    //Atributos estáticos pois não será instanciada esta classe.
+
     private static double precoPao = 12.75;
     private static double precoTorta = 96.0;
     private static double precoSanduiche = 4.5;
@@ -7,6 +9,10 @@ public class PrecoPorProduto {
     private static double precoCafe = 9.56;
 
     public static void alteraPreco(String produto, double novopreco) {
+
+        /* Esta função realiza um polimorfismo, pois também existe na classe Registradora.
+        Nesta classe, ela altera o atributo preço do item correspondente.
+        */
 
         if (produto.equals("pao")) {
             PrecoPorProduto.setPrecoPao(novopreco);
@@ -27,6 +33,8 @@ public class PrecoPorProduto {
         }
 
     }
+
+    //GETTERS AND SETTERS
 
     public static double getPrecoPao() {
         return precoPao;

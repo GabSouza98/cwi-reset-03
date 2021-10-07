@@ -1,6 +1,10 @@
 public class QuantidadeMinimaItem {
 
     public static boolean precisaReposicao(String item) {
+
+        /* Esta função verifica se cada item está em quantidade acima do mínimo
+        definido pela política de estoque */
+
         if ("pao".equals(item)) {
             return ItensPorQuantidade.pao < 600;
         }

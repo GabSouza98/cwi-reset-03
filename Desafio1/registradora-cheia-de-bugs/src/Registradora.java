@@ -21,6 +21,12 @@ public class Registradora {
 
     public static void menu() {
 
+        /* Esta função fornece uma interface shell para o usuario efetuar operações como:
+        1 - Comprar um produto
+        2 - Alterar o preço de um produto (mediante login)
+        3 - Sair do programa
+        */
+
         DataProjeto.criarDataComCozinhaFuncionando();
         boasVindas();
         Scanner scanner = new Scanner(System.in);
@@ -44,6 +50,8 @@ public class Registradora {
     }
 
     public static void boasVindas() {
+
+        /* Boas vindas e instruções de utilização do software */
         System.out.println("Bem vindo a padaria Reseter!");
         System.out.println("Digite 1 para realizar uma compra");
         System.out.println("Digite 2 para alterar o preço de um produto");
@@ -51,6 +59,10 @@ public class Registradora {
     }
 
     public static boolean logar() {
+
+        /* Esta função pede as credencias do funcionário (login e senha) e retorna
+        se os dados inseridos são válidos */
+
         boolean acesso = false;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Por favor, identifique-se:");
@@ -65,6 +77,9 @@ public class Registradora {
     }
 
     public static void alteraPreco() {
+
+        /* Esta função pede qual o nome do produto que deseja-se alterar o preço e também o valor do novo preço */
+
         Scanner scanner = new Scanner(System.in);
         System.out.print("Digite o produto que deseja alterar o preco: ");
         String produto = scanner.next();
@@ -74,6 +89,8 @@ public class Registradora {
     }
 
     public static boolean verificaPermissao(String usuario, String senha) {
+
+        /* Esta função verifica se as credenciais passadas são válidas e retorna true ou false */
 
         boolean permissao = false;
 
@@ -90,20 +107,32 @@ public class Registradora {
         senhas.add("789");
         senhas.add("admin");
 
+        //Verifica se o usuário existe
         if (usuarios.contains(usuario)) {
-            int i = usuarios.indexOf(usuario); //retorna a posição do usuario, se houver um usuario com esse nome
+            //Retorna a posição do usuário no ArrayList de usuários, caso ele exista
+            int i = usuarios.indexOf(usuario);
+            // Verifica se a senha condiz com a senha do usuário de mesma posição no ArrayList de senhas
             if (senhas.get(i).equals(senha)) {
                 permissao = true;
             } else {
                 System.out.println("Senha incorreta :(");
             }
         } else {
+            //Informa que o usuário não é válido
             System.out.println("Usuario não encontrado :(");
         }
         return permissao;
     }
 
     public static void comprar() {
+
+        /* Esta função fornece os nomes dos itens existentes, e pergunta qual item e quantidade deseja-se comprar.
+        O mais legal seria ter esses itens num arraylist e mostrar numa interface gráfica, para impedir de o usuario
+        digitar o nome errado de um item,
+        OU,
+        Colocar um sistema de busca pelo nome, e o sistema vai afunilando as opções existentes. As opções teriam que
+        vir de um banco de dados */
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Digite o nome do item que você deseja comprar");
         System.out.println("Opções: pao, torta, sanduiche, leite, cafe");
@@ -116,81 +145,106 @@ public class Registradora {
 
     private static double registrarItem(String item, int quantidade) {
 
+        /* Esta função verifica se é possível registrar um item no caixa, comparando a quantidade pedida
+        com a quantidade em estoque. Se a quantidade pedida for maior que o disponível, verifica se é possível
+        efetuar a reposição do item, de acordo com o tipo do item e o horário de funcionamento da padaria.
+        Se a quantidade for menor ou igual ao disponível, efetua a retirada normalmente.
+        */
+
         //Cria variavel de preço vazia, para ser preenchida nos blocos de IF
         double precoItem = 0;
-        //Verifica se a quantidade pedida não é maior que a quantidade em estoque
+        //Verifica se a quantidade pedida é maior que a quantidade em estoque
         int quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
         if (quantidade>quantidadeEmEstoque) {
 
             //CASO EM QUE A QUANTIDADE PEDIDA NÃO ESTÁ DISPONÍVEL NO ESTOQUE
             //Necessário completar o que falta do pedido para poder retirar
 
-
-            if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
+            //Verifica se é item de cozinha
+            if (checkItemCozinha(item)) {
+                //Verifica se a cozinha não está em funcionamento
                 if (!DataProjeto.cozinhaEmFuncionamento()) {
-                    System.out.println("Cozinha fechada!");
-                    System.out.println("A reposição deste item não está disponível");
-                    System.out.println(String.format("Quantidade em estoque: %d", quantidadeEmEstoque));
+                    //Define a quantidade pedida como a quantidade em estoque, pois não é possível repor.
                     quantidade = quantidadeEmEstoque;
+                    precoItem = efetuarRetiradaEVerificarReposicao(item, quantidade);
                 } else {
+                    //Se a cozinha estiver em funcionamento, faça a
+                    //reposição do estoque enquanto a quantidade pedida for menor que o estoque
                     while (quantidade<quantidadeEmEstoque) {
                         ReposicaoCozinha.reporItem(item);
                         System.out.println("Feita a reposição do item " + item);
                         quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
                     }
+                    //Após garantir que a quantidade em estoque é >= ao pedido, prosseguir com o pedido
+                    precoItem = efetuarRetiradaEVerificarReposicao(item, quantidade);
                 }
             }
-            if ("leite".equals(item) || "cafe".equals(item)) {
+            if (checkItemFornecedor(item)) {
                 while (quantidade<quantidadeEmEstoque) {
                     ReposicaoFornecedor.reporItem(item);
                     System.out.println("Feita a reposição do item " + item);
                     quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
                 }
+                precoItem = efetuarRetiradaEVerificarReposicao(item, quantidade);
             }
 
-            ItensPorQuantidade.retiraItem(item, quantidade);
-            precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
 
-            //REFATORAR
-            if (QuantidadeMinimaItem.precisaReposicao(item)) {
-                if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
-                    if (!DataProjeto.cozinhaEmFuncionamento()) {
-                        System.out.println("Item indisponível");
-                    } else {
-                        ReposicaoCozinha.reporItem(item);
-                        System.out.println("Feita a reposição do item " + item);
-                    }
-                }
-                if ("leite".equals(item) || "cafe".equals(item)) {
-                    ReposicaoFornecedor.reporItem(item);
-                    System.out.println("Feita a reposição do item " + item);
-                }
-            }
         } else {
             //CASO EM QUE A QUANTIDADE PEDIDA ESTÁ DISPONÍVEL NO ESTOQUE
             //Método para descontar do estoque a quantidade pedida deste item
-            ItensPorQuantidade.retiraItem(item, quantidade);
-            precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
-            if (QuantidadeMinimaItem.precisaReposicao(item)) {
-                if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
-                    if (!DataProjeto.cozinhaEmFuncionamento()) {
-                        System.out.println("Cozinha fechada!");
-                        System.out.println("A reposição deste item não está disponível");
-                        System.out.println(String.format("Quantidade em estoque: %d", quantidadeEmEstoque - quantidade));
-                    } else {
-                        ReposicaoCozinha.reporItem(item);
-                        System.out.println("Feita a reposição do item " + item);
-                    }
-                }
-                if ("leite".equals(item) || "cafe".equals(item)) {
-                    ReposicaoFornecedor.reporItem(item);
-                    System.out.println("Feita a reposição do item " + item);
-                }
-            }
+            precoItem = efetuarRetiradaEVerificarReposicao(item, quantidade);
+
         }
         return precoItem;
     }
 
+    private static boolean checkItemCozinha(String item) {
+
+        /* Esta função verifica se o item é de responsabilidade da cozinha */
+
+        if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private static boolean checkItemFornecedor(String item) {
+
+        /* Esta função verifica se o item é de responsabilidade do fornecedor */
+
+        if ("leite".equals(item) || "cafe".equals(item)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static double efetuarRetiradaEVerificarReposicao(String item, int quantidade) {
+
+        /* Esta função realiza as operações de retira do item do estoque,
+        calcula e retorna o preço do pedido, e verifica se há necessidade de reposição
+        */
+
+        ItensPorQuantidade.retiraItem(item, quantidade);
+        double precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+        if (QuantidadeMinimaItem.precisaReposicao(item)) {
+            if (checkItemCozinha(item)) {
+                if (!DataProjeto.cozinhaEmFuncionamento()) {
+                    System.out.println("Cozinha fechada!");
+                    System.out.println("A reposição deste item não está disponível");
+                    System.out.println(String.format("Quantidade em estoque: %d", ItensPorQuantidade.retornaQuantidadeEmEstoque(item)));
+                } else {
+                    ReposicaoCozinha.reporItem(item);
+                    System.out.println("Feita a reposição do item " + item);
+                }
+            }
+            if (checkItemFornecedor(item)) {
+                ReposicaoFornecedor.reporItem(item);
+                System.out.println("Feita a reposição do item " + item);
+            }
+        }
+        return precoItem;
+    }
 
 
     private static void primeiroBug() {
