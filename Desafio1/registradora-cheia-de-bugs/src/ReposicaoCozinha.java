@@ -4,13 +4,13 @@ public class ReposicaoCozinha {
 
         /* Esta função soma a quantidade produzida de um item ao seu estoque atual */
 
-        if ("pao".equals(item)) {
+        if (Constantes.STRING_PAO.equals(item)) {
             ItensPorQuantidade.pao += 3600;
         }
-        if ("torta".equals(item)) {
+        if (Constantes.STRING_TORTA.equals(item)) {
             ItensPorQuantidade.torta += 64;
         }
-        if ("sanduiche".equals(item)) {
+        if (Constantes.STRING_SANDUICHE.equals(item)) {
             ItensPorQuantidade.sanduiche += 20;
         }
     }

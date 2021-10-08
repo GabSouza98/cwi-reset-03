@@ -202,7 +202,7 @@ public class Registradora {
 
         /* Esta função verifica se o item é de responsabilidade da cozinha */
 
-        if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item) ) {
+        if (Constantes.STRING_PAO.equals(item) || Constantes.STRING_SANDUICHE.equals(item) || Constantes.STRING_TORTA.equals(item) ) {
             return true;
         } else {
             return false;
@@ -212,7 +212,7 @@ public class Registradora {
 
         /* Esta função verifica se o item é de responsabilidade do fornecedor */
 
-        if ("leite".equals(item) || "cafe".equals(item)) {
+        if (Constantes.STRING_LEITE.equals(item) || Constantes.STRING_CAFE.equals(item)) {
             return true;
         } else {
             return false;

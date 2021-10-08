@@ -8,27 +8,27 @@ public class RelacaoPesoPreco {
         double precoTotal = 0;
 
         //É vendido por kilo, e cada pao pesa 60g. Cliente solicita a quantidade de paes.
-        if ("pao".equals(item)) {
+        if (Constantes.STRING_PAO.equals(item)) {
             precoTotal = PrecoPorProduto.getPrecoPao() * (qtd * (double) 60 / 1000);
         }
 
         //É vendido por fatia, e cada torta tem 16 fatias. Cliente solicita a quantidade de fatias.
-        if ("torta".equals(item)) {
+        if (Constantes.STRING_TORTA.equals(item)) {
             precoTotal = PrecoPorProduto.getPrecoTorta() * ( (double) qtd / 16);
         }
 
         //Vendido por unidade. O cliente pede a quantidade.
-        if ("leite".equals(item)) {
+        if (Constantes.STRING_LEITE.equals(item)) {
             precoTotal = (double) PrecoPorProduto.getPrecoLeite() * qtd;
         }
 
         //Vendido por unidade. O cliente pede a quantidade.
-        if ("cafe".equals(item)) {
+        if (Constantes.STRING_CAFE.equals(item)) {
             precoTotal = (double) PrecoPorProduto.getPrecoCafe() * qtd;
         }
 
         //Vendido por unidade. O cliente pede a quantidade.
-        if ("sanduiche".equals(item)) {
+        if (Constantes.STRING_SANDUICHE.equals(item)) {
             precoTotal = (double) PrecoPorProduto.getPrecoSanduiche() * qtd;
         }
 

@@ -14,19 +14,19 @@ public class PrecoPorProduto {
         Nesta classe, ela altera o atributo preço do item correspondente.
         */
 
-        if (produto.equals("pao")) {
+        if (produto.equals(Constantes.STRING_PAO)) {
             PrecoPorProduto.setPrecoPao(novopreco);
         } else
-        if (produto.equals("leite")) {
+        if (produto.equals(Constantes.STRING_LEITE)) {
             PrecoPorProduto.setPrecoLeite(novopreco);
         } else
-        if (produto.equals("cafe")) {
+        if (produto.equals(Constantes.STRING_CAFE)) {
             PrecoPorProduto.setPrecoCafe(novopreco);
         } else
-        if (produto.equals("sanduiche")) {
+        if (produto.equals(Constantes.STRING_SANDUICHE)) {
             PrecoPorProduto.setPrecoSanduiche(novopreco);
         } else
-        if (produto.equals("torta")) {
+        if (produto.equals(Constantes.STRING_TORTA)) {
             PrecoPorProduto.setPrecoTorta(novopreco);
         } else {
             System.out.println("Digite um produto válido!");

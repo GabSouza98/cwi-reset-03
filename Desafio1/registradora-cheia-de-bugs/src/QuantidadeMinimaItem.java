@@ -5,24 +5,24 @@ public class QuantidadeMinimaItem {
         /* Esta função verifica se cada item está em quantidade acima do mínimo
         definido pela política de estoque */
 
-        if ("pao".equals(item)) {
-            return ItensPorQuantidade.pao < 600;
+        if (Constantes.STRING_PAO.equals(item)) {
+            return ItensPorQuantidade.pao < Constantes.QTD_MINIMA_PAO;
         }
 
-        if ("torta".equals(item)) {
-            return ItensPorQuantidade.torta < 10;
+        if (Constantes.STRING_TORTA.equals(item)) {
+            return ItensPorQuantidade.torta < Constantes.QTD_MINIMA_TORTA;
         }
 
-        if ("sanduiche".equals(item)) {
-            return ItensPorQuantidade.sanduiche <= 1;
+        if (Constantes.STRING_SANDUICHE.equals(item)) {
+            return ItensPorQuantidade.sanduiche <= Constantes.QTD_MINIMA_SANDUICHE;
         }
 
-        if ("cafe".equals(item)) {
-            return ItensPorQuantidade.leite < 12;
+        if (Constantes.STRING_LEITE.equals(item)) {
+            return ItensPorQuantidade.leite < Constantes.QTD_MINIMA_LEITE;
         }
 
-        if ("leite".equals(item)) {
-            return ItensPorQuantidade.cafe < 12;
+        if (Constantes.STRING_CAFE.equals(item)) {
+            return ItensPorQuantidade.cafe < Constantes.QTD_MINIMA_CAFE;
         }
 
         return false;

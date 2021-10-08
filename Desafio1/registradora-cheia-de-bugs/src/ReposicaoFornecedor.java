@@ -8,11 +8,11 @@ public class ReposicaoFornecedor {
 
         Random random = new Random();
 
-        if ("leite".equals(item)) {
+        if (Constantes.STRING_LEITE.equals(item)) {
             ItensPorQuantidade.leite += random.nextInt(40) + 10;
         }
 
-        if ("cafe".equals(item)) {
+        if (Constantes.STRING_CAFE.equals(item)) {
             ItensPorQuantidade.cafe += random.nextInt(40) + 10;
         }
     }
