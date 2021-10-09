@@ -1,31 +1,14 @@
 package br.com.cwi.reset.aula.dois;
 
-public class Diretor {
+public class Diretor extends Pessoa {
 
-    private String nome;
-    private int idade;
-    private int quantidadeFilmesDirigidos;
-    private Genero genero;
+        private int quantidadeFilmesDirigidos;
 
-    public Diretor(String nome, int idade, int quantidadeFilmesDirigidos, Genero genero) {
-        this.nome = nome;
-        this.idade = idade;
+    public Diretor(String nome, Integer idade, Genero genero, int quantidadeFilmesDirigidos) {
+        super(nome, idade, genero);
         this.quantidadeFilmesDirigidos = quantidadeFilmesDirigidos;
-        this.genero = genero;
     }
 
-    public void imprimeCaracteristicas() {
-        System.out.println("Nome: " + this.getNome());
-        System.out.println("Idade: " + this.getIdade());
-        System.out.println("Gênero: " + this.genero.getDescricao());
-    }
-
-    public String getNome() {
-        return nome;
-    }
-    private int getIdade() {
-        return idade;
-    }
     private int getQuantidadeFilmesDirigidos() {
         return quantidadeFilmesDirigidos;
     }

@@ -1,38 +1,21 @@
 package br.com.cwi.reset.aula.dois;
 
-public class Ator {
+public class Ator extends Pessoa{
 
-    private String nome;
-    private Integer idade;
     private Integer numeroDeOscars;
-    private Genero genero;
 
-    public Ator(String nome, Integer idade, Integer numeroDeOscars, Genero genero) {
-        this.nome = nome;
-        this.idade = idade;
+    public Ator(String nome, Integer idade, Genero genero, Integer numeroDeOscars) {
+        super(nome, idade, genero);
         this.numeroDeOscars = numeroDeOscars;
-        this.genero = genero;
     }
 
-    public void imprimeCaracteristicas() {
-        System.out.println("Nome: " + this.getNome());
-        System.out.println("Idade: " + this.getIdade());
-        System.out.println("Gênero: " + this.genero.getDescricao());
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Integer getIdade() {
-        return idade;
-    }
+//    public void imprimeCaracteristicas() {
+//        super.imprimeCaracteristicas();
+//        System.out.println("Número de Oscars: " + this.getNumeroDeOscars());
+//    }
 
     public Integer getNumeroDeOscars() {
         return numeroDeOscars;
     }
 
-    public Genero getGenero() {
-        return genero;
-    }
 }

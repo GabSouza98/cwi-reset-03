@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Registradora {
@@ -14,7 +15,7 @@ public class Registradora {
 //        produtos[3] = new Produtos(Constantes.STRING_CAFE,Constantes.QTD_MINIMA_CAFE,Constantes.QTD_PADRAO_CAFE,9.56,Constantes.QTD_PADRAO_CAFE);
 //        produtos[4] = new Produtos(Constantes.STRING_SANDUICHE,Constantes.QTD_MINIMA_SANDUICHE,Constantes.QTD_PADRAO_SANDUICHE,4.5,Constantes.QTD_PADRAO_SANDUICHE);
 
-        //List<Produtos> produtos = new ArrayList<Produtos>(); Qual a diferença disso para Arraylist?
+        List<Produtos> produtosss = new ArrayList<Produtos>();
 
         Produtos produto1 = new Produtos(Constantes.STRING_PAO,Constantes.QTD_MINIMA_PAO,Constantes.QTD_PADRAO_PAO,0.765,Constantes.QTD_PADRAO_PAO, true);
         Produtos produto2 = new Produtos(Constantes.STRING_TORTA,Constantes.QTD_MINIMA_TORTA,Constantes.QTD_PADRAO_TORTA,6.0,Constantes.QTD_PADRAO_TORTA, true);
