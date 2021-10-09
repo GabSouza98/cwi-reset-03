@@ -9,15 +9,22 @@ public class Filme {
     private int avaliacao;
     private Diretor diretor;
 
-    public Filme(String nome, String descricao, int duracao, int anoDeLancamento, int avaliacao, Diretor diretor) {
+    public Filme(String nome, String descricao, int duracao, int anoDeLancamento, int avaliacao, Diretor diretor) throws AvaliacaoForaDoPadraoException{
         this.nome = nome;
         this.descricao = descricao;
         this.duracao = duracao;
         this.anoDeLancamento = anoDeLancamento;
-        this.avaliacao = avaliacao;
+        this.avaliacao = getAvaliacao(avaliacao);
         this.diretor = diretor;
     }
 
+    private int getAvaliacao(int avaliacao) throws AvaliacaoForaDoPadraoException {
+
+        if(avaliacao>5 || avaliacao<1) {
+            throw new AvaliacaoForaDoPadraoException();
+        }
+        return avaliacao;
+    }
 
     public void reproduzirFilme() {
         System.out.println("Nome do filme: " + this.getNome());

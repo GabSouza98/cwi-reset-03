@@ -1,20 +1,23 @@
 package br.com.cwi.reset.aula.dois;
 
-public class Pessoa {
+import java.time.LocalDate;
+import java.time.Period;
+
+public abstract class Pessoa {
 
     private String nome;
-    private Integer idade;
+    private LocalDate dataNascimento;
     private Genero genero;
 
-    public Pessoa(String nome, Integer idade, Genero genero) {
+    public Pessoa(String nome, LocalDate dataNascimento, Genero genero) {
         this.nome = nome;
-        this.idade = idade;
+        this.dataNascimento = dataNascimento;
         this.genero = genero;
     }
 
     public void imprimeCaracteristicas() {
         System.out.println("Nome: " + this.getNome());
-        System.out.println("Idade: " + this.getIdade());
+        System.out.println("Idade: " + this.calcularIdade());
         System.out.println("Gênero: " + this.getGenero().getDescricao());
     }
 
@@ -22,8 +25,8 @@ public class Pessoa {
         return nome;
     }
 
-    public Integer getIdade() {
-        return idade;
+    public Integer calcularIdade() {
+        return Period.between(dataNascimento,LocalDate.now()).getYears();
     }
 
     public Genero getGenero() {
