@@ -18,53 +18,6 @@ public class Filme {
         this.diretor = diretor;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public int getDuracao() {
-        return duracao;
-    }
-
-    public void setDuracao(int duracao) {
-        this.duracao = duracao;
-    }
-
-    public int getAnoDeLancamento() {
-        return anoDeLancamento;
-    }
-
-    public void setAnoDeLancamento(int anoDeLancamento) {
-        this.anoDeLancamento = anoDeLancamento;
-    }
-
-    public int getAvaliacao() {
-        return avaliacao;
-    }
-
-    public void setAvaliacao(int avaliacao) {
-        this.avaliacao = avaliacao;
-    }
-
-    public Diretor getDiretor() {
-        return diretor;
-    }
-
-    public void setDiretor(Diretor diretor) {
-        this.diretor = diretor;
-    }
 
     public void reproduzirFilme() {
         System.out.println("Nome do filme: " + this.getNome());
@@ -73,6 +26,28 @@ public class Filme {
         System.out.println("Nome do diretor: " + this.getDiretor().getNome());
     }
 
+    //GETTERS AND SETTERS
+    private String getNome() {
+        return nome;
+    }
 
+    private String getDescricao() {
+        return descricao;
+    }
 
+    private int getDuracao() {
+        return duracao;
+    }
+
+    private int getAnoDeLancamento() {
+        return anoDeLancamento;
+    }
+
+    private int getAvaliacao() {
+        return avaliacao;
+    }
+
+    private Diretor getDiretor() {
+        return diretor;
+    }
 }

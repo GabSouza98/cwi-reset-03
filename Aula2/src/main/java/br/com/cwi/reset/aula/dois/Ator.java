@@ -1,16 +1,16 @@
 package br.com.cwi.reset.aula.dois;
 
-public class Diretor {
+public class Ator {
 
     private String nome;
-    private int idade;
-    private int quantidadeFilmesDirigidos;
+    private Integer idade;
+    private Integer numeroDeOscars;
     private Genero genero;
 
-    public Diretor(String nome, int idade, int quantidadeFilmesDirigidos, Genero genero) {
+    public Ator(String nome, Integer idade, Integer numeroDeOscars, Genero genero) {
         this.nome = nome;
         this.idade = idade;
-        this.quantidadeFilmesDirigidos = quantidadeFilmesDirigidos;
+        this.numeroDeOscars = numeroDeOscars;
         this.genero = genero;
     }
 
@@ -23,10 +23,16 @@ public class Diretor {
     public String getNome() {
         return nome;
     }
-    private int getIdade() {
+
+    public Integer getIdade() {
         return idade;
     }
-    private int getQuantidadeFilmesDirigidos() {
-        return quantidadeFilmesDirigidos;
+
+    public Integer getNumeroDeOscars() {
+        return numeroDeOscars;
+    }
+
+    public Genero getGenero() {
+        return genero;
     }
 }
