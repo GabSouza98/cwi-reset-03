@@ -1,19 +1,16 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ReposicaoFornecedor {
 
-    static void reporItem(String item) {
-
-        /* Esta função soma a quantidade produzida de um item ao seu estoque atual */
+    static void reporItem(ArrayList<Produtos> arrayProdutos, String item) {
 
         Random random = new Random();
 
-        if (Constantes.STRING_LEITE.equals(item)) {
-            ItensPorQuantidade.leite += random.nextInt(40) + 10;
-        }
-
-        if (Constantes.STRING_CAFE.equals(item)) {
-            ItensPorQuantidade.cafe += random.nextInt(40) + 10;
+        for (int i=0; i<arrayProdutos.size(); i++) {
+            if(arrayProdutos.get(i).getNomeProduto().equals(item)) {
+                arrayProdutos.get(i).setQuantidadeEmEstoque(arrayProdutos.get(i).getQuantidadeEmEstoque() + arrayProdutos.get(i).getQuantidadeReposicao() );
+            }
         }
     }
 }

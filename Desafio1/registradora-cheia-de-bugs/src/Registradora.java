@@ -5,26 +5,51 @@ public class Registradora {
 
     public static void main(String[] args) {
 
+//        Array de Produtos
+//        Produtos[] produtos = new Produtos[5]; // Como incluir mais um produto? -> Criar arraylist de Objetos?
+//
+//        produtos[0] = new Produtos(Constantes.STRING_PAO,Constantes.QTD_MINIMA_PAO,Constantes.QTD_PADRAO_PAO,0.765,Constantes.QTD_PADRAO_PAO);
+//        produtos[1] = new Produtos(Constantes.STRING_TORTA,Constantes.QTD_MINIMA_TORTA,Constantes.QTD_PADRAO_TORTA,6.0,Constantes.QTD_PADRAO_TORTA);
+//        produtos[2] = new Produtos(Constantes.STRING_LEITE,Constantes.QTD_MINIMA_LEITE,Constantes.QTD_PADRAO_LEITE,4.48,Constantes.QTD_PADRAO_LEITE);
+//        produtos[3] = new Produtos(Constantes.STRING_CAFE,Constantes.QTD_MINIMA_CAFE,Constantes.QTD_PADRAO_CAFE,9.56,Constantes.QTD_PADRAO_CAFE);
+//        produtos[4] = new Produtos(Constantes.STRING_SANDUICHE,Constantes.QTD_MINIMA_SANDUICHE,Constantes.QTD_PADRAO_SANDUICHE,4.5,Constantes.QTD_PADRAO_SANDUICHE);
 
-//          menu();
-//        primeiroBug();
+        //List<Produtos> produtos = new ArrayList<Produtos>(); Qual a diferença disso para Arraylist?
 
-//        segundoBug();
-//        terceiroBug();
+        Produtos produto1 = new Produtos(Constantes.STRING_PAO,Constantes.QTD_MINIMA_PAO,Constantes.QTD_PADRAO_PAO,0.765,Constantes.QTD_PADRAO_PAO, true);
+        Produtos produto2 = new Produtos(Constantes.STRING_TORTA,Constantes.QTD_MINIMA_TORTA,Constantes.QTD_PADRAO_TORTA,6.0,Constantes.QTD_PADRAO_TORTA, true);
+        Produtos produto3 = new Produtos(Constantes.STRING_LEITE,Constantes.QTD_MINIMA_LEITE,Constantes.QTD_PADRAO_LEITE,4.48,Constantes.QTD_PADRAO_LEITE, false);
+        Produtos produto4 = new Produtos(Constantes.STRING_CAFE,Constantes.QTD_MINIMA_CAFE,Constantes.QTD_PADRAO_CAFE,9.56,Constantes.QTD_PADRAO_CAFE, false);
+        Produtos produto5 = new Produtos(Constantes.STRING_SANDUICHE,Constantes.QTD_MINIMA_SANDUICHE,Constantes.QTD_PADRAO_SANDUICHE,4.5,Constantes.QTD_PADRAO_SANDUICHE, true);
+
+        ArrayList<Produtos> produtos = new ArrayList<>();
+        produtos.add(produto1);
+        produtos.add(produto2);
+        produtos.add(produto3);
+        produtos.add(produto4);
+        produtos.add(produto5);
+
+
+          menu( produtos );
+//        primeiroBug( produtos );
+
+//        segundoBug(produtos);
+//        terceiroBug(produtos);
 //
-//        quartoBug();
+//        quartoBug(produtos);
+//        quintoBug(produtos);
 //
-//        quintoBug();
-//
-        sextoBug();
+//        sextoBug(produtos);
     }
 
-    public static void menu() {
+    public static void menu( ArrayList<Produtos> arrayProdutos) {
 
         /* Esta função fornece uma interface shell para o usuario efetuar operações como:
         1 - Comprar um produto
         2 - Alterar o preço de um produto (mediante login)
-        3 - Sair do programa
+        3 - Incluir um produto (mediante login)
+        4 - Listar produtos
+        5 - Sair do programa
         */
 
         DataProjeto.criarDataComCozinhaFuncionando();
@@ -32,15 +57,22 @@ public class Registradora {
         Scanner scanner = new Scanner(System.in);
         int opcao = scanner.nextInt();
 
-        while(opcao != 3) {
+        while(opcao != 5) {
 
             if(opcao == 1) {
-                comprar();
+                comprar( arrayProdutos);
             } else if(opcao == 2) {
                 if (logar()) {
-                    alteraPreco();
+                    alteraPreco( arrayProdutos );
                 }
-            } else {
+            } else if (opcao == 3) {
+                if (logar()) {
+                    incluiProduto( arrayProdutos );
+                }
+            } else if (opcao == 4){
+                listaProdutos( arrayProdutos );
+            }
+            else {
                 System.out.println("Digite uma opção válida por favor.");
             }
             boasVindas();
@@ -49,13 +81,49 @@ public class Registradora {
         System.out.println("Você saiu do programa. Volte sempre!");
     }
 
+    private static void listaProdutos(ArrayList<Produtos> arrayProdutos) {
+
+        for (int i=0; i<arrayProdutos.size(); i++) {
+            System.out.printf("Produto: %s Estoque: %d Preço: %.2f%n", arrayProdutos.get(i).getNomeProduto(), arrayProdutos.get(i).getQuantidadeEmEstoque(), arrayProdutos.get(i).getPrecoProduto());
+        }
+    }
+
+    private static void incluiProduto(ArrayList<Produtos> arrayProdutos) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Digite o nome do produto novo: ");
+        String nome = scanner.next();
+
+        System.out.print("Digite a quantidade minima em estoque do produto: ");
+        int minimo = scanner.nextInt();
+
+        System.out.print("Digite a quantidade a ser reposta desse produto por batelada: ");
+        int reposicao = scanner.nextInt();
+
+        System.out.print("Digite o preço do produto por unidade vendida: ");
+        double preco = scanner.nextDouble();
+
+        System.out.print("Digite a quantidade atual em estoque deste produto: ");
+        int estoque = scanner.nextInt();
+
+        System.out.print("Digite se o produto é fornecido pela cozinha da padaria: ");
+        boolean itemcozinha = scanner.nextBoolean();
+
+        arrayProdutos.add(new Produtos(nome,minimo,reposicao,preco,estoque,itemcozinha));
+
+        System.out.println("Item adicionado com sucesso!");
+    }
+
     public static void boasVindas() {
 
         /* Boas vindas e instruções de utilização do software */
         System.out.println("Bem vindo a padaria Reseter!");
         System.out.println("Digite 1 para realizar uma compra");
         System.out.println("Digite 2 para alterar o preço de um produto");
-        System.out.println("Digite 3 para finalizar o programa");
+        System.out.println("Digite 3 para incluir um produto novo");
+        System.out.println("Digite 4 para listar os produtos");
+        System.out.println("Digite 5 para finalizar o programa");
     }
 
     public static boolean logar() {
@@ -76,7 +144,7 @@ public class Registradora {
         return acesso;
     }
 
-    public static void alteraPreco() {
+    public static void alteraPreco( ArrayList<Produtos> arrayProdutos  ) {
 
         /* Esta função pede qual o nome do produto que deseja-se alterar o preço e também o valor do novo preço */
 
@@ -85,7 +153,7 @@ public class Registradora {
         String produto = scanner.next();
         System.out.print("Digite o novo preço: ");
         double novoPreco = scanner.nextDouble();
-        PrecoPorProduto.alteraPreco(produto, novoPreco);
+        PrecoPorProduto.alteraPreco(arrayProdutos ,produto, novoPreco);
     }
 
     public static boolean verificaPermissao(String usuario, String senha) {
@@ -124,122 +192,84 @@ public class Registradora {
         return permissao;
     }
 
-    public static void comprar() {
-
-        /* Esta função fornece os nomes dos itens existentes, e pergunta qual item e quantidade deseja-se comprar.
-        O mais legal seria ter esses itens num arraylist e mostrar numa interface gráfica, para impedir de o usuario
-        digitar o nome errado de um item,
-        OU,
-        Colocar um sistema de busca pelo nome, e o sistema vai afunilando as opções existentes. As opções teriam que
-        vir de um banco de dados */
+    public static void comprar( ArrayList<Produtos> arrayProdutos) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Digite o nome do item que você deseja comprar");
-        System.out.println("Opções: pao, torta, sanduiche, leite, cafe");
+        System.out.println("Digite o nome do item que você deseja comprar:");
+        System.out.print("Opções: ");
+
+        for(int i=0;i<arrayProdutos.size();i++){
+            System.out.print(arrayProdutos.get(i).getNomeProduto() + " ");
+        }
+
+        System.out.println();
         String item = scanner.next();
         System.out.println("Digite a quantidade que deseja comprar");
         int quantidade = scanner.nextInt();
-        double precoTotal = registrarItem(item, quantidade);
-        System.out.println(String.format("Valor total: R$ %.2f", precoTotal));
+        double precoTotal = registrarItem(arrayProdutos, item, quantidade);
+        System.out.printf("Valor total: R$ %.2f%n", precoTotal);
     }
 
-    private static double registrarItem(String item, int quantidade) {
+    private static double registrarItem(ArrayList<Produtos> arrayProdutos, String item, int quantidade) {
 
-        /* Esta função verifica se é possível registrar um item no caixa, comparando a quantidade pedida
-        com a quantidade em estoque. Se a quantidade pedida for maior que o disponível, verifica se é possível
-        efetuar a reposição do item, de acordo com o tipo do item e o horário de funcionamento da padaria.
-        Se a quantidade for menor ou igual ao disponível, efetua a retirada normalmente.
-        */
-
-        //Cria variavel de preço vazia, para ser preenchida nos blocos de IF
-        double precoItem = 0;
-        //Verifica se a quantidade pedida é maior que a quantidade em estoque
-        int quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
+        double precoItem;
+        int quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(arrayProdutos, item);
         if (quantidade>quantidadeEmEstoque) {
 
-            //CASO EM QUE A QUANTIDADE PEDIDA NÃO ESTÁ DISPONÍVEL NO ESTOQUE
-            //Necessário completar o que falta do pedido para poder retirar
-
-            //Verifica se é item de cozinha
-            if (checkItemCozinha(item)) {
-                //Verifica se a cozinha não está em funcionamento
+            if (checkItemCozinha(arrayProdutos, item)) {
                 if (!DataProjeto.cozinhaEmFuncionamento()) {
-                    //Define a quantidade pedida como a quantidade em estoque, pois não é possível repor.
                     quantidade = quantidadeEmEstoque;
-                    precoItem = efetuarRetiradaEVerificarReposicao(item, quantidade);
                 } else {
-                    //Se a cozinha estiver em funcionamento, faça a
-                    //reposição do estoque enquanto a quantidade pedida for menor que o estoque
                     while (quantidade<quantidadeEmEstoque) {
-                        ReposicaoCozinha.reporItem(item);
+                        ReposicaoCozinha.reporItem(arrayProdutos, item);
                         System.out.println("Feita a reposição do item " + item);
-                        quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
+                        quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(arrayProdutos, item);
                     }
                     //Após garantir que a quantidade em estoque é >= ao pedido, prosseguir com o pedido
-                    precoItem = efetuarRetiradaEVerificarReposicao(item, quantidade);
                 }
-            }
-            if (checkItemFornecedor(item)) {
+            } else {
                 while (quantidade<quantidadeEmEstoque) {
-                    ReposicaoFornecedor.reporItem(item);
+                    ReposicaoFornecedor.reporItem(arrayProdutos, item);
                     System.out.println("Feita a reposição do item " + item);
-                    quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(item);
+                    quantidadeEmEstoque = ItensPorQuantidade.retornaQuantidadeEmEstoque(arrayProdutos, item);
                 }
-                precoItem = efetuarRetiradaEVerificarReposicao(item, quantidade);
             }
-
-
-        } else {
-            //CASO EM QUE A QUANTIDADE PEDIDA ESTÁ DISPONÍVEL NO ESTOQUE
-            //Método para descontar do estoque a quantidade pedida deste item
-            precoItem = efetuarRetiradaEVerificarReposicao(item, quantidade);
-
         }
+        precoItem = efetuarRetiradaEVerificarReposicao(arrayProdutos, item, quantidade);
         return precoItem;
     }
 
-    private static boolean checkItemCozinha(String item) {
+    private static boolean checkItemCozinha(ArrayList<Produtos> arrayProdutos, String item) {
 
-        /* Esta função verifica se o item é de responsabilidade da cozinha */
-
-        if (Constantes.STRING_PAO.equals(item) || Constantes.STRING_SANDUICHE.equals(item) || Constantes.STRING_TORTA.equals(item) ) {
-            return true;
-        } else {
-            return false;
+        for (Produtos arrayProduto : arrayProdutos) {
+            if (arrayProduto.getNomeProduto().equals(item)) {
+                return arrayProduto.getItemCozinha();
+            }
         }
-    }
-    private static boolean checkItemFornecedor(String item) {
-
-        /* Esta função verifica se o item é de responsabilidade do fornecedor */
-
-        if (Constantes.STRING_LEITE.equals(item) || Constantes.STRING_CAFE.equals(item)) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
-    private static double efetuarRetiradaEVerificarReposicao(String item, int quantidade) {
+
+    private static double efetuarRetiradaEVerificarReposicao( ArrayList<Produtos> arrayProdutos, String item, int quantidade) {
 
         /* Esta função realiza as operações de retira do item do estoque,
         calcula e retorna o preço do pedido, e verifica se há necessidade de reposição
         */
 
-        ItensPorQuantidade.retiraItem(item, quantidade);
-        double precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
-        if (QuantidadeMinimaItem.precisaReposicao(item)) {
-            if (checkItemCozinha(item)) {
+        ItensPorQuantidade.retiraItem(arrayProdutos, item, quantidade);
+        double precoItem = RelacaoPesoPreco.retornaPrecoProduto(arrayProdutos, item, quantidade);
+        if (QuantidadeMinimaItem.precisaReposicao(arrayProdutos, item)) {
+            if (checkItemCozinha(arrayProdutos, item)) {
                 if (!DataProjeto.cozinhaEmFuncionamento()) {
                     System.out.println("Cozinha fechada!");
                     System.out.println("A reposição deste item não está disponível");
-                    System.out.println(String.format("Quantidade em estoque: %d", ItensPorQuantidade.retornaQuantidadeEmEstoque(item)));
+                    System.out.printf("Quantidade em estoque: %d%n", ItensPorQuantidade.retornaQuantidadeEmEstoque(arrayProdutos, item));
                 } else {
-                    ReposicaoCozinha.reporItem(item);
+                    ReposicaoCozinha.reporItem(arrayProdutos, item);
                     System.out.println("Feita a reposição do item " + item);
                 }
-            }
-            if (checkItemFornecedor(item)) {
-                ReposicaoFornecedor.reporItem(item);
+            } else {
+                ReposicaoFornecedor.reporItem(arrayProdutos, item);
                 System.out.println("Feita a reposição do item " + item);
             }
         }
@@ -247,80 +277,80 @@ public class Registradora {
     }
 
 
-    private static void primeiroBug() {
+    private static void primeiroBug( ArrayList<Produtos> arrayProdutos) {
         DataProjeto.criarDataComCozinhaFuncionando();
         String item = "sanduiche";
         int quantidade = 4;
-        double precoTotal = registrarItem(item, quantidade);
-        System.out.println(String.format("Valor total: %.2f", precoTotal));
+        double precoTotal = registrarItem(arrayProdutos, item, quantidade);
+        System.out.printf("Valor total: %.2f%n", precoTotal);
     }
 
-    private static void segundoBug() {
+    private static void segundoBug( ArrayList<Produtos> arrayProdutos) {
         DataProjeto.criarDataComCozinhaEncerradaMasComDiaUtil();
         String item = "torta";
         int quantidade = 10;
 
-        double precoTotal = registrarItem(item, quantidade);
+        double precoTotal = registrarItem(arrayProdutos, item, quantidade);
 
-        System.out.println(String.format("Valor total: %.2f", precoTotal));
+        System.out.printf("Valor total: %.2f%n", precoTotal);
     }
 
-    private static void terceiroBug() {
+    private static void terceiroBug( ArrayList<Produtos> arrayProdutos) {
         DataProjeto.criarDataComCozinhaFuncionando();
         String item = "cafe";
         int quantidade = 40;
 
-        double precoTotal = registrarItem(item, quantidade);
+        double precoTotal = registrarItem(arrayProdutos, item, quantidade);
 
-        System.out.println(String.format("Valor total: %.2f", precoTotal));
+        System.out.printf("Valor total: %.2f%n", precoTotal);
     }
 
-    private static void quartoBug() {
+    private static void quartoBug( ArrayList<Produtos> arrayProdutos) {
         DataProjeto.criarDataComCozinhaFuncionando();
         // Cliente 1
         String item = "sanduiche";
         int quantidade = 20;
 
-        double precoTotal = registrarItem(item, quantidade);
+        double precoTotal = registrarItem(arrayProdutos, item, quantidade);
 
-        System.out.println(String.format("Valor total: %.2f", precoTotal));
+        System.out.printf("Valor total: %.2f%n", precoTotal);
 
         // Cliente 2
         String item2 = "sanduiche";
         int quantidade2 = 5;
 
-        double precoTotal2 = registrarItem(item2, quantidade2);
+        double precoTotal2 = registrarItem(arrayProdutos, item2, quantidade2);
 
-        System.out.println(String.format("Valor total: %.2f", precoTotal2));
+        System.out.printf("Valor total: %.2f%n", precoTotal2);
     }
 
-    private static void quintoBug() {
+    private static void quintoBug( ArrayList<Produtos> arrayProdutos) {
         DataProjeto.criarDataComCozinhaFuncionando();
         String item = "pao";
         int quantidade = 10;
 
-        double precoTotal = registrarItem(item, quantidade);
+        double precoTotal = registrarItem(arrayProdutos, item, quantidade);
 
-        System.out.println(String.format("Valor total: %.2f", precoTotal));
+        System.out.printf("Valor total: %.2f%n", precoTotal);
     }
 
-    private static void sextoBug() {
+    private static void sextoBug( ArrayList<Produtos> arrayProdutos) {
         DataProjeto.criarDataComCozinhaEncerradaSemDiaUtil();
         // Cliente 1
         String item = "sanduiche";
         int quantidade = 20;
 
-        double precoTotal = registrarItem(item, quantidade);
+        double precoTotal = registrarItem(arrayProdutos, item, quantidade);
 
-        System.out.println(String.format("Valor total: %.2f", precoTotal));
+        System.out.printf("Valor total: %.2f%n", precoTotal);
 
         // Cliente 2
         String item2 = "sanduiche";
         int quantidade2 = 5;
 
-        double precoTotal2 = registrarItem(item2, quantidade2);
+        double precoTotal2 = registrarItem(arrayProdutos, item2, quantidade2);
 
-        System.out.println(String.format("Valor total: %.2f", precoTotal2));
+        System.out.printf("Valor total: %.2f%n", precoTotal2);
     }
 
 }

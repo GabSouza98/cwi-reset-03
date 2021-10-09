@@ -1,37 +1,16 @@
+import java.util.ArrayList;
+
 public class RelacaoPesoPreco {
 
-    public static double retornaPrecoProduto(String item, int qtd) {
-
-        /* Esta função realiza o cálculo do preço de cada item para suas quantidades,
-        já considerando as unidades de pedidos de cada item (unidade, fatia) */
+    public static double retornaPrecoProduto(ArrayList<Produtos> arrayProdutos, String item, int qtd) {
 
         double precoTotal = 0;
 
-        //É vendido por kilo, e cada pao pesa 60g. Cliente solicita a quantidade de paes.
-        if (Constantes.STRING_PAO.equals(item)) {
-            precoTotal = PrecoPorProduto.getPrecoPao() * (qtd * (double) 60 / 1000);
+        for (Produtos arrayProduto : arrayProdutos) {
+            if (arrayProduto.getNomeProduto().equals(item)) {
+                precoTotal = arrayProduto.getPrecoProduto() * qtd;
+            }
         }
-
-        //É vendido por fatia, e cada torta tem 16 fatias. Cliente solicita a quantidade de fatias.
-        if (Constantes.STRING_TORTA.equals(item)) {
-            precoTotal = PrecoPorProduto.getPrecoTorta() * ( (double) qtd / 16);
-        }
-
-        //Vendido por unidade. O cliente pede a quantidade.
-        if (Constantes.STRING_LEITE.equals(item)) {
-            precoTotal = (double) PrecoPorProduto.getPrecoLeite() * qtd;
-        }
-
-        //Vendido por unidade. O cliente pede a quantidade.
-        if (Constantes.STRING_CAFE.equals(item)) {
-            precoTotal = (double) PrecoPorProduto.getPrecoCafe() * qtd;
-        }
-
-        //Vendido por unidade. O cliente pede a quantidade.
-        if (Constantes.STRING_SANDUICHE.equals(item)) {
-            precoTotal = (double) PrecoPorProduto.getPrecoSanduiche() * qtd;
-        }
-
         return precoTotal;
     }
 }

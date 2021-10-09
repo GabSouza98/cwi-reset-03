@@ -4,7 +4,7 @@ public class Constantes {
     static final String STRING_LEITE = "leite";
     static final String STRING_TORTA = "torta";
     static final String STRING_CAFE = "cafe";
-    static final String STRING_SANDUICHE = "sanduiche pronto";
+    static final String STRING_SANDUICHE = "sanduiche";
 
     static final int QTD_PADRAO_PAO = 3600;
     static final int QTD_PADRAO_TORTA = 64;
