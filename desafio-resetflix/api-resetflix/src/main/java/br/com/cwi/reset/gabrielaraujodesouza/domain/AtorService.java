@@ -1,11 +1,13 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
-import br.com.cwi.reset.gabrielaraujodesouza.exception.NomeVazioException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
 import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AtorService {
@@ -18,49 +20,42 @@ public class AtorService {
         this.fakeDatabase = fakeDatabase;
     }
 
-    public void criarAtor(AtorRequest atorRequest) throws NomeVazioException {
-
+    public void criarAtor(AtorRequest atorRequest) throws NomeVazioException, DataNascimentoNula, StatusCarreiraNull, AnoInicioAtividadeNull, SemSobrenomeException, DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, AtorDuplicadoException {
 
         if(atorRequest.getNome().isEmpty()) {
-            //se estiver vazio
             throw new NomeVazioException();
         }
 
         if(atorRequest.getDataNascimento()==null){
-            //se estiver vazio
+            throw new DataNascimentoNula();
         }
 
         if(atorRequest.getStatusCarreira()==null){
-            //se estiver vazio
+            throw new StatusCarreiraNull();
         }
 
-        if(atorRequest.getAnoInicioAtividade()!=null){
-            //se estiver vazio
+        if(atorRequest.getAnoInicioAtividade()==null){
+            throw new AnoInicioAtividadeNull();
         }
 
 
         String[] palavras = atorRequest.getNome().split("\\s+");
         if(palavras.length < 2) {
-            System.out.println("Deve ser informado no mínimo nome e sobrenome para o ator.");
+            throw new SemSobrenomeException();
         }
 
-        if(Period.between(atorRequest.getDataNascimento(), LocalDate.now()).getYears() < 0) {
-            //se for menor que zero
-            System.out.println("Não é possível cadastrar atores não nascidos.");
+        if(ChronoUnit.DAYS.between(atorRequest.getDataNascimento(), LocalDate.now()) < 0) {
+            throw new DataNascimentoMaiorQueAtualException();
         }
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy");
-        LocalDate anoInicioAtividade = LocalDate.parse(atorRequest.getAnoInicioAtividade().toString(),dateFormatter);
-        if(Period.between(atorRequest.getDataNascimento(), anoInicioAtividade).getYears() < 0) {
-            //a atividade nao pode iniciar antes de nascer
-            System.out.println("Ano de início de atividade inválido para o ator cadastrado.");
+        if(atorRequest.getAnoInicioAtividade() - atorRequest.getDataNascimento().getYear() < 0) {
+            throw new AnoInicioAtividadoAntesDeDataNascimentoException();
         }
 
-        List<Ator> atores = fakeDatabase.recuperaAtores();
-        for(Ator a : atores){
+        for(Ator a : fakeDatabase.recuperaAtores()){
             if (a.getNome().equals(atorRequest.getNome())) {
-                //Nome duplicado
                 System.out.println("Já existe um ator cadastrado para o nome " + atorRequest.getNome() +".");
+                throw new AtorDuplicadoException();
             }
         }
 
@@ -72,5 +67,14 @@ public class AtorService {
         this.fakeDatabase.persisteAtor(ator);
     }
 
-    // Demais métodos da classe
+    public List listarAtoresEmAtividade() {
+
+        List<Ator> atoresAux = new ArrayList<>();
+        for(Ator a : fakeDatabase.recuperaAtores()) {
+            if (a.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
+                atoresAux.add(a);
+            }
+        }
+        return atoresAux;
+    }
 }

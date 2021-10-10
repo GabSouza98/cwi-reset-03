@@ -1,6 +1,6 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
-import br.com.cwi.reset.gabrielaraujodesouza.exception.NomeVazioException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -16,13 +16,17 @@ public class Aplicacao {
         String nome = "Will Smith";
         LocalDate dataNascimento = LocalDate.of(1968, Month.SEPTEMBER, 25);
         StatusCarreira statusCarreira = StatusCarreira.EM_ATIVIDADE;
-        Integer anoInicioAtividade = 1986;
+        Integer anoInicioAtividade = 1967;
 
         AtorRequest atorRequest = new AtorRequest(nome, dataNascimento, statusCarreira, anoInicioAtividade);
 
         try {
             atorService.criarAtor(atorRequest);
-        } catch (NomeVazioException e) {
+        } catch (NomeVazioException | DataNascimentoNula | StatusCarreiraNull
+                | AnoInicioAtividadeNull | SemSobrenomeException
+                | DataNascimentoMaiorQueAtualException
+                | AnoInicioAtividadoAntesDeDataNascimentoException
+                | AtorDuplicadoException e) {
             System.out.println(e.getMessage());
         }
 
