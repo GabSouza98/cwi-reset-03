@@ -19,6 +19,22 @@ public class Ator {
         this.anoInicioAtividade = anoInicioAtividade;
     }
 
+    public static Integer getId() {
+        return id;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public StatusCarreira getStatusCarreira() {
+        return statusCarreira;
+    }
+
+    public Integer getAnoInicioAtividade() {
+        return anoInicioAtividade;
+    }
+
     public String getNome() {
         return nome;
     }

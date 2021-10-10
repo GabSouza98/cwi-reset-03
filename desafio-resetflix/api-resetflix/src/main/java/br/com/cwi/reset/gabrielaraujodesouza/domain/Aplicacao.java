@@ -1,5 +1,7 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
+import br.com.cwi.reset.gabrielaraujodesouza.exception.NomeVazioException;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
@@ -7,8 +9,8 @@ import java.util.List;
 public class Aplicacao {
 
     public static void main(String[] args) {
-        FakeDatabase fakeDatabase = new FakeDatabase();
 
+        FakeDatabase fakeDatabase = new FakeDatabase(); //Guarda lista vazia de atores
         AtorService atorService = new AtorService(fakeDatabase);
 
         String nome = "Will Smith";
@@ -18,7 +20,12 @@ public class Aplicacao {
 
         AtorRequest atorRequest = new AtorRequest(nome, dataNascimento, statusCarreira, anoInicioAtividade);
 
-        atorService.criarAtor(atorRequest);
+        try {
+            atorService.criarAtor(atorRequest);
+        } catch (NomeVazioException e) {
+            System.out.println(e.getMessage());
+        }
+
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
 
