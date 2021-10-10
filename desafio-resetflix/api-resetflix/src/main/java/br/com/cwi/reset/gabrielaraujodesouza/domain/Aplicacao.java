@@ -45,7 +45,7 @@ public class Aplicacao {
         //System.out.println("A lista contém " + atores.size());
         //System.out.println("Segundo ator: " + atores.get(0).getId());
 
-        List<Ator> filtrada = atorService.listarAtoresEmAtividade("Wil");
+        List<Ator> filtrada = atorService.listarAtoresEmAtividade("aaaa");
 
         for(Ator a : filtrada) {
             System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());

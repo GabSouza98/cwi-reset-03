@@ -69,24 +69,40 @@ public class AtorService {
 
     public List listarAtoresEmAtividade() {
 
+        List<Ator> atores = fakeDatabase.recuperaAtores();
         List<Ator> atoresAux = new ArrayList<>();
-        for(Ator a : fakeDatabase.recuperaAtores()) {
-            if (a.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
-                atoresAux.add(a);
+
+        if(atores.size()>0) {
+            for(Ator a : atores) {
+                if (a.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
+                    atoresAux.add(a);
+                }
             }
+        }
+        else {
+            System.out.println("Nenhum ator cadastrado, favor cadastar atores.");
         }
         return atoresAux;
     }
 
     public List listarAtoresEmAtividade(String parteDoNome) {
 
+        List<Ator> atores = fakeDatabase.recuperaAtores();
         List<Ator> atoresAux = new ArrayList<>();
-        for(Ator a : fakeDatabase.recuperaAtores()) {
-            if (a.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
-                if (a.getNome().contains(parteDoNome)) {
-                    atoresAux.add(a);
+
+        if(atores.size()>0){
+            for(Ator a : atores) {
+                if (a.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
+                    if (a.getNome().contains(parteDoNome)) {
+                        atoresAux.add(a);
+                    }
                 }
             }
+            if (atoresAux.size()==0) {
+                System.out.println(String.format("Ator não encontrato com o filtro %s, favor informar outro filtro.", parteDoNome));
+            }
+        } else {
+            System.out.println("Nenhum ator cadastrado, favor cadastar atores.");
         }
         return atoresAux;
     }
