@@ -107,5 +107,23 @@ public class AtorService {
         return atoresAux;
     }
 
+    public Ator consultarAtor(Integer id) {
+
+        boolean atorEncontrado = false;
+        List<Ator> atores = fakeDatabase.recuperaAtores();
+        Ator atorProcurado = null;
+
+        for(Ator a : atores) {
+            if(a.getId() == id){
+                atorEncontrado = true;
+                atorProcurado = a;
+            }
+        }
+        if (!atorEncontrado) {
+            System.out.println(String.format("Nenhum ator encontrado com o parâmetro id=%d, favor verifique os parâmetros informados.", id));
+            atorProcurado = new Ator(0,"teste",LocalDate.now(),StatusCarreira.APOSENTADO,2021);
+        }
+        return atorProcurado;
+    }
 
 }

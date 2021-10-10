@@ -45,11 +45,12 @@ public class Aplicacao {
         //System.out.println("A lista contém " + atores.size());
         //System.out.println("Segundo ator: " + atores.get(0).getId());
 
-        List<Ator> filtrada = atorService.listarAtoresEmAtividade("aaaa");
-
-        for(Ator a : filtrada) {
-            System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
-        }
+//        List<Ator> filtrada = atorService.listarAtoresEmAtividade("aaaa");
+//        for(Ator a : filtrada) {
+//            System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
+//        }
+        Ator atorProcurado = atorService.consultarAtor(3);
+        System.out.println(atorProcurado.getNome());
 
     }
 }
