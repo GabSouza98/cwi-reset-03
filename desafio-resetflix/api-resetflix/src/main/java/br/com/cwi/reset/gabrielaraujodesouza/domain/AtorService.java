@@ -126,4 +126,14 @@ public class AtorService {
         return atorProcurado;
     }
 
+    public List consultarAtores() {
+
+        List<Ator> atores = fakeDatabase.recuperaAtores();
+        if(atores.size()==0){
+            System.out.println("Nenhum ator cadastrado, favor cadastar atores.");
+        }
+
+        return atores;
+    }
+
 }

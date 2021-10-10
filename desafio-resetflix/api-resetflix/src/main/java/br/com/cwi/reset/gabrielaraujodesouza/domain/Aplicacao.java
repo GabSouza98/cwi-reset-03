@@ -27,7 +27,6 @@ public class Aplicacao {
 
         AtorRequest atorRequest2 = new AtorRequest(nome2, dataNascimento2, statusCarreira2, anoInicioAtividade2);
 
-
         try {
             atorService.criarAtor(atorRequest);
             atorService.criarAtor(atorRequest2);
@@ -39,18 +38,22 @@ public class Aplicacao {
             System.out.println(e.getMessage());
         }
 
-
-        List<Ator> atores = fakeDatabase.recuperaAtores();
-
         //System.out.println("A lista contém " + atores.size());
         //System.out.println("Segundo ator: " + atores.get(0).getId());
 
+
+        //Testa o método listarAtoresEmAtividade
 //        List<Ator> filtrada = atorService.listarAtoresEmAtividade("aaaa");
 //        for(Ator a : filtrada) {
 //            System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
 //        }
-        Ator atorProcurado = atorService.consultarAtor(3);
-        System.out.println(atorProcurado.getNome());
+
+        //Testa o método consultarAtor
+//        Ator atorProcurado = atorService.consultarAtor(3);
+//        System.out.println(atorProcurado.getNome());
+
+        List<Ator> todosAtoresCadastrados = atorService.consultarAtores();
+        System.out.println(todosAtoresCadastrados.get(0).getNome());
 
     }
 }
