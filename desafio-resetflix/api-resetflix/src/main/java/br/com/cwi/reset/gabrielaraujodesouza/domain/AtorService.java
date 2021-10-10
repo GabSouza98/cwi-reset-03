@@ -10,10 +10,11 @@ public class AtorService {
         this.fakeDatabase = fakeDatabase;
     }
 
-    public AtorService(String nome, LocalDate dataNascimento, StatusCarreira statusCarreira, Integer anoInicioAtividade) {
-    }
-
     public void criarAtor(AtorRequest atorRequest) {
+
+        Ator ator = new Ator(atorRequest.getNome(),atorRequest.getDataNascimento(),atorRequest.getStatusCarreira(),atorRequest.getAnoInicioAtividade());
+        this.fakeDatabase.persisteAtor(ator);
+
 
     }
 
