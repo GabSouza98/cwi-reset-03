@@ -77,4 +77,19 @@ public class AtorService {
         }
         return atoresAux;
     }
+
+    public List listarAtoresEmAtividade(String parteDoNome) {
+
+        List<Ator> atoresAux = new ArrayList<>();
+        for(Ator a : fakeDatabase.recuperaAtores()) {
+            if (a.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
+                if (a.getNome().contains(parteDoNome)) {
+                    atoresAux.add(a);
+                }
+            }
+        }
+        return atoresAux;
+    }
+
+
 }
