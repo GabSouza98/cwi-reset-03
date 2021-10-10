@@ -10,6 +10,8 @@ import java.util.List;
 
 public class AtorService {
 
+    public static Integer id = 1;
+
     private FakeDatabase fakeDatabase;
 
     public AtorService(FakeDatabase fakeDatabase) {
@@ -62,7 +64,8 @@ public class AtorService {
             }
         }
 
-        Ator ator = new Ator(atorRequest.getNome(),
+        Ator ator = new Ator(id++,
+                    atorRequest.getNome(),
                     atorRequest.getDataNascimento(),
                     atorRequest.getStatusCarreira(),
                     atorRequest.getAnoInicioAtividade());
