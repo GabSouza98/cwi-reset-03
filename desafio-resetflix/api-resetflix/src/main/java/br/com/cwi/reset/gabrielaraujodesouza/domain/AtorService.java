@@ -20,7 +20,7 @@ public class AtorService {
         this.fakeDatabase = fakeDatabase;
     }
 
-    public void criarAtor(AtorRequest atorRequest) throws NomeVazioException, DataNascimentoNula, StatusCarreiraNull, AnoInicioAtividadeNull, SemSobrenomeException, DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, AtorDuplicadoException {
+    public void criarAtor(AtorRequest atorRequest) throws NomeVazioException, DataNascimentoNula, StatusCarreiraNull, AnoInicioAtividadeNull, SemSobrenomeAtorException, DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, AtorDuplicadoException {
 
         if(atorRequest.getNome().isEmpty()) {
             throw new NomeVazioException();
@@ -41,14 +41,16 @@ public class AtorService {
 
         String[] palavras = atorRequest.getNome().split("\\s+");
         if(palavras.length < 2) {
-            throw new SemSobrenomeException();
+            throw new SemSobrenomeAtorException();
         }
 
         if(ChronoUnit.DAYS.between(atorRequest.getDataNascimento(), LocalDate.now()) < 0) {
+            System.out.println("Não é possível cadastrar atores não nascidos.");
             throw new DataNascimentoMaiorQueAtualException();
         }
 
         if(atorRequest.getAnoInicioAtividade() - atorRequest.getDataNascimento().getYear() < 0) {
+            System.out.println("Ano de início de atividade inválido para o ator cadastrado.");
             throw new AnoInicioAtividadoAntesDeDataNascimentoException();
         }
 

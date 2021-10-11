@@ -1,8 +1,8 @@
 package br.com.cwi.reset.gabrielaraujodesouza.exception;
 
-public class SemSobrenomeException extends Exception{
+public class SemSobrenomeAtorException extends Exception{
 
-    public SemSobrenomeException() {
+    public SemSobrenomeAtorException() {
         super("Deve ser informado no mínimo nome e sobrenome para o ator.");
     }
 

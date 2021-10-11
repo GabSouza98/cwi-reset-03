@@ -1,8 +1,8 @@
 package br.com.cwi.reset.gabrielaraujodesouza.exception;
 
-public class AtorDuplicadoException extends Exception{
+public class DiretorDuplicadoException extends Exception{
 
-    public AtorDuplicadoException() {
+    public DiretorDuplicadoException() {
         super("Tentativa de cadastrar 2 nomes iguais.");
     }
 }
