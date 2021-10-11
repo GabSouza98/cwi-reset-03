@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AtorService {
 
@@ -20,44 +21,40 @@ public class AtorService {
         this.fakeDatabase = fakeDatabase;
     }
 
-    public void criarAtor(AtorRequest atorRequest) throws NomeVazioException, DataNascimentoNula, StatusCarreiraNull, AnoInicioAtividadeNull, SemSobrenomeAtorException, DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, AtorDuplicadoException {
+    public void criarAtor(AtorRequest atorRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
 
         if(atorRequest.getNome().isEmpty()) {
-            throw new NomeVazioException();
+            throw new CampoVazioException("Nome");
         }
 
         if(atorRequest.getDataNascimento()==null){
-            throw new DataNascimentoNula();
+            throw new CampoVazioException("DataNascimento");
         }
 
         if(atorRequest.getStatusCarreira()==null){
-            throw new StatusCarreiraNull();
+            throw new CampoVazioException("StatusCarreira");
         }
 
         if(atorRequest.getAnoInicioAtividade()==null){
-            throw new AnoInicioAtividadeNull();
+            throw new CampoVazioException("AnoInicioAtividade");
         }
-
 
         String[] palavras = atorRequest.getNome().split("\\s+");
         if(palavras.length < 2) {
-            throw new SemSobrenomeAtorException();
+            throw new SemSobrenomeException("ator");
         }
 
         if(ChronoUnit.DAYS.between(atorRequest.getDataNascimento(), LocalDate.now()) < 0) {
-            System.out.println("Não é possível cadastrar atores não nascidos.");
-            throw new DataNascimentoMaiorQueAtualException();
+            throw new DataNascimentoMaiorQueAtualException("atores");
         }
 
         if(atorRequest.getAnoInicioAtividade() - atorRequest.getDataNascimento().getYear() < 0) {
-            System.out.println("Ano de início de atividade inválido para o ator cadastrado.");
-            throw new AnoInicioAtividadoAntesDeDataNascimentoException();
+            throw new AnoInicioAtividadoAntesDeDataNascimentoException("ator");
         }
 
         for(Ator a : fakeDatabase.recuperaAtores()){
             if (a.getNome().equals(atorRequest.getNome())) {
-                System.out.println("Já existe um ator cadastrado para o nome " + atorRequest.getNome() +".");
-                throw new AtorDuplicadoException();
+                throw new NomeDuplicadoException(atorRequest.getNome());
             }
         }
 
@@ -69,7 +66,7 @@ public class AtorService {
         this.fakeDatabase.persisteAtor(ator);
     }
 
-    public List listarAtoresEmAtividade() {
+    public List listarAtoresEmAtividade() throws ListaVaziaException {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
         List<Ator> atoresAux = new ArrayList<>();
@@ -80,14 +77,13 @@ public class AtorService {
                     atoresAux.add(a);
                 }
             }
-        }
-        else {
-            System.out.println("Nenhum ator cadastrado, favor cadastar atores.");
+        } else {
+            throw new ListaVaziaException("ator","atores");
         }
         return atoresAux;
     }
 
-    public List listarAtoresEmAtividade(String filtroNome) {
+    public List listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
         List<Ator> atoresAux = new ArrayList<>();
@@ -101,15 +97,32 @@ public class AtorService {
                 }
             }
             if (atoresAux.size()==0) {
-                System.out.println(String.format("Ator não encontrato com o filtro %s, favor informar outro filtro.", filtroNome));
+                throw new FiltroException("Ator",filtroNome);
             }
         } else {
-            System.out.println("Nenhum ator cadastrado, favor cadastar atores.");
+            throw new ListaVaziaException("ator","atores");
         }
         return atoresAux;
     }
 
-    public Ator consultarAtor(Integer id) throws AtorNaoEncontradoException {
+//    public List listarAtoresEmAtividade(String filtroNome){
+//
+//        List<Ator> atores = fakeDatabase.recuperaAtores();
+//
+//
+//        List<Ator> atoresAux = atores.stream()
+//                .filter(a -> a.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE)
+//                .filter(a -> a.getNome().contains(filtroNome))
+//                .collect(Collectors.toList());
+//        return atoresAux;
+//    }
+
+
+    public Ator consultarAtor(Integer id) throws IdException, CampoVazioException {
+
+        if(id==null) {
+            throw new CampoVazioException("id");
+        }
 
         boolean atorEncontrado = false;
         List<Ator> atores = fakeDatabase.recuperaAtores();
@@ -123,21 +136,20 @@ public class AtorService {
             }
         }
         if (!atorEncontrado) {
-            System.out.println(String.format("Nenhum ator encontrado com o parâmetro id=%d, favor verifique os parâmetros informados.", id));
-            throw new AtorNaoEncontradoException();
+            throw new IdException("Ator",id);
         } else {
             return atorProcurado;
         }
     }
 
-    public List consultarAtores() {
+    public List consultarAtores() throws ListaVaziaException {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
         if(atores.size()==0){
-            System.out.println("Nenhum ator cadastrado, favor cadastar atores.");
+            throw new ListaVaziaException("ator","atores");
+        } else {
+            return atores;
         }
-
-        return atores;
     }
 
 }

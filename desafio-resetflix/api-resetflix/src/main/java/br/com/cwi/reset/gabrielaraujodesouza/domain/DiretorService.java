@@ -17,39 +17,36 @@ public class DiretorService {
         this.fakeDatabase = fakeDatabase;
     }
 
-    public void cadastrarDiretor(DiretorRequest diretorRequest) throws NomeVazioException, DataNascimentoNula, AnoInicioAtividadeNull, DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, DiretorDuplicadoException, SemSobrenomeDiretorException {
+    public void cadastrarDiretor(DiretorRequest diretorRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
 
         if(diretorRequest.getNome().isEmpty()) {
-            throw new NomeVazioException();
+            throw new CampoVazioException("Nome");
         }
 
         if(diretorRequest.getDataNascimento()==null){
-            throw new DataNascimentoNula();
+            throw new CampoVazioException("DataNascimento");
         }
 
         if(diretorRequest.getAnoInicioAtividade()==null){
-            throw new AnoInicioAtividadeNull();
+            throw new CampoVazioException("AnoInicioAtividade");
         }
 
         String[] palavras = diretorRequest.getNome().split("\\s+");
         if(palavras.length < 2) {
-            throw new SemSobrenomeDiretorException();
+            throw new SemSobrenomeException("diretor");
         }
 
         if(ChronoUnit.DAYS.between(diretorRequest.getDataNascimento(), LocalDate.now()) < 0) {
-            System.out.println("Não é possível cadastrar diretores não nascidos.");
-            throw new DataNascimentoMaiorQueAtualException();
+            throw new DataNascimentoMaiorQueAtualException("diretores");
         }
 
         if(diretorRequest.getAnoInicioAtividade() - diretorRequest.getDataNascimento().getYear() < 0) {
-            System.out.println("Ano de início de atividade inválido para o diretor cadastrado.");
-            throw new AnoInicioAtividadoAntesDeDataNascimentoException();
+            throw new AnoInicioAtividadoAntesDeDataNascimentoException("diretor");
         }
 
         for(Diretor d : fakeDatabase.recuperaDiretores()){
             if (d.getNome().equals(diretorRequest.getNome())) {
-                System.out.println("Já existe um diretor cadastrado para o nome " + diretorRequest.getNome() +".");
-                throw new DiretorDuplicadoException();
+                throw new NomeDuplicadoException(diretorRequest.getNome());
             }
         }
 
@@ -60,7 +57,7 @@ public class DiretorService {
         this.fakeDatabase.persisteDiretor(diretor);
     }
 
-    public List listarDiretores() {
+    public List listarDiretores() throws ListaVaziaException {
 
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
         List<Diretor> diretoresAux = new ArrayList<>();
@@ -69,13 +66,13 @@ public class DiretorService {
             for(Diretor d : diretores) {
                 diretoresAux.add(d);
             }
+            return diretoresAux;
         } else {
-            System.out.println("Nenhum diretor cadastrado, favor cadastar diretores.");
+            throw new ListaVaziaException("diretor","diretores");
         }
-        return diretoresAux;
     }
 
-    public List listarDiretores(String filtroNome) {
+    public List listarDiretores(String filtroNome) throws ListaVaziaException, FiltroException {
 
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
         List<Diretor> diretoresAux = new ArrayList<>();
@@ -87,15 +84,19 @@ public class DiretorService {
                 }
             }
             if (diretoresAux.size()==0) {
-                System.out.println(String.format("Diretor não encontrato com o filtro %s, favor informar outro filtro.", filtroNome));
+                throw new FiltroException("Diretor",filtroNome);
             }
         } else {
-            System.out.println("Nenhum diretor cadastrado, favor cadastar diretores.");
+            throw new ListaVaziaException("diretor","diretores");
         }
         return diretoresAux;
     }
 
-    public Diretor consultarDiretor(Integer id) throws DiretorNaoEncontradoException {
+    public Diretor consultarDiretor(Integer id) throws IdException, CampoVazioException {
+
+        if(id==null) {
+            throw new CampoVazioException("id");
+        }
 
         boolean diretorEncontrado = false;
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
@@ -108,10 +109,8 @@ public class DiretorService {
                 break;
             }
         }
-
         if (!diretorEncontrado) {
-            System.out.println(String.format("Nenhum diretor encontrado com o parâmetro id=%d, favor verifique os parâmetros informados.", id));
-            throw new DiretorNaoEncontradoException();
+            throw new IdException("Diretor",id);
         } else {
             return diretorProcurado;
         }

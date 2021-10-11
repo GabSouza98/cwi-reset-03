@@ -41,43 +41,81 @@ public class Aplicacao {
             atorService.criarAtor(atorRequest2);
             diretorService.cadastrarDiretor(diretorRequest);
             diretorService.cadastrarDiretor(diretorRequest2);
-
-        } catch (NomeVazioException | DataNascimentoNula | StatusCarreiraNull
-                | AnoInicioAtividadeNull | SemSobrenomeAtorException | SemSobrenomeDiretorException
+        } catch ( CampoVazioException
+                | SemSobrenomeException
                 | DataNascimentoMaiorQueAtualException
                 | AnoInicioAtividadoAntesDeDataNascimentoException
-                | AtorDuplicadoException | DiretorDuplicadoException e) {
+                | NomeDuplicadoException e) {
             System.out.println(e.getMessage());
         }
 
         //System.out.println("A lista contém " + atores.size());
         //System.out.println("Segundo ator: " + atores.get(0).getId());
 
-        //Testa o método listarAtoresEmAtividade
-//        List<Ator> filtrada = atorService.listarAtoresEmAtividade("aaaa");
-//        for(Ator a : filtrada) {
-//            System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
+        //Testa o método listarAtoresEmAtividade com filtro
+//        try {
+//            List<Ator> filtrada = atorService.listarAtoresEmAtividade("James");
+//            for(Ator a : filtrada) {
+//                System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
+//            }
+//        } catch (FiltroException | ListaVaziaException e) {
+//            System.out.println(e.getMessage());
+//        }
+
+        //Testa o método listarAtoresEmAtividade sem filtro
+//        try {
+//            List<Ator> filtrada = atorService.listarAtoresEmAtividade();
+//            for(Ator a : filtrada) {
+//                System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
+//            }
+//        } catch ( ListaVaziaException e) {
+//            System.out.println(e.getMessage());
 //        }
 
         //Testa o método consultarAtor
-//        Ator atorProcurado = atorService.consultarAtor(3);
-//        System.out.println(atorProcurado.getNome());
-
-//        List<Ator> todosAtoresCadastrados = atorService.consultarAtores();
-//        System.out.println(todosAtoresCadastrados.get(0).getNome());
-
-//        List<Diretor> filtrada = diretorService.listarDiretores("Quen");
-//        for(Diretor d : filtrada) {
-//            System.out.println(filtrada.get(filtrada.indexOf(d)).getNome());
+//        try {
+//            Ator atorProcurado = atorService.consultarAtor(null);
+//            System.out.println(atorProcurado.getNome());
+//        } catch (IdException | CampoVazioException e) {
+//            System.out.println(e.getMessage());
 //        }
 
-        //Testa o método consultarAtor
-        try {
-            Diretor diretorProcurado = diretorService.consultarDiretor(3);
-            System.out.println(diretorProcurado.getNome());
-        } catch (DiretorNaoEncontradoException e){
-            System.out.println(e.getMessage());
-        }
+        //Testa o método consultarAtores
+//        try {
+//            List<Ator> todosAtoresCadastrados = atorService.consultarAtores();
+//            System.out.println(todosAtoresCadastrados.get(1).getNome());
+//        } catch (ListaVaziaException e) {
+//            System.out.println(e.getMessage());
+//        }
+
+
+        //Testa método listarDiretores com filtro
+//        try {
+//            List<Diretor> filtrada = diretorService.listarDiretores("Tim");
+//            for(Diretor d : filtrada) {
+//                System.out.println(filtrada.get(filtrada.indexOf(d)).getNome());
+//            }
+//        } catch (FiltroException | ListaVaziaException e) {
+//            System.out.println(e.getMessage());
+//        }
+
+        //Testa o método listarDiretores sem filtro
+//        try {
+//            List<Diretor> filtrada = diretorService.listarDiretores();
+//            for(Diretor d : filtrada) {
+//                System.out.println(filtrada.get(filtrada.indexOf(d)).getNome());
+//            }
+//        } catch ( ListaVaziaException e) {
+//            System.out.println(e.getMessage());
+//        }
+
+//        //Testa o método consultarDiretor
+//        try {
+//            Diretor diretorProcurado = diretorService.consultarDiretor(3);
+//            System.out.println(diretorProcurado.getNome());
+//        } catch (IdException | CampoVazioException e){
+//            System.out.println(e.getMessage());
+//        }
 
 
     }

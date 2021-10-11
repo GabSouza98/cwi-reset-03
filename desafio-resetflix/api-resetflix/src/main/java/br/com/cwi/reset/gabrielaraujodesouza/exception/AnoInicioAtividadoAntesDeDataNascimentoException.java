@@ -2,7 +2,7 @@ package br.com.cwi.reset.gabrielaraujodesouza.exception;
 
 public class AnoInicioAtividadoAntesDeDataNascimentoException extends Exception{
 
-    public AnoInicioAtividadoAntesDeDataNascimentoException() {
-        super("Tentativa de cadastrar Ano Inicio Atividade anterior à data de nascimento.");
+    public AnoInicioAtividadoAntesDeDataNascimentoException(String nomeClasse) {
+        super(String.format("Ano de início de atividade inválido para o %s cadastrado.",nomeClasse));
     }
 }

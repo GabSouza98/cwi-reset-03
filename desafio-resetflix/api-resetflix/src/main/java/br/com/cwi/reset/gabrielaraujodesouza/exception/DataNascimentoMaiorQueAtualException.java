@@ -2,7 +2,7 @@ package br.com.cwi.reset.gabrielaraujodesouza.exception;
 
 public class DataNascimentoMaiorQueAtualException extends Exception{
 
-    public DataNascimentoMaiorQueAtualException() {
-        super("Não é possivel cadastrar pessoas não nascidas");
+    public DataNascimentoMaiorQueAtualException(String nomeClasse) {
+        super(String.format("Não é possivel cadastrar %s não nascidos.",nomeClasse));
     }
 }
