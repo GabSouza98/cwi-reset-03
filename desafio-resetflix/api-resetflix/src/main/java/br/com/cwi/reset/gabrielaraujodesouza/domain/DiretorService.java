@@ -4,6 +4,8 @@ import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiretorService {
 
@@ -57,5 +59,60 @@ public class DiretorService {
                 diretorRequest.getAnoInicioAtividade());
         this.fakeDatabase.persisteDiretor(diretor);
     }
+
+    public List listarDiretores() {
+
+        List<Diretor> diretores = fakeDatabase.recuperaDiretores();
+        List<Diretor> diretoresAux = new ArrayList<>();
+
+        if(diretores.size()>0){
+            for(Diretor d : diretores) {
+                diretoresAux.add(d);
+            }
+        } else {
+            System.out.println("Nenhum diretor cadastrado, favor cadastar diretores.");
+        }
+        return diretoresAux;
+    }
+
+    public List listarDiretores(String filtroNome) {
+
+        List<Diretor> diretores = fakeDatabase.recuperaDiretores();
+        List<Diretor> diretoresAux = new ArrayList<>();
+
+        if(diretores.size()>0){
+            for(Diretor d : diretores) {
+                if (d.getNome().contains(filtroNome)) {
+                    diretoresAux.add(d);
+                }
+            }
+            if (diretoresAux.size()==0) {
+                System.out.println(String.format("Diretor não encontrato com o filtro %s, favor informar outro filtro.", filtroNome));
+            }
+        } else {
+            System.out.println("Nenhum diretor cadastrado, favor cadastar diretores.");
+        }
+        return diretoresAux;
+    }
+
+    public Diretor consultarDiretor(Integer id) {
+
+        boolean diretorEncontrado = false;
+        List<Diretor> diretores = fakeDatabase.recuperaDiretores();
+        Diretor diretorProcurado = null;
+
+        for(Diretor d : diretores) {
+            if(d.getId() == id){
+                diretorEncontrado = true;
+                diretorProcurado = d;
+            }
+        }
+
+        if (!diretorEncontrado) {
+            System.out.println(String.format("Nenhum diretor encontrado com o parâmetro id=%d, favor verifique os parâmetros informados.", id));
+            diretorProcurado = new Diretor(0,"teste",LocalDate.now(),2021);
+        }
+        return diretorProcurado;
+    } 
 
 }
