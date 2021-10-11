@@ -95,7 +95,7 @@ public class DiretorService {
         return diretoresAux;
     }
 
-    public Diretor consultarDiretor(Integer id) {
+    public Diretor consultarDiretor(Integer id) throws DiretorNaoEncontradoException {
 
         boolean diretorEncontrado = false;
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
@@ -105,14 +105,16 @@ public class DiretorService {
             if(d.getId() == id){
                 diretorEncontrado = true;
                 diretorProcurado = d;
+                break;
             }
         }
 
         if (!diretorEncontrado) {
             System.out.println(String.format("Nenhum diretor encontrado com o parâmetro id=%d, favor verifique os parâmetros informados.", id));
-            diretorProcurado = new Diretor(0,"teste",LocalDate.now(),2021);
+            throw new DiretorNaoEncontradoException();
+        } else {
+            return diretorProcurado;
         }
-        return diretorProcurado;
-    } 
+    }
 
 }

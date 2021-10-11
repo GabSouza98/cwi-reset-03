@@ -87,7 +87,7 @@ public class AtorService {
         return atoresAux;
     }
 
-    public List listarAtoresEmAtividade(String parteDoNome) {
+    public List listarAtoresEmAtividade(String filtroNome) {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
         List<Ator> atoresAux = new ArrayList<>();
@@ -95,13 +95,13 @@ public class AtorService {
         if(atores.size()>0){
             for(Ator a : atores) {
                 if (a.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
-                    if (a.getNome().contains(parteDoNome)) {
+                    if (a.getNome().contains(filtroNome)) {
                         atoresAux.add(a);
                     }
                 }
             }
             if (atoresAux.size()==0) {
-                System.out.println(String.format("Ator não encontrato com o filtro %s, favor informar outro filtro.", parteDoNome));
+                System.out.println(String.format("Ator não encontrato com o filtro %s, favor informar outro filtro.", filtroNome));
             }
         } else {
             System.out.println("Nenhum ator cadastrado, favor cadastar atores.");
@@ -109,7 +109,7 @@ public class AtorService {
         return atoresAux;
     }
 
-    public Ator consultarAtor(Integer id) {
+    public Ator consultarAtor(Integer id) throws AtorNaoEncontradoException {
 
         boolean atorEncontrado = false;
         List<Ator> atores = fakeDatabase.recuperaAtores();
@@ -119,13 +119,15 @@ public class AtorService {
             if(a.getId() == id){
                 atorEncontrado = true;
                 atorProcurado = a;
+                break;
             }
         }
         if (!atorEncontrado) {
             System.out.println(String.format("Nenhum ator encontrado com o parâmetro id=%d, favor verifique os parâmetros informados.", id));
-            atorProcurado = new Ator(0,"teste",LocalDate.now(),StatusCarreira.APOSENTADO,2021);
+            throw new AtorNaoEncontradoException();
+        } else {
+            return atorProcurado;
         }
-        return atorProcurado;
     }
 
     public List consultarAtores() {

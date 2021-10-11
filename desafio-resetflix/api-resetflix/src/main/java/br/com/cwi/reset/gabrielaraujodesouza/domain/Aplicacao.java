@@ -66,5 +66,19 @@ public class Aplicacao {
 //        List<Ator> todosAtoresCadastrados = atorService.consultarAtores();
 //        System.out.println(todosAtoresCadastrados.get(0).getNome());
 
+//        List<Diretor> filtrada = diretorService.listarDiretores("Quen");
+//        for(Diretor d : filtrada) {
+//            System.out.println(filtrada.get(filtrada.indexOf(d)).getNome());
+//        }
+
+        //Testa o método consultarAtor
+        try {
+            Diretor diretorProcurado = diretorService.consultarDiretor(3);
+            System.out.println(diretorProcurado.getNome());
+        } catch (DiretorNaoEncontradoException e){
+            System.out.println(e.getMessage());
+        }
+
+
     }
 }
