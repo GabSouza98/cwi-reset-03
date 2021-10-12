@@ -24,11 +24,4 @@ public class Diretor {
         return nome;
     }
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public Integer getAnoInicioAtividade() {
-        return anoInicioAtividade;
-    }
 }

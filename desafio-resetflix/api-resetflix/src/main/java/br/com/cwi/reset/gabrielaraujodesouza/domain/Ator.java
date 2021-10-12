@@ -22,16 +22,8 @@ public class Ator {
         return id;
     }
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
-
     public StatusCarreira getStatusCarreira() {
         return statusCarreira;
-    }
-
-    public Integer getAnoInicioAtividade() {
-        return anoInicioAtividade;
     }
 
     public String getNome() {
