@@ -1,5 +1,7 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
+import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoAtuacao;
+
 public class PersonagemAtor {
 
     private Integer id;

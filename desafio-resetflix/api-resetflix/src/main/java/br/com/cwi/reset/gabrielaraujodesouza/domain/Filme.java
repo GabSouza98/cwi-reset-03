@@ -1,5 +1,7 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
+import br.com.cwi.reset.gabrielaraujodesouza.enums.Genero;
+
 import java.time.LocalDate;
 import java.util.List;
 

@@ -1,68 +1,41 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
+import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
+import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class AtorService {
+public class AtorService extends FuncionarioService{
 
     public static Integer id = 1;
 
-    private FakeDatabase fakeDatabase;
-
     public AtorService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
+        super(fakeDatabase);
     }
 
     public void criarAtor(AtorRequest atorRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
 
-        if(atorRequest.getNome().isEmpty()) {
-            throw new CampoVazioException("Nome");
-        }
-
-        if(atorRequest.getDataNascimento()==null){
-            throw new CampoVazioException("DataNascimento");
-        }
+        super.cadastrarFuncionario(atorRequest);
 
         if(atorRequest.getStatusCarreira()==null){
             throw new CampoVazioException("StatusCarreira");
         }
 
-        if(atorRequest.getAnoInicioAtividade()==null){
-            throw new CampoVazioException("AnoInicioAtividade");
-        }
-
-        String[] palavras = atorRequest.getNome().split("\\s+");
-        if(palavras.length < 2) {
-            throw new SemSobrenomeException("ator");
-        }
-
-        if(ChronoUnit.DAYS.between(atorRequest.getDataNascimento(), LocalDate.now()) < 0) {
-            throw new DataNascimentoMaiorQueAtualException("atores");
-        }
-
-        if(atorRequest.getAnoInicioAtividade() - atorRequest.getDataNascimento().getYear() < 0) {
-            throw new AnoInicioAtividadoAntesDeDataNascimentoException("ator");
-        }
-
         for(Ator a : fakeDatabase.recuperaAtores()){
             if (a.getNome().equals(atorRequest.getNome())) {
-                throw new NomeDuplicadoException(atorRequest.getNome());
+                throw new NomeDuplicadoException(TipoFuncionarios.ATOR.singular, atorRequest.getNome());
             }
         }
 
         Ator ator = new Ator(id++,
                     atorRequest.getNome(),
                     atorRequest.getDataNascimento(),
-                    atorRequest.getStatusCarreira(),
-                    atorRequest.getAnoInicioAtividade());
+                    atorRequest.getAnoInicioAtividade(),
+                    atorRequest.getStatusCarreira());
         this.fakeDatabase.persisteAtor(ator);
     }
 
@@ -117,7 +90,6 @@ public class AtorService {
 //        return atoresAux;
 //    }
 
-
     public Ator consultarAtor(Integer id) throws IdException, CampoVazioException {
 
         if(id==null) {
@@ -146,7 +118,7 @@ public class AtorService {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
         if(atores.size()==0){
-            throw new ListaVaziaException("ator","atores");
+            throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
         } else {
             return atores;
         }

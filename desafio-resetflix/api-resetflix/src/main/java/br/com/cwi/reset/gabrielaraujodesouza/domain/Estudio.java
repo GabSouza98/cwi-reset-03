@@ -1,5 +1,7 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
+import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusAtividade;
+
 import java.time.LocalDate;
 
 public class Estudio {

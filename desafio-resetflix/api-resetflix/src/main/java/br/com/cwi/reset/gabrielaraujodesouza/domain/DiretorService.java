@@ -1,5 +1,6 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
+import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
 import java.time.LocalDate;
@@ -7,46 +8,21 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiretorService {
+public class DiretorService extends FuncionarioService{
 
     public static Integer id = 1;
 
-    private FakeDatabase fakeDatabase;
-
     public DiretorService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
+        super(fakeDatabase);
     }
 
     public void cadastrarDiretor(DiretorRequest diretorRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
 
-        if(diretorRequest.getNome().isEmpty()) {
-            throw new CampoVazioException("Nome");
-        }
-
-        if(diretorRequest.getDataNascimento()==null){
-            throw new CampoVazioException("DataNascimento");
-        }
-
-        if(diretorRequest.getAnoInicioAtividade()==null){
-            throw new CampoVazioException("AnoInicioAtividade");
-        }
-
-        String[] palavras = diretorRequest.getNome().split("\\s+");
-        if(palavras.length < 2) {
-            throw new SemSobrenomeException("diretor");
-        }
-
-        if(ChronoUnit.DAYS.between(diretorRequest.getDataNascimento(), LocalDate.now()) < 0) {
-            throw new DataNascimentoMaiorQueAtualException("diretores");
-        }
-
-        if(diretorRequest.getAnoInicioAtividade() - diretorRequest.getDataNascimento().getYear() < 0) {
-            throw new AnoInicioAtividadoAntesDeDataNascimentoException("diretor");
-        }
+        super.cadastrarFuncionario(diretorRequest);
 
         for(Diretor d : fakeDatabase.recuperaDiretores()){
             if (d.getNome().equals(diretorRequest.getNome())) {
-                throw new NomeDuplicadoException(diretorRequest.getNome());
+                throw new NomeDuplicadoException(this.getClass().toString().toLowerCase(), diretorRequest.getNome());
             }
         }
 
@@ -68,7 +44,7 @@ public class DiretorService {
             }
             return diretoresAux;
         } else {
-            throw new ListaVaziaException("diretor","diretores");
+            throw new ListaVaziaException(TipoFuncionarios.DIRETOR.singular,TipoFuncionarios.DIRETOR.plural);
         }
     }
 
