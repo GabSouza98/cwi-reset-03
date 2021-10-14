@@ -1,16 +1,17 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain;
+package br.com.cwi.reset.gabrielaraujodesouza.domain.service;
 
-import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.Diretor;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.request.DiretorRequest;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DiretorService extends FuncionarioService{
+public class DiretorService extends FuncionarioService {
 
-    public static Integer id = 1;
+    private static Integer id = 1;
 
     public DiretorService(FakeDatabase fakeDatabase) {
         super(fakeDatabase);

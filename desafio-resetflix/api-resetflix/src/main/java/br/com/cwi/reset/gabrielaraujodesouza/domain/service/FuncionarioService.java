@@ -1,5 +1,7 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain;
+package br.com.cwi.reset.gabrielaraujodesouza.domain.service;
 
+import br.com.cwi.reset.gabrielaraujodesouza.domain.FakeDatabase;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.request.FuncionarioRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 

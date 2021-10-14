@@ -1,4 +1,4 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain;
+package br.com.cwi.reset.gabrielaraujodesouza.domain.request;
 
 import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
 

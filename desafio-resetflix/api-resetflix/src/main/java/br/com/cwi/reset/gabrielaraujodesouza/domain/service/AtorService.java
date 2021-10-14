@@ -1,5 +1,8 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain;
+package br.com.cwi.reset.gabrielaraujodesouza.domain.service;
 
+import br.com.cwi.reset.gabrielaraujodesouza.domain.Ator;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.request.AtorRequest;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
@@ -7,9 +10,9 @@ import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AtorService extends FuncionarioService{
+public class AtorService extends FuncionarioService {
 
-    public static Integer id = 1;
+    private static Integer id = 1;
 
     public AtorService(FakeDatabase fakeDatabase) {
         super(fakeDatabase);
