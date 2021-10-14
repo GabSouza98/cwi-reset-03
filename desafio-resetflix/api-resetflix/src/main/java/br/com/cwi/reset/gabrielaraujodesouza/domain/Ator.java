@@ -12,8 +12,8 @@ public class Ator extends Funcionario{
         super(id, nome, dataNascimento, anoInicioAtividade);
         this.statusCarreira = statusCarreira;
     }
+
     public StatusCarreira getStatusCarreira() {
         return statusCarreira;
     }
-
 }

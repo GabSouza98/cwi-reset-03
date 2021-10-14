@@ -33,7 +33,7 @@ public class DiretorService extends FuncionarioService{
         this.fakeDatabase.persisteDiretor(diretor);
     }
 
-    public List listarDiretores() throws ListaVaziaException {
+    public List<Diretor> listarDiretores() throws ListaVaziaException {
 
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
         if(diretores.size()==0){
@@ -43,7 +43,7 @@ public class DiretorService extends FuncionarioService{
         }
     }
 
-    public List listarDiretores(String filtroNome) throws ListaVaziaException, FiltroException {
+    public List<Diretor> listarDiretores(String filtroNome) throws ListaVaziaException, FiltroException {
 
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
         List<Diretor> diretoresAux = diretores.stream()

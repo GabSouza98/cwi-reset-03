@@ -64,14 +64,14 @@ public class Aplicacao {
 //        }
 
         //Testa o método listarAtoresEmAtividade sem filtro
-//        try {
-//            List<Ator> filtrada = atorService.listarAtoresEmAtividade();
-//            for(Ator a : filtrada) {
-//                System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
-//            }
-//        } catch ( ListaVaziaException e) {
-//            System.out.println(e.getMessage());
-//        }
+        try {
+            List<Ator> filtrada = atorService.listarAtoresEmAtividade();
+            for(Ator a : filtrada) {
+                System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
+            }
+        } catch ( ListaVaziaException e) {
+            System.out.println(e.getMessage());
+        }
 
         //Testa o método consultarAtor
 //        try {
@@ -82,13 +82,12 @@ public class Aplicacao {
 //        }
 
         //Testa o método consultarAtores
-        try {
-            List<Ator> todosAtoresCadastrados = atorService.consultarAtores();
-            System.out.println(todosAtoresCadastrados.get(0).getNome());
-        } catch (ListaVaziaException e) {
-            System.out.println(e.getMessage());
-        }
-
+//        try {
+//            List<Ator> todosAtoresCadastrados = atorService.consultarAtores();
+//            System.out.println(todosAtoresCadastrados.get(0).getNome());
+//        } catch (ListaVaziaException e) {
+//            System.out.println(e.getMessage());
+//        }
 
         //Testa método listarDiretores com filtro
 //        try {
