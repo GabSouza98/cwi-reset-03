@@ -14,7 +14,7 @@ public abstract class FuncionarioService {
         this.fakeDatabase = fakeDatabase;
     }
 
-    public void cadastrarFuncionario(FuncionarioRequest funcionarioRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
+    public void verificarDados(FuncionarioRequest funcionarioRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
 
         if(funcionarioRequest.getNome().isEmpty()) {
             throw new CampoVazioException("Nome");

@@ -1,12 +1,12 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
+import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DiretorService extends FuncionarioService{
 
@@ -18,11 +18,11 @@ public class DiretorService extends FuncionarioService{
 
     public void cadastrarDiretor(DiretorRequest diretorRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
 
-        super.cadastrarFuncionario(diretorRequest);
+        super.verificarDados(diretorRequest);
 
         for(Diretor d : fakeDatabase.recuperaDiretores()){
             if (d.getNome().equals(diretorRequest.getNome())) {
-                throw new NomeDuplicadoException(this.getClass().toString().toLowerCase(), diretorRequest.getNome());
+                throw new NomeDuplicadoException(TipoFuncionarios.DIRETOR.singular, diretorRequest.getNome());
             }
         }
 
@@ -36,60 +36,52 @@ public class DiretorService extends FuncionarioService{
     public List listarDiretores() throws ListaVaziaException {
 
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
-        List<Diretor> diretoresAux = new ArrayList<>();
-
-        if(diretores.size()>0){
-            for(Diretor d : diretores) {
-                diretoresAux.add(d);
-            }
-            return diretoresAux;
-        } else {
+        if(diretores.size()==0){
             throw new ListaVaziaException(TipoFuncionarios.DIRETOR.singular,TipoFuncionarios.DIRETOR.plural);
+        } else {
+            return diretores;
         }
     }
 
     public List listarDiretores(String filtroNome) throws ListaVaziaException, FiltroException {
 
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
-        List<Diretor> diretoresAux = new ArrayList<>();
+        List<Diretor> diretoresAux = diretores.stream()
+                .filter(d -> d.getNome().contains(filtroNome))
+                .collect(Collectors.toList());
 
-        if(diretores.size()>0){
-            for(Diretor d : diretores) {
-                if (d.getNome().contains(filtroNome)) {
-                    diretoresAux.add(d);
-                }
-            }
-            if (diretoresAux.size()==0) {
-                throw new FiltroException("Diretor",filtroNome);
-            }
-        } else {
-            throw new ListaVaziaException("diretor","diretores");
+        if(diretores.size()==0){
+            throw new ListaVaziaException(TipoFuncionarios.DIRETOR.singular, TipoFuncionarios.DIRETOR.plural);
         }
+        if(diretoresAux.size()==0) {
+            throw new FiltroException("Diretor", filtroNome);
+        }
+
         return diretoresAux;
     }
 
-    public Diretor consultarDiretor(Integer id) throws IdException, CampoVazioException {
+    public Diretor consultarDiretor(Integer id) throws IdException, CampoVazioException, ListaVaziaException {
 
         if(id==null) {
             throw new CampoVazioException("id");
         }
 
-        boolean diretorEncontrado = false;
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
-        Diretor diretorProcurado = null;
 
-        for(Diretor d : diretores) {
-            if(d.getId() == id){
-                diretorEncontrado = true;
-                diretorProcurado = d;
-                break;
-            }
+        //Não foi pedido explicitamente para verificar este caso aqui neste método, mas acho válido.
+        if(diretores.isEmpty()){
+            throw new ListaVaziaException(TipoFuncionarios.DIRETOR.singular,TipoFuncionarios.DIRETOR.plural);
         }
-        if (!diretorEncontrado) {
-            throw new IdException("Diretor",id);
+
+        List<Diretor> diretoresAux = diretores.stream()
+                .filter(a -> a.getId() == id)
+                .collect(Collectors.toList());
+
+        //Considerando que nao é necessário verificar por IDs repetidos.
+        if(diretoresAux.size() == 1) {
+            return diretoresAux.get(0);
         } else {
-            return diretorProcurado;
+            throw new IdException("Diretor",id);
         }
     }
-
 }

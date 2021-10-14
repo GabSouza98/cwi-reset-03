@@ -4,10 +4,8 @@ import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AtorService extends FuncionarioService{
 
@@ -19,7 +17,7 @@ public class AtorService extends FuncionarioService{
 
     public void criarAtor(AtorRequest atorRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
 
-        super.cadastrarFuncionario(atorRequest);
+        super.verificarDados(atorRequest);
 
         if(atorRequest.getStatusCarreira()==null){
             throw new CampoVazioException("StatusCarreira");
@@ -39,89 +37,70 @@ public class AtorService extends FuncionarioService{
         this.fakeDatabase.persisteAtor(ator);
     }
 
-    public List listarAtoresEmAtividade() throws ListaVaziaException {
+    public List<Ator> listarAtoresEmAtividade() throws ListaVaziaException {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
-        List<Ator> atoresAux = new ArrayList<>();
-
-        if(atores.size()>0) {
-            for(Ator a : atores) {
-                if (a.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
-                    atoresAux.add(a);
-                }
-            }
-        } else {
-            throw new ListaVaziaException("ator","atores");
-        }
-        return atoresAux;
-    }
-
-    public List listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {
-
-        List<Ator> atores = fakeDatabase.recuperaAtores();
-        List<Ator> atoresAux = new ArrayList<>();
+        List<Ator> atoresAux = atores.stream()
+                .filter(a -> a.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE)
+                .collect(Collectors.toList());
 
         if(atores.size()>0){
-            for(Ator a : atores) {
-                if (a.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
-                    if (a.getNome().contains(filtroNome)) {
-                        atoresAux.add(a);
-                    }
-                }
-            }
-            if (atoresAux.size()==0) {
+            return atoresAux;
+        } else {
+            throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
+        }
+    }
+
+    public List<Ator> listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {
+
+        List<Ator> atores = fakeDatabase.recuperaAtores();
+        List<Ator> atoresAux = atores.stream()
+                .filter(a -> a.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE)
+                .filter(a -> a.getNome().contains(filtroNome))
+                .collect(Collectors.toList());
+
+        if(atores.size()>0){
+            if (atoresAux.size()>0) {
+                return atoresAux;
+            } else {
                 throw new FiltroException("Ator",filtroNome);
             }
         } else {
-            throw new ListaVaziaException("ator","atores");
+            throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
         }
-        return atoresAux;
     }
 
-//    public List listarAtoresEmAtividade(String filtroNome){
-//
-//        List<Ator> atores = fakeDatabase.recuperaAtores();
-//
-//
-//        List<Ator> atoresAux = atores.stream()
-//                .filter(a -> a.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE)
-//                .filter(a -> a.getNome().contains(filtroNome))
-//                .collect(Collectors.toList());
-//        return atoresAux;
-//    }
-
-    public Ator consultarAtor(Integer id) throws IdException, CampoVazioException {
+    public Ator consultarAtor(Integer id) throws IdException, CampoVazioException, ListaVaziaException {
 
         if(id==null) {
             throw new CampoVazioException("id");
         }
 
-        boolean atorEncontrado = false;
         List<Ator> atores = fakeDatabase.recuperaAtores();
-        Ator atorProcurado = null;
 
-        for(Ator a : atores) {
-            if(a.getId() == id){
-                atorEncontrado = true;
-                atorProcurado = a;
-                break;
-            }
+        //Não foi pedido explicitamente para verificar este caso aqui neste método, mas acho válido.
+        if(atores.isEmpty()){
+            throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
         }
-        if (!atorEncontrado) {
-            throw new IdException("Ator",id);
+
+        List<Ator> atoresAux = atores.stream()
+                .filter(a -> a.getId() == id)
+                .collect(Collectors.toList());
+
+        //Considerando que nao é necessário verificar por IDs repetidos.
+        if(atoresAux.size() == 1) {
+            return atoresAux.get(0);
         } else {
-            return atorProcurado;
+            throw new IdException("Ator",id);
         }
     }
 
-    public List consultarAtores() throws ListaVaziaException {
-
+    public List<Ator> consultarAtores() throws ListaVaziaException {
         List<Ator> atores = fakeDatabase.recuperaAtores();
-        if(atores.size()==0){
+        if(atores.isEmpty()){
             throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
         } else {
             return atores;
         }
     }
-
 }

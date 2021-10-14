@@ -5,6 +5,7 @@ import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 public class Aplicacao {
 
@@ -76,17 +77,17 @@ public class Aplicacao {
 //        try {
 //            Ator atorProcurado = atorService.consultarAtor(null);
 //            System.out.println(atorProcurado.getNome());
-//        } catch (IdException | CampoVazioException e) {
+//        } catch (IdException | CampoVazioException | ListaVaziaException e) {
 //            System.out.println(e.getMessage());
 //        }
 
         //Testa o método consultarAtores
-//        try {
-//            List<Ator> todosAtoresCadastrados = atorService.consultarAtores();
-//            System.out.println(todosAtoresCadastrados.get(1).getNome());
-//        } catch (ListaVaziaException e) {
-//            System.out.println(e.getMessage());
-//        }
+        try {
+            List<Ator> todosAtoresCadastrados = atorService.consultarAtores();
+            System.out.println(todosAtoresCadastrados.get(0).getNome());
+        } catch (ListaVaziaException e) {
+            System.out.println(e.getMessage());
+        }
 
 
         //Testa método listarDiretores com filtro
@@ -109,14 +110,12 @@ public class Aplicacao {
 //            System.out.println(e.getMessage());
 //        }
 
-//        //Testa o método consultarDiretor
+        //Testa o método consultarDiretor
 //        try {
-//            Diretor diretorProcurado = diretorService.consultarDiretor(3);
+//            Diretor diretorProcurado = diretorService.consultarDiretor(0);
 //            System.out.println(diretorProcurado.getNome());
-//        } catch (IdException | CampoVazioException e){
+//        } catch (IdException | ListaVaziaException | CampoVazioException e){
 //            System.out.println(e.getMessage());
 //        }
-
-
     }
 }
