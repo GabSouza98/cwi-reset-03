@@ -1,7 +1,7 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain.service;
 
-import br.com.cwi.reset.gabrielaraujodesouza.domain.Ator;
-import br.com.cwi.reset.gabrielaraujodesouza.domain.AtoresEmAtividade;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.model.Ator;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.response.AtoresEmAtividade;
 import br.com.cwi.reset.gabrielaraujodesouza.domain.request.AtorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.domain.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;

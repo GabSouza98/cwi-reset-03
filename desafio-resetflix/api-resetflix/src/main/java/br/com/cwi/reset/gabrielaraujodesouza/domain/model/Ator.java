@@ -1,10 +1,10 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain;
+package br.com.cwi.reset.gabrielaraujodesouza.domain.model;
 
 import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
 
 import java.time.LocalDate;
 
-public class Ator extends Funcionario{
+public class Ator extends Funcionario {
 
     private StatusCarreira statusCarreira;
 

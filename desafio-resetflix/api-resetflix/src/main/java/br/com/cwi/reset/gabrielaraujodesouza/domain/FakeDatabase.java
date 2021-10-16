@@ -1,5 +1,8 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain;
 
+import br.com.cwi.reset.gabrielaraujodesouza.domain.model.Ator;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.model.Diretor;
+
 import java.util.ArrayList;
 import java.util.List;
 

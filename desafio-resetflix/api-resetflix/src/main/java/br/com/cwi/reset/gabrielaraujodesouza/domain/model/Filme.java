@@ -1,4 +1,4 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain;
+package br.com.cwi.reset.gabrielaraujodesouza.domain.model;
 
 import br.com.cwi.reset.gabrielaraujodesouza.enums.Genero;
 

@@ -1,17 +1,19 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain;
+package br.com.cwi.reset.gabrielaraujodesouza.domain.model;
 
 import java.time.LocalDate;
 
-public class AtoresEmAtividade {
+public abstract class Funcionario {
 
     private Integer id;
     private String nome;
     private LocalDate dataNascimento;
+    private Integer anoInicioAtividade;
 
-    public AtoresEmAtividade(Integer id, String nome, LocalDate dataNascimento) {
+    public Funcionario(Integer id, String nome, LocalDate dataNascimento, Integer anoInicioAtividade) {
         this.id = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
+        this.anoInicioAtividade = anoInicioAtividade;
     }
 
     public Integer getId() {
@@ -25,5 +27,4 @@ public class AtoresEmAtividade {
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
-
 }

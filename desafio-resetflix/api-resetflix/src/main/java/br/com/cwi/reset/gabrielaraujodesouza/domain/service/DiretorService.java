@@ -1,6 +1,6 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain.service;
 
-import br.com.cwi.reset.gabrielaraujodesouza.domain.Diretor;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.model.Diretor;
 import br.com.cwi.reset.gabrielaraujodesouza.domain.request.DiretorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.domain.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
