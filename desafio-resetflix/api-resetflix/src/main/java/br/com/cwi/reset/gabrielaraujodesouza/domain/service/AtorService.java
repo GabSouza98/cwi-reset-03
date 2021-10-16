@@ -26,7 +26,7 @@ public class AtorService extends FuncionarioService {
         super.verificarDados(atorRequest);
 
         if(atorRequest.getStatusCarreira()==null){
-            throw new CampoVazioException("StatusCarreira");
+            throw new StatusCarreiraVazioException();
         }
 
         for(Ator a : fakeDatabase.recuperaAtores()){

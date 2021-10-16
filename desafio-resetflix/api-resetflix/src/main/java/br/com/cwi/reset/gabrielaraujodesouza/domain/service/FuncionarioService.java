@@ -19,15 +19,15 @@ public abstract class FuncionarioService {
     public void verificarDados(FuncionarioRequest funcionarioRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
 
         if(funcionarioRequest.getNome().isEmpty()) {
-            throw new CampoVazioException("Nome");
+            throw new NomeVazioException();
         }
 
         if(funcionarioRequest.getDataNascimento()==null){
-            throw new CampoVazioException("DataNascimento");
+            throw new DataNascimentoVazioException();
         }
 
         if(funcionarioRequest.getAnoInicioAtividade()==null){
-            throw new CampoVazioException("AnoInicioAtividade");
+            throw new AnoInicioAtividadeVazioException();
         }
 
         if(ChronoUnit.DAYS.between(funcionarioRequest.getDataNascimento(), LocalDate.now()) < 0) {
