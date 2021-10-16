@@ -1,11 +1,14 @@
 package br.com.cwi.reset.primeiroprojetospring.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 import java.time.Period;
 
 public abstract class Pessoa {
 
     private String nome;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate dataNascimento;
     private Genero genero;
 
