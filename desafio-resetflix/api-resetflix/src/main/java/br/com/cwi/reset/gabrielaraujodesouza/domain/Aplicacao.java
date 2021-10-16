@@ -58,24 +58,24 @@ public class Aplicacao {
         //System.out.println("Segundo ator: " + atores.get(0).getId());
 
         //Testa o método listarAtoresEmAtividade com filtro
-//        try {
-//            List<Ator> filtrada = atorService.listarAtoresEmAtividade("James");
-//            for(Ator a : filtrada) {
-//                System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
-//            }
-//        } catch (FiltroException | ListaVaziaException e) {
-//            System.out.println(e.getMessage());
-//        }
-
-        //Testa o método listarAtoresEmAtividade sem filtro
         try {
-            List<Ator> filtrada = atorService.listarAtoresEmAtividade();
-            for(Ator a : filtrada) {
+            List<AtoresEmAtividade> filtrada = atorService.listarAtoresEmAtividade("Sm");
+            for(AtoresEmAtividade a : filtrada) {
                 System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
             }
-        } catch ( ListaVaziaException e) {
+        } catch (FiltroException | ListaVaziaException e) {
             System.out.println(e.getMessage());
         }
+
+        //Testa o método listarAtoresEmAtividade sem filtro
+//        try {
+//            List<AtoresEmAtividade> filtrada = atorService.listarAtoresEmAtividade();
+//            for(AtoresEmAtividade a : filtrada) {
+//                System.out.println(filtrada.get(filtrada.indexOf(a)).getNome());
+//            }
+//        } catch ( ListaVaziaException e) {
+//            System.out.println(e.getMessage());
+//        }
 
         //Testa o método consultarAtor
 //        try {

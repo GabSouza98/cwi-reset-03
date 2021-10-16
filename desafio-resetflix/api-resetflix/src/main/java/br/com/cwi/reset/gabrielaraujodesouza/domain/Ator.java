@@ -16,4 +16,9 @@ public class Ator extends Funcionario{
     public StatusCarreira getStatusCarreira() {
         return statusCarreira;
     }
+
+
+
+
+
 }

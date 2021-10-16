@@ -1,13 +1,16 @@
 package br.com.cwi.reset.gabrielaraujodesouza.domain.service;
 
 import br.com.cwi.reset.gabrielaraujodesouza.domain.Ator;
+import br.com.cwi.reset.gabrielaraujodesouza.domain.AtoresEmAtividade;
 import br.com.cwi.reset.gabrielaraujodesouza.domain.request.AtorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.domain.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
 import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class AtorService extends FuncionarioService {
@@ -40,31 +43,43 @@ public class AtorService extends FuncionarioService {
         this.fakeDatabase.persisteAtor(ator);
     }
 
-    public List<Ator> listarAtoresEmAtividade() throws ListaVaziaException {
+    public List<AtoresEmAtividade> listarAtoresEmAtividade() throws ListaVaziaException {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
         List<Ator> atoresAux = atores.stream()
                 .filter(a -> a.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE)
                 .collect(Collectors.toList());
 
+        List<AtoresEmAtividade> atoresEmAtividade = new ArrayList<>();
+
+        for (Ator a : atoresAux) {
+            atoresEmAtividade.add(new AtoresEmAtividade(a.getId(),a.getNome(),a.getDataNascimento()));
+        }
+
         if(atores.size()>0){
-            return atoresAux;
+            return atoresEmAtividade;
         } else {
             throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
         }
     }
 
-    public List<Ator> listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {
+    public List<AtoresEmAtividade> listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
         List<Ator> atoresAux = atores.stream()
                 .filter(a -> a.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE)
-                .filter(a -> a.getNome().contains(filtroNome))
+                .filter(a -> a.getNome().toLowerCase(Locale.ROOT).contains(filtroNome.toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
 
+        List<AtoresEmAtividade> atoresEmAtividade = new ArrayList<>();
+
+        for (Ator a : atoresAux) {
+            atoresEmAtividade.add(new AtoresEmAtividade(a.getId(),a.getNome(),a.getDataNascimento()));
+        }
+
         if(atores.size()>0){
-            if (atoresAux.size()>0) {
-                return atoresAux;
+            if (atoresEmAtividade.size()>0) {
+                return atoresEmAtividade;
             } else {
                 throw new FiltroException("Ator",filtroNome);
             }
