@@ -23,6 +23,30 @@ public class Filme {
         this.diretor = diretor;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Integer getDuracao() {
+        return duracao;
+    }
+
+    public Integer getAnoLancamento() {
+        return anoLancamento;
+    }
+
+    public Double getAvaliacao() {
+        return avaliacao;
+    }
+
+    public Diretor getDiretor() {
+        return diretor;
+    }
+
     public void reproduzir() {
         System.out.println("Nome Filme: " + nome);
         System.out.println("Descriçao: " + descricao);
