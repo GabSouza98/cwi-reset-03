@@ -1,30 +1,17 @@
-package br.com.cwi.reset.gabrielaraujodesouza.model;
+package br.com.cwi.reset.gabrielaraujodesouza.request;
+
+import br.com.cwi.reset.gabrielaraujodesouza.model.StatusAtividade;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
-public class Estudio {
+public class EstudioRequest {
 
-    private Integer id;
     private String nome;
     private String descricao;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate dataCriacao;
     private StatusAtividade statusAtividade;
-
-    public Estudio(Integer id, String nome, String descricao, LocalDate dataCriacao, StatusAtividade statusAtividade) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.dataCriacao = dataCriacao;
-        this.statusAtividade = statusAtividade;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
