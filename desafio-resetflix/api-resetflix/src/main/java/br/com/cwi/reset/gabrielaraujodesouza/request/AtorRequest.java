@@ -10,23 +10,15 @@ public class AtorRequest {
     private String nome;
 
     @JsonFormat(pattern="dd/MM/yyyy")
-    private String dataNascimento;
-
+    private LocalDate dataNascimento;
     private Integer anoInicioAtividade;
     private StatusCarreira statusCarreira;
-
-    public AtorRequest(String nome, String dataNascimento, Integer anoInicioAtividade, StatusCarreira statusCarreira) {
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.anoInicioAtividade = anoInicioAtividade;
-        this.statusCarreira = statusCarreira;
-    }
 
     public String getNome() {
         return nome;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
@@ -36,5 +28,21 @@ public class AtorRequest {
 
     public StatusCarreira getStatusCarreira() {
         return statusCarreira;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public void setAnoInicioAtividade(Integer anoInicioAtividade) {
+        this.anoInicioAtividade = anoInicioAtividade;
+    }
+
+    public void setStatusCarreira(StatusCarreira statusCarreira) {
+        this.statusCarreira = statusCarreira;
     }
 }

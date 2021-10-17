@@ -30,55 +30,43 @@ public class AtorService {
 
         Ator ator = new Ator(id++,
                     atorRequest.getNome(),
-                    LocalDate.parse(atorRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                    atorRequest.getDataNascimento(),
                     atorRequest.getAnoInicioAtividade(),
                     atorRequest.getStatusCarreira());
         this.fakeDatabase.persisteAtor(ator);
     }
 
-    public List<AtorEmAtividade> listarAtoresEmAtividade() throws ListaVaziaException {
-
-        List<Ator> atores = fakeDatabase.recuperaAtores();
-        List<Ator> atoresAux = atores.stream()
-                .filter(a -> a.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE)
-                .collect(Collectors.toList());
-
-        List<AtorEmAtividade> atoresEmAtividade = new ArrayList<>();
-
-        for (Ator a : atoresAux) {
-            atoresEmAtividade.add(new AtorEmAtividade(a.getId(),a.getNome(),a.getDataNascimento()));
-        }
-
-        if(atores.size()>0){
-            return atoresEmAtividade;
-        } else {
-            throw new ListaVaziaException(TipoDominioException.ATOR.singular,TipoDominioException.ATOR.plural);
-        }
-    }
-
     public List<AtorEmAtividade> listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {
 
-        List<Ator> atores = fakeDatabase.recuperaAtores();
-        List<Ator> atoresAux = atores.stream()
-                .filter(a -> a.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE)
-                .filter(a -> a.getNome().toLowerCase(Locale.ROOT).contains(filtroNome.toLowerCase(Locale.ROOT)))
-                .collect(Collectors.toList());
+        final List<Ator> atoresCadastrados = fakeDatabase.recuperaAtores();
 
-        List<AtorEmAtividade> atoresEmAtividade = new ArrayList<>();
-
-        for (Ator a : atoresAux) {
-            atoresEmAtividade.add(new AtorEmAtividade(a.getId(),a.getNome(),a.getDataNascimento()));
+        if (atoresCadastrados.isEmpty()) {
+            throw new ListaVaziaException(TipoDominioException.ATOR.getSingular(), TipoDominioException.ATOR.getPlural());
         }
 
-        if(atores.size()>0){
-            if (atoresEmAtividade.size()>0) {
-                return atoresEmAtividade;
-            } else {
-                throw new FiltroException("Ator",filtroNome);
+        final List<AtorEmAtividade> retorno = new ArrayList<>();
+
+        if (filtroNome != null) {
+            for (Ator ator : atoresCadastrados) {
+                final boolean containsFilter = ator.getNome().toLowerCase(Locale.ROOT).contains(filtroNome.toLowerCase(Locale.ROOT));
+                final boolean emAtividade = StatusCarreira.EM_ATIVIDADE.equals(ator.getStatusCarreira());
+                if (containsFilter && emAtividade) {
+                    retorno.add(new AtorEmAtividade(ator.getId(), ator.getNome(), ator.getDataNascimento()));
+                }
             }
         } else {
-            throw new ListaVaziaException(TipoDominioException.ATOR.singular,TipoDominioException.ATOR.plural);
+            for (Ator ator : atoresCadastrados) {
+                final boolean emAtividade = StatusCarreira.EM_ATIVIDADE.equals(ator.getStatusCarreira());
+                if (emAtividade) {
+                    retorno.add(new AtorEmAtividade(ator.getId(), ator.getNome(), ator.getDataNascimento()));
+                }
+            }
         }
+
+        if (retorno.isEmpty()) {
+            throw new FiltroException("Ator", filtroNome);
+        }
+        return retorno;
     }
 
     public Ator consultarAtor(Integer id) throws IdException, CampoVazioException, ListaVaziaException {
@@ -98,7 +86,6 @@ public class AtorService {
                 .filter(a -> a.getId() == id)
                 .collect(Collectors.toList());
 
-        //Considerando que nao é necessário verificar por IDs repetidos.
         if(atoresAux.size() == 1) {
             return atoresAux.get(0);
         } else {
