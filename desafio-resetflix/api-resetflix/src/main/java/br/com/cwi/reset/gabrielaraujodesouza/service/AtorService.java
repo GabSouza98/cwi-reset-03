@@ -8,6 +8,8 @@ import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 import br.com.cwi.reset.gabrielaraujodesouza.response.AtorEmAtividade;
 import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoAtor;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +30,7 @@ public class AtorService {
 
         Ator ator = new Ator(id++,
                     atorRequest.getNome(),
-                    atorRequest.getDataNascimento(),
+                    LocalDate.parse(atorRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                     atorRequest.getAnoInicioAtividade(),
                     atorRequest.getStatusCarreira());
         this.fakeDatabase.persisteAtor(ator);

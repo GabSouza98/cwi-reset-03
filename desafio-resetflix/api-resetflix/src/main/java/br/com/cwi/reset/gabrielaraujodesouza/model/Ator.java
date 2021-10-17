@@ -1,5 +1,4 @@
 package br.com.cwi.reset.gabrielaraujodesouza.model;
-
 import java.time.LocalDate;
 
 public class Ator {

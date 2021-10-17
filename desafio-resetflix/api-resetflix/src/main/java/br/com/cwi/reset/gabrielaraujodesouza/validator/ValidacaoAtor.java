@@ -6,11 +6,12 @@ import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
 import br.com.cwi.reset.gabrielaraujodesouza.model.StatusCarreira;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class ValidacaoAtor {
 
-    public void accept(final String nome, final LocalDate dataNascimento, final Integer anoInicioAtividade, final StatusCarreira statusCarreira, final TipoDominioException tipoDominioException) throws Exception {
+    public void accept(final String nome, final String dataNascimento, final Integer anoInicioAtividade, final StatusCarreira statusCarreira, final TipoDominioException tipoDominioException) throws Exception {
 
         if (nome == null) {
             throw new NomeVazioException();
@@ -32,11 +33,14 @@ public class ValidacaoAtor {
             throw new SemSobrenomeException(tipoDominioException.getSingular());
         }
 
-        if (LocalDate.now().isBefore(dataNascimento)) {
+
+        LocalDate data = LocalDate.parse(dataNascimento,DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        if (LocalDate.now().isBefore(data)) {
             throw new DataNascimentoMaiorQueAtualException(tipoDominioException.getPlural());
         }
 
-        if (anoInicioAtividade <= dataNascimento.getYear()) {
+        if (anoInicioAtividade <= data.getYear()) {
             throw new AnoInicioAtividadoAntesDeDataNascimentoException(tipoDominioException.getSingular());
         }
 
