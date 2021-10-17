@@ -3,15 +3,15 @@ package br.com.cwi.reset.gabrielaraujodesouza.validator;
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
+import br.com.cwi.reset.gabrielaraujodesouza.model.Diretor;
 import br.com.cwi.reset.gabrielaraujodesouza.model.StatusCarreira;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class ValidacaoAtor {
+public class ValidacaoDiretor {
 
-    public void accept(final String nome, final LocalDate dataNascimento, final Integer anoInicioAtividade, final StatusCarreira statusCarreira, final TipoDominioException tipoDominioException) throws Exception {
+    public void accept(final String nome, final LocalDate dataNascimento, final Integer anoInicioAtividade, final TipoDominioException tipoDominioException) throws NomeVazioException, DataNascimentoVazioException, AnoInicioAtividadeVazioException, Exception {
 
         if (nome == null) {
             throw new NomeVazioException();
@@ -23,10 +23,6 @@ public class ValidacaoAtor {
 
         if (anoInicioAtividade == null) {
             throw new AnoInicioAtividadeVazioException();
-        }
-
-        if (statusCarreira == null) {
-            throw new StatusCarreiraVazioException();
         }
 
         if (nome.split(" ").length < 2) {
@@ -41,8 +37,8 @@ public class ValidacaoAtor {
             throw new AnoInicioAtividadoAntesDeDataNascimentoException(tipoDominioException.getSingular());
         }
 
-        for(Ator a : FakeDatabase.getInstance().recuperaAtores()){
-            if (a.getNome().toLowerCase(Locale.ROOT).equals(nome.toLowerCase(Locale.ROOT))) {
+        for(Diretor d : FakeDatabase.getInstance().recuperaDiretores()){
+            if (d.getNome().toLowerCase(Locale.ROOT).equals(nome.toLowerCase(Locale.ROOT))) {
                 throw new NomeDuplicadoException(tipoDominioException.getSingular(), nome);
             }
         }
