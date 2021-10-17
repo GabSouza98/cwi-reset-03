@@ -1,6 +1,4 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain.model;
-
-import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
+package br.com.cwi.reset.gabrielaraujodesouza.model;
 
 import java.time.LocalDate;
 

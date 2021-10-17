@@ -1,7 +1,4 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain.model;
-
-import br.com.cwi.reset.gabrielaraujodesouza.domain.model.Ator;
-import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoAtuacao;
+package br.com.cwi.reset.gabrielaraujodesouza.model;
 
 public class PersonagemAtor {
 

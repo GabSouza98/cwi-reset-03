@@ -1,9 +1,9 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain.service;
+package br.com.cwi.reset.gabrielaraujodesouza.service;
 
-import br.com.cwi.reset.gabrielaraujodesouza.domain.model.Diretor;
-import br.com.cwi.reset.gabrielaraujodesouza.domain.request.DiretorRequest;
-import br.com.cwi.reset.gabrielaraujodesouza.domain.FakeDatabase;
-import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
+import br.com.cwi.reset.gabrielaraujodesouza.model.Diretor;
+import br.com.cwi.reset.gabrielaraujodesouza.request.DiretorRequest;
+import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
+import br.com.cwi.reset.gabrielaraujodesouza.model.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
 import java.util.List;

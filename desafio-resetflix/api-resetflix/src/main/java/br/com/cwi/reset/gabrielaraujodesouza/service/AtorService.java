@@ -1,12 +1,12 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain.service;
+package br.com.cwi.reset.gabrielaraujodesouza.service;
 
-import br.com.cwi.reset.gabrielaraujodesouza.domain.model.Ator;
-import br.com.cwi.reset.gabrielaraujodesouza.domain.response.AtoresEmAtividade;
-import br.com.cwi.reset.gabrielaraujodesouza.domain.request.AtorRequest;
-import br.com.cwi.reset.gabrielaraujodesouza.domain.FakeDatabase;
-import br.com.cwi.reset.gabrielaraujodesouza.enums.StatusCarreira;
-import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
+import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
+import br.com.cwi.reset.gabrielaraujodesouza.request.AtorRequest;
+import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
+import br.com.cwi.reset.gabrielaraujodesouza.model.StatusCarreira;
+import br.com.cwi.reset.gabrielaraujodesouza.model.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
+import br.com.cwi.reset.gabrielaraujodesouza.response.AtorEmAtividade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,17 +43,17 @@ public class AtorService extends FuncionarioService {
         this.fakeDatabase.persisteAtor(ator);
     }
 
-    public List<AtoresEmAtividade> listarAtoresEmAtividade() throws ListaVaziaException {
+    public List<AtorEmAtividade> listarAtoresEmAtividade() throws ListaVaziaException {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
         List<Ator> atoresAux = atores.stream()
                 .filter(a -> a.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE)
                 .collect(Collectors.toList());
 
-        List<AtoresEmAtividade> atoresEmAtividade = new ArrayList<>();
+        List<AtorEmAtividade> atoresEmAtividade = new ArrayList<>();
 
         for (Ator a : atoresAux) {
-            atoresEmAtividade.add(new AtoresEmAtividade(a.getId(),a.getNome(),a.getDataNascimento()));
+            atoresEmAtividade.add(new AtorEmAtividade(a.getId(),a.getNome(),a.getDataNascimento()));
         }
 
         if(atores.size()>0){
@@ -63,7 +63,7 @@ public class AtorService extends FuncionarioService {
         }
     }
 
-    public List<AtoresEmAtividade> listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {
+    public List<AtorEmAtividade> listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
         List<Ator> atoresAux = atores.stream()
@@ -71,10 +71,10 @@ public class AtorService extends FuncionarioService {
                 .filter(a -> a.getNome().toLowerCase(Locale.ROOT).contains(filtroNome.toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
 
-        List<AtoresEmAtividade> atoresEmAtividade = new ArrayList<>();
+        List<AtorEmAtividade> atoresEmAtividade = new ArrayList<>();
 
         for (Ator a : atoresAux) {
-            atoresEmAtividade.add(new AtoresEmAtividade(a.getId(),a.getNome(),a.getDataNascimento()));
+            atoresEmAtividade.add(new AtorEmAtividade(a.getId(),a.getNome(),a.getDataNascimento()));
         }
 
         if(atores.size()>0){

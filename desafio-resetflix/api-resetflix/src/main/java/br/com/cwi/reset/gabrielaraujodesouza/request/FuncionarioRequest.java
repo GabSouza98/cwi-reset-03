@@ -1,4 +1,4 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain.request;
+package br.com.cwi.reset.gabrielaraujodesouza.request;
 
 import java.time.LocalDate;
 

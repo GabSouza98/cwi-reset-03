@@ -1,8 +1,8 @@
-package br.com.cwi.reset.gabrielaraujodesouza.domain.service;
+package br.com.cwi.reset.gabrielaraujodesouza.service;
 
-import br.com.cwi.reset.gabrielaraujodesouza.domain.FakeDatabase;
-import br.com.cwi.reset.gabrielaraujodesouza.domain.request.FuncionarioRequest;
-import br.com.cwi.reset.gabrielaraujodesouza.enums.TipoFuncionarios;
+import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
+import br.com.cwi.reset.gabrielaraujodesouza.request.FuncionarioRequest;
+import br.com.cwi.reset.gabrielaraujodesouza.model.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
 import java.time.LocalDate;

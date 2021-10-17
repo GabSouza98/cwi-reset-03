@@ -1,4 +1,4 @@
-package br.com.cwi.reset.gabrielaraujodesouza.enums;
+package br.com.cwi.reset.gabrielaraujodesouza.model;
 
 public enum TipoAtuacao {
 
