@@ -3,27 +3,26 @@ package br.com.cwi.reset.gabrielaraujodesouza.service;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Diretor;
 import br.com.cwi.reset.gabrielaraujodesouza.request.DiretorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
-import br.com.cwi.reset.gabrielaraujodesouza.model.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DiretorService extends FuncionarioService {
+public class DiretorService {
 
     private static Integer id = 1;
+    private FakeDatabase fakeDatabase;
 
     public DiretorService(FakeDatabase fakeDatabase) {
-        super(fakeDatabase);
+        this.fakeDatabase = fakeDatabase;
     }
 
     public void cadastrarDiretor(DiretorRequest diretorRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
 
-        super.verificarDados(diretorRequest);
 
         for(Diretor d : fakeDatabase.recuperaDiretores()){
             if (d.getNome().equals(diretorRequest.getNome())) {
-                throw new NomeDuplicadoException(TipoFuncionarios.DIRETOR.singular, diretorRequest.getNome());
+                throw new NomeDuplicadoException(TipoDominioException.DIRETOR.singular, diretorRequest.getNome());
             }
         }
 
@@ -38,7 +37,7 @@ public class DiretorService extends FuncionarioService {
 
         List<Diretor> diretores = fakeDatabase.recuperaDiretores();
         if(diretores.size()==0){
-            throw new ListaVaziaException(TipoFuncionarios.DIRETOR.singular,TipoFuncionarios.DIRETOR.plural);
+            throw new ListaVaziaException(TipoDominioException.DIRETOR.singular,TipoDominioException.DIRETOR.plural);
         } else {
             return diretores;
         }
@@ -52,7 +51,7 @@ public class DiretorService extends FuncionarioService {
                 .collect(Collectors.toList());
 
         if(diretores.size()==0){
-            throw new ListaVaziaException(TipoFuncionarios.DIRETOR.singular, TipoFuncionarios.DIRETOR.plural);
+            throw new ListaVaziaException(TipoDominioException.DIRETOR.singular, TipoDominioException.DIRETOR.plural);
         }
         if(diretoresAux.size()==0) {
             throw new FiltroException("Diretor", filtroNome);
@@ -71,7 +70,7 @@ public class DiretorService extends FuncionarioService {
 
         //Não foi pedido explicitamente para verificar este caso aqui neste método, mas acho válido.
         if(diretores.isEmpty()){
-            throw new ListaVaziaException(TipoFuncionarios.DIRETOR.singular,TipoFuncionarios.DIRETOR.plural);
+            throw new ListaVaziaException(TipoDominioException.DIRETOR.singular,TipoDominioException.DIRETOR.plural);
         }
 
         List<Diretor> diretoresAux = diretores.stream()

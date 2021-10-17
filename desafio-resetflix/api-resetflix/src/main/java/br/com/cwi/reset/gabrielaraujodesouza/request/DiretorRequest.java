@@ -2,10 +2,27 @@ package br.com.cwi.reset.gabrielaraujodesouza.request;
 
 import java.time.LocalDate;
 
-public class DiretorRequest extends FuncionarioRequest {
+public class DiretorRequest {
+
+    private String nome;
+    private LocalDate dataNascimento;
+    private Integer anoInicioAtividade;
 
     public DiretorRequest(String nome, LocalDate dataNascimento, Integer anoInicioAtividade) {
-        super(nome, dataNascimento, anoInicioAtividade);
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.anoInicioAtividade = anoInicioAtividade;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public Integer getAnoInicioAtividade() {
+        return anoInicioAtividade;
+    }
 }

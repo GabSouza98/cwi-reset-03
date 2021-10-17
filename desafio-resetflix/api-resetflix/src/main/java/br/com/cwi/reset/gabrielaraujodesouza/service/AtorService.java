@@ -4,36 +4,27 @@ import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
 import br.com.cwi.reset.gabrielaraujodesouza.request.AtorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.model.StatusCarreira;
-import br.com.cwi.reset.gabrielaraujodesouza.model.TipoFuncionarios;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 import br.com.cwi.reset.gabrielaraujodesouza.response.AtorEmAtividade;
+import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoAtor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-public class AtorService extends FuncionarioService {
+public class AtorService {
 
     private static Integer id = 1;
+    private FakeDatabase fakeDatabase;
 
     public AtorService(FakeDatabase fakeDatabase) {
-        super(fakeDatabase);
+        this.fakeDatabase = fakeDatabase;
     }
 
-    public void criarAtor(AtorRequest atorRequest) throws DataNascimentoMaiorQueAtualException, AnoInicioAtividadoAntesDeDataNascimentoException, CampoVazioException, SemSobrenomeException, NomeDuplicadoException {
+    public void criarAtor(AtorRequest atorRequest) throws Exception {
 
-        super.verificarDados(atorRequest);
-
-        if(atorRequest.getStatusCarreira()==null){
-            throw new StatusCarreiraVazioException();
-        }
-
-        for(Ator a : fakeDatabase.recuperaAtores()){
-            if (a.getNome().equals(atorRequest.getNome())) {
-                throw new NomeDuplicadoException(TipoFuncionarios.ATOR.singular, atorRequest.getNome());
-            }
-        }
+        new ValidacaoAtor().accept(atorRequest.getNome(),atorRequest.getDataNascimento(),atorRequest.getAnoInicioAtividade(),atorRequest.getStatusCarreira(),TipoDominioException.ATOR);
 
         Ator ator = new Ator(id++,
                     atorRequest.getNome(),
@@ -59,7 +50,7 @@ public class AtorService extends FuncionarioService {
         if(atores.size()>0){
             return atoresEmAtividade;
         } else {
-            throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
+            throw new ListaVaziaException(TipoDominioException.ATOR.singular,TipoDominioException.ATOR.plural);
         }
     }
 
@@ -84,7 +75,7 @@ public class AtorService extends FuncionarioService {
                 throw new FiltroException("Ator",filtroNome);
             }
         } else {
-            throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
+            throw new ListaVaziaException(TipoDominioException.ATOR.singular,TipoDominioException.ATOR.plural);
         }
     }
 
@@ -98,7 +89,7 @@ public class AtorService extends FuncionarioService {
 
         //Não foi pedido explicitamente para verificar este caso aqui neste método, mas acho válido.
         if(atores.isEmpty()){
-            throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
+            throw new ListaVaziaException(TipoDominioException.ATOR.singular,TipoDominioException.ATOR.plural);
         }
 
         List<Ator> atoresAux = atores.stream()
@@ -116,7 +107,7 @@ public class AtorService extends FuncionarioService {
     public List<Ator> consultarAtores() throws ListaVaziaException {
         List<Ator> atores = fakeDatabase.recuperaAtores();
         if(atores.isEmpty()){
-            throw new ListaVaziaException(TipoFuncionarios.ATOR.singular,TipoFuncionarios.ATOR.plural);
+            throw new ListaVaziaException(TipoDominioException.ATOR.singular,TipoDominioException.ATOR.plural);
         } else {
             return atores;
         }
