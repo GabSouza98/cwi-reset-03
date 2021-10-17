@@ -69,18 +69,13 @@ public class AtorService {
         return retorno;
     }
 
-    public Ator consultarAtor(Integer id) throws IdException, CampoVazioException, ListaVaziaException {
+    public Ator consultarAtor(Integer id) throws IdException, CampoVazioException {
 
         if(id==null) {
             throw new CampoVazioException("id");
         }
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
-
-        //Não foi pedido explicitamente para verificar este caso aqui neste método, mas acho válido.
-        if(atores.isEmpty()){
-            throw new ListaVaziaException(TipoDominioException.ATOR.singular,TipoDominioException.ATOR.plural);
-        }
 
         List<Ator> atoresAux = atores.stream()
                 .filter(a -> a.getId() == id)
@@ -89,7 +84,7 @@ public class AtorService {
         if(atoresAux.size() == 1) {
             return atoresAux.get(0);
         } else {
-            throw new IdException("Ator",id);
+            throw new IdException(TipoDominioException.ATOR.getSingular(),id);
         }
     }
 
