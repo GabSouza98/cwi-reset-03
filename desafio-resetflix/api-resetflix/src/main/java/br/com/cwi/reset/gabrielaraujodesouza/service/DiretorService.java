@@ -1,10 +1,13 @@
 package br.com.cwi.reset.gabrielaraujodesouza.service;
 
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.CampoVazioException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.FiltroException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaException;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Diretor;
 import br.com.cwi.reset.gabrielaraujodesouza.request.DiretorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
-import br.com.cwi.reset.gabrielaraujodesouza.response.AtorEmAtividade;
 import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoDiretor;
 
 import java.util.ArrayList;

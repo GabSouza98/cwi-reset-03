@@ -8,21 +8,23 @@ public class Filme {
 
     private Integer id;
     private String nome;
-    private LocalDate anoLancamento;
-    private Image capaFilme; //que diabo é isso? Uma imagem?
+    private Integer anoLancamento;
+    private String capaFilme; //que diabo é isso? Uma imagem?
     private List<Genero> generos;
     private Diretor diretor;
-    private List<PersonagemAtor> personagens;
+    private Estudio estudio;
     private String resumo;
+    private List<PersonagemAtor> personagens;
 
-    public Filme(Integer id, String nome, LocalDate anoLancamento, Image capaFilme, List<Genero> generos, Diretor diretor, List<PersonagemAtor> personagens, String resumo) {
+    public Filme(Integer id, String nome, Integer anoLancamento, String capaFilme, List<Genero> generos, Diretor diretor, Estudio estudio, String resumo, List<PersonagemAtor> personagens) {
         this.id = id;
         this.nome = nome;
         this.anoLancamento = anoLancamento;
         this.capaFilme = capaFilme;
         this.generos = generos;
         this.diretor = diretor;
-        this.personagens = personagens;
+        this.estudio = estudio;
         this.resumo = resumo;
+        this.personagens = personagens;
     }
 }

@@ -1,4 +1,4 @@
-package br.com.cwi.reset.gabrielaraujodesouza.exception;
+package br.com.cwi.reset.gabrielaraujodesouza.exception.ator_e_diretor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

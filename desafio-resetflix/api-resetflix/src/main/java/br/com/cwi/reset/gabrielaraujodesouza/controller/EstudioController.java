@@ -1,13 +1,12 @@
 package br.com.cwi.reset.gabrielaraujodesouza.controller;
 
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.CampoVazioException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.FiltroException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.IdException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.ListaVaziaException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.CampoVazioException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.FiltroException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaException;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
 import br.com.cwi.reset.gabrielaraujodesouza.request.EstudioRequest;
-import br.com.cwi.reset.gabrielaraujodesouza.service.DiretorService;
 import br.com.cwi.reset.gabrielaraujodesouza.service.EstudioService;
 import org.springframework.web.bind.annotation.*;
 

@@ -4,7 +4,8 @@ public enum TipoDominioException {
     DIRETOR("diretores","diretor"),
     ATOR("atores","ator"),
     ESTUDIO("estúdios","estúdio"),
-    FILME("filmes","filme");
+    FILME("filmes","filme"),
+    PERSONAGEM("personagens", "personagem");
 
     public final String plural;
     public final String singular;
