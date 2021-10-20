@@ -8,6 +8,7 @@ import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaExcep
 import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
 import br.com.cwi.reset.gabrielaraujodesouza.request.EstudioRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.service.EstudioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class EstudioController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void criarEstudio(@RequestBody EstudioRequest estudioRequest) throws Exception {
         this.estudioService.criarEstudio(estudioRequest);
     }

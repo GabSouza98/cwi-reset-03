@@ -9,9 +9,7 @@ import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Genero;
 import br.com.cwi.reset.gabrielaraujodesouza.request.PersonagemRequest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class ValidacaoFilme {
 
@@ -54,32 +52,59 @@ public class ValidacaoFilme {
         }
 
         if (idDiretor == null) {
-            throw new NomeVazioException();
+            throw new IdDiretorNullException();
         }
 
-
-
-
-        )
-
-
-
-
-
-
-
-
-        if (statusAtividade == null) {
-            System.out.println("faltou status");
-            throw new StatusAtividadeVazioException();
+        if (idEstudio == null) {
+            throw new IdEstudioNullException();
         }
 
+        if (resumo == null) {
+            throw new ResumoNullException();
+        }
 
+        if (personagens == null) {
+            throw new ListaPersonagensNulaException();
+        } else if (personagens.isEmpty()) {
+            throw new ListaPersonagensVaziaException();
+        }
 
-        for (Estudio e : FakeDatabase.getInstance().recuperaEstudios()) {
-            if (e.getNome().toLowerCase(Locale.ROOT).equals(nome.toLowerCase(Locale.ROOT))) {
-                throw new NomeDuplicadoException(tipoDominioException.getSingular(), nome);
+        for (PersonagemRequest p : personagens) {
+            new ValidacaoPersonagem().accept(p.getIdAtor(),
+                    p.getNomePersonagem(),
+                    p.getDescricaoPersonagem(),
+                    p.getTipoAtuacao());
+        }
+
+        // IMPLEMENTAÇÃO 1
+        for(int i=0;i<personagens.size();i++){
+            for(int j=0;j<personagens.size();j++) {
+                if (i!=j) {
+                    if (personagens.get(i).getIdAtor() == personagens.get(j).getIdAtor()) {
+                        if(personagens.get(i).getNomePersonagem().equals(personagens.get(j).getNomePersonagem())) {
+                            throw new ParAtorPersonagemDuplicadoException();
+                        }
+                    }
+                }
             }
         }
+
+        // IMPLEMENTAÇÃO 2
+//        Set set = new HashSet();
+//        for(PersonagemRequest pRequest : personagens) {
+//            set.add(pRequest.getIdAtor().toString().concat(pRequest.getNomePersonagem()));
+//        }
+//        if (set.size() < personagens.size()) {
+//            throw new ParAtorPersonagemDuplicadoException();
+//        }
+
+
+//
+
+
+
+
+
+
     }
 }

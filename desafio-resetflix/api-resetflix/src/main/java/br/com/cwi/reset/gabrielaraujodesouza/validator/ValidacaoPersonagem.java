@@ -25,5 +25,6 @@ public class ValidacaoPersonagem {
         if (tipoAtuacao == null) {
             throw new TipoAtuacaoVazioException();
         }
+
     }
 }

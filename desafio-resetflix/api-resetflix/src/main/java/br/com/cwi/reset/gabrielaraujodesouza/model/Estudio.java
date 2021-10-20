@@ -1,5 +1,7 @@
 package br.com.cwi.reset.gabrielaraujodesouza.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 
 public class Estudio {
@@ -7,6 +9,7 @@ public class Estudio {
     private Integer id;
     private String nome;
     private String descricao;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate dataCriacao;
     private StatusAtividade statusAtividade;
 

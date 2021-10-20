@@ -1,10 +1,13 @@
 package br.com.cwi.reset.gabrielaraujodesouza.model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 
 public class Ator {
 
     private Integer id;
     private String nome;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate dataNascimento;
     private Integer anoInicioAtividade;
     private StatusCarreira statusCarreira;
