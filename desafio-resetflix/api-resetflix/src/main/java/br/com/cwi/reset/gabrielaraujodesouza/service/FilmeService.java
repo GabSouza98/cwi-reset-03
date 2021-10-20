@@ -1,14 +1,17 @@
 package br.com.cwi.reset.gabrielaraujodesouza.service;
 
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.TipoDominioException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.filme.FilmeNaoEncontradoException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaException;
+import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Filme;
 import br.com.cwi.reset.gabrielaraujodesouza.model.PersonagemAtor;
 import br.com.cwi.reset.gabrielaraujodesouza.request.FilmeRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.request.PersonagemRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoFilme;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class FilmeService {
 
@@ -55,8 +58,67 @@ public class FilmeService {
                 this.estudioService.consultarEstudio(filmeRequest.getIdEstudio()),
                 filmeRequest.getResumo(),
                 personagensDoFilme);
+        this.fakeDatabase.persisteFilme(filme);
     }
 
+    public List<Filme> consultarFilmes(String nomeFilme, String nomeDiretor, String nomePersonagem, String nomeAtor) throws ListaVaziaException, FilmeNaoEncontradoException {
+
+        final List<Filme> filmesCadastrados = fakeDatabase.recuperaFilmes();
+
+        //verifica se há filme cadastrado
+        if (filmesCadastrados.isEmpty()) {
+            throw new ListaVaziaException(TipoDominioException.FILME.getSingular(), TipoDominioException.FILME.getPlural());
+        }
+
+        //verifica o caso mais simples, todos os parametros vazios
+        if (nomeFilme.isEmpty() &&
+                nomeDiretor.isEmpty() &&
+                nomePersonagem.isEmpty() &&
+                nomeAtor.isEmpty()){
+            return filmesCadastrados;
+        }
+
+        final List<Filme> filmesComFiltroNomeFilme = new ArrayList<>();
+        final List<Filme> filmesComFiltroNomeDiretor = new ArrayList<>();
+        final List<Filme> filmesComFiltroNomePersonagem = new ArrayList<>();
+        final List<Filme> filmesComFiltroNomeAtor = new ArrayList<>();
+        final List<Filme> filmesFiltrados = new ArrayList<>();
 
 
+        for(Filme filme : filmesCadastrados) {
+                final boolean containsFilterNomeFilme = filme.getNome().toLowerCase(Locale.ROOT).contains(nomeFilme.toLowerCase(Locale.ROOT));
+                if(containsFilterNomeFilme){
+                    filmesComFiltroNomeFilme.add(filme);
+                }
+                final boolean containsFilterNomeDiretor = filme.getDiretor().getNome().toLowerCase(Locale.ROOT).contains(nomeDiretor.toLowerCase(Locale.ROOT));
+                if(containsFilterNomeDiretor){
+                    filmesComFiltroNomeDiretor.add(filme);
+                }
+            for (PersonagemAtor personagem : filme.getPersonagens()) {
+                    final boolean containsFilterNomePersonagem = personagem.getNomePersonagem().toLowerCase(Locale.ROOT).contains(nomePersonagem.toLowerCase(Locale.ROOT));
+                    if(containsFilterNomePersonagem){
+                        filmesComFiltroNomePersonagem.add(filme);
+                    }
+                    final boolean containsFilterNomeAtor = personagem.getAtor().getNome().toLowerCase(Locale.ROOT).contains(nomeAtor.toLowerCase(Locale.ROOT));
+                    if(containsFilterNomeAtor){
+                        filmesComFiltroNomeAtor.add(filme);
+                    }
+            }
+        }
+
+        for (Filme f : filmesCadastrados) {
+            if(filmesComFiltroNomeFilme.contains(f) &&
+            filmesComFiltroNomeDiretor.contains(f) &&
+            filmesComFiltroNomePersonagem.contains(f) &&
+            filmesComFiltroNomeAtor.contains(f)) {
+                filmesFiltrados.add(f);
+            }
+        }
+
+        if (filmesFiltrados.isEmpty()){
+            throw new FilmeNaoEncontradoException(nomeFilme,nomeDiretor,nomePersonagem,nomeAtor);
+        }
+
+        return filmesFiltrados;
+    }
 }
