@@ -1,5 +1,10 @@
 package br.com.cwi.reset.gabrielaraujodesouza.exception.filme;
 
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 public class FilmeNaoEncontradoException extends Exception{
 
     public FilmeNaoEncontradoException(String nomeFilme, String nomeDiretor, String nomePersonagem, String nomeAtor) {

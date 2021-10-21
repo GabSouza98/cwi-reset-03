@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ListaGenerosVaziaException extends Exception{
     public ListaGenerosVaziaException() {
-        super("A lista de gêneros informada está vazia");
+        super("Deve ser informado pelo menos um gênero para o cadastro do filme.");
     }
 }
 
