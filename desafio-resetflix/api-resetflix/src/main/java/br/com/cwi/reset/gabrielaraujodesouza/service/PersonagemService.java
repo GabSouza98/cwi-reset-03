@@ -10,6 +10,7 @@ import br.com.cwi.reset.gabrielaraujodesouza.model.PersonagemAtor;
 import br.com.cwi.reset.gabrielaraujodesouza.request.PersonagemRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoPersonagem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,23 +25,29 @@ public class PersonagemService {
         this.atorService = new AtorService(FakeDatabase.getInstance());
     }
 
-    public Integer IdUltimoPersonagemCadastrado() {
-        return id - 1;
-    }
+    public List<PersonagemAtor> criarPersonagem(List<PersonagemRequest> personagens) throws Exception {
 
-    public void criarPersonagem(PersonagemRequest personagemRequest) throws Exception {
+        List<PersonagemAtor> listaPersonagemAtor = new ArrayList<>();
 
-        new ValidacaoPersonagem().accept(personagemRequest.getIdAtor(),
-                personagemRequest.getNomePersonagem(),
-                personagemRequest.getDescricaoPersonagem(),
-                personagemRequest.getTipoAtuacao());
+        for(PersonagemRequest personagemRequest : personagens) {
+            new ValidacaoPersonagem().accept(personagemRequest.getIdAtor(),
+                    personagemRequest.getNomePersonagem(),
+                    personagemRequest.getDescricaoPersonagem(),
+                    personagemRequest.getTipoAtuacao());
+            Ator atorTeste = this.atorService.consultarAtor(personagemRequest.getIdAtor());
+        }
 
-        PersonagemAtor personagemAtor = new PersonagemAtor(id++,
-                this.atorService.consultarAtor(personagemRequest.getIdAtor()),
-                personagemRequest.getNomePersonagem(),
-                personagemRequest.getDescricaoPersonagem(),
-                personagemRequest.getTipoAtuacao());
-        fakeDatabase.persistePersonagem(personagemAtor);
+        for(PersonagemRequest personagemRequest : personagens) {
+            Ator atorValidado = this.atorService.consultarAtor(personagemRequest.getIdAtor());
+            PersonagemAtor personagemAtor = new PersonagemAtor(id++,
+                    atorValidado,
+                    personagemRequest.getNomePersonagem(),
+                    personagemRequest.getDescricaoPersonagem(),
+                    personagemRequest.getTipoAtuacao());
+            fakeDatabase.persistePersonagem(personagemAtor);
+            listaPersonagemAtor.add(personagemAtor);
+        }
+        return listaPersonagemAtor;
     }
 
     public PersonagemAtor consultarPersonagem(Integer id) throws IdException, CampoVazioException {
