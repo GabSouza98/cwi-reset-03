@@ -61,6 +61,65 @@ public class FilmeService {
         this.fakeDatabase.persisteFilme(filme);
     }
 
+//    public List<Filme> consultarFilmes(String nomeFilme, String nomeDiretor, String nomePersonagem, String nomeAtor) throws ListaVaziaException, FilmeNaoEncontradoException {
+//
+//        final List<Filme> filmesCadastrados = fakeDatabase.recuperaFilmes();
+//
+//        //verifica se há filme cadastrado
+//        if (filmesCadastrados.isEmpty()) {
+//            throw new ListaVaziaException(TipoDominioException.FILME.getSingular(), TipoDominioException.FILME.getPlural());
+//        }
+//
+//        //verifica o caso mais simples, todos os parametros vazios
+//        if (nomeFilme.isEmpty() &&
+//                nomeDiretor.isEmpty() &&
+//                nomePersonagem.isEmpty() &&
+//                nomeAtor.isEmpty()){
+//            return filmesCadastrados;
+//        }
+//
+//        final List<Filme> filmesComFiltroNomeFilme = new ArrayList<>();
+//        final List<Filme> filmesComFiltroNomeDiretor = new ArrayList<>();
+//        final List<Filme> filmesComFiltroNomePersonagem = new ArrayList<>();
+//        final List<Filme> filmesComFiltroNomeAtor = new ArrayList<>();
+//        final List<Filme> filmesFiltrados = new ArrayList<>();//
+//
+//        for(Filme filme : filmesCadastrados) {
+//                final boolean containsFilterNomeFilme = filme.getNome().toLowerCase(Locale.ROOT).contains(nomeFilme.toLowerCase(Locale.ROOT));
+//                if(containsFilterNomeFilme){
+//                    filmesComFiltroNomeFilme.add(filme);
+//                }
+//                final boolean containsFilterNomeDiretor = filme.getDiretor().getNome().toLowerCase(Locale.ROOT).contains(nomeDiretor.toLowerCase(Locale.ROOT));
+//                if(containsFilterNomeDiretor){
+//                    filmesComFiltroNomeDiretor.add(filme);
+//                }
+//            for (PersonagemAtor personagem : filme.getPersonagens()) {
+//                    final boolean containsFilterNomePersonagem = personagem.getNomePersonagem().toLowerCase(Locale.ROOT).contains(nomePersonagem.toLowerCase(Locale.ROOT));
+//                    if(containsFilterNomePersonagem){
+//                        filmesComFiltroNomePersonagem.add(filme);
+//                    }
+//                    final boolean containsFilterNomeAtor = personagem.getAtor().getNome().toLowerCase(Locale.ROOT).contains(nomeAtor.toLowerCase(Locale.ROOT));
+//                    if(containsFilterNomeAtor){
+//                        filmesComFiltroNomeAtor.add(filme);
+//                    }
+//            }
+//        }
+//
+//        for (Filme f : filmesCadastrados) {
+//            if(filmesComFiltroNomeFilme.contains(f) &&
+//            filmesComFiltroNomeDiretor.contains(f) &&
+//            filmesComFiltroNomePersonagem.contains(f) &&
+//            filmesComFiltroNomeAtor.contains(f)) {
+//                filmesFiltrados.add(f);
+//            }
+//        }
+//
+//        if (filmesFiltrados.isEmpty()){
+//            throw new FilmeNaoEncontradoException(nomeFilme,nomeDiretor,nomePersonagem,nomeAtor);
+//        }
+//
+//        return filmesFiltrados;
+//    }
     public List<Filme> consultarFilmes(String nomeFilme, String nomeDiretor, String nomePersonagem, String nomeAtor) throws ListaVaziaException, FilmeNaoEncontradoException {
 
         final List<Filme> filmesCadastrados = fakeDatabase.recuperaFilmes();
@@ -78,40 +137,42 @@ public class FilmeService {
             return filmesCadastrados;
         }
 
-        final List<Filme> filmesComFiltroNomeFilme = new ArrayList<>();
-        final List<Filme> filmesComFiltroNomeDiretor = new ArrayList<>();
-        final List<Filme> filmesComFiltroNomePersonagem = new ArrayList<>();
-        final List<Filme> filmesComFiltroNomeAtor = new ArrayList<>();
-        final List<Filme> filmesFiltrados = new ArrayList<>();
-
+        List filmesFiltrados = new ArrayList(filmesCadastrados);
 
         for(Filme filme : filmesCadastrados) {
-                final boolean containsFilterNomeFilme = filme.getNome().toLowerCase(Locale.ROOT).contains(nomeFilme.toLowerCase(Locale.ROOT));
-                if(containsFilterNomeFilme){
-                    filmesComFiltroNomeFilme.add(filme);
+            final boolean containsFilterNomeFilme = filme.getNome().toLowerCase(Locale.ROOT).contains(nomeFilme.toLowerCase(Locale.ROOT));
+            if(!containsFilterNomeFilme){
+                if(filmesFiltrados.contains(filme)){
+                    filmesFiltrados.remove(filme);
                 }
-                final boolean containsFilterNomeDiretor = filme.getDiretor().getNome().toLowerCase(Locale.ROOT).contains(nomeDiretor.toLowerCase(Locale.ROOT));
-                if(containsFilterNomeDiretor){
-                    filmesComFiltroNomeDiretor.add(filme);
-                }
-            for (PersonagemAtor personagem : filme.getPersonagens()) {
-                    final boolean containsFilterNomePersonagem = personagem.getNomePersonagem().toLowerCase(Locale.ROOT).contains(nomePersonagem.toLowerCase(Locale.ROOT));
-                    if(containsFilterNomePersonagem){
-                        filmesComFiltroNomePersonagem.add(filme);
-                    }
-                    final boolean containsFilterNomeAtor = personagem.getAtor().getNome().toLowerCase(Locale.ROOT).contains(nomeAtor.toLowerCase(Locale.ROOT));
-                    if(containsFilterNomeAtor){
-                        filmesComFiltroNomeAtor.add(filme);
-                    }
             }
-        }
-
-        for (Filme f : filmesCadastrados) {
-            if(filmesComFiltroNomeFilme.contains(f) &&
-            filmesComFiltroNomeDiretor.contains(f) &&
-            filmesComFiltroNomePersonagem.contains(f) &&
-            filmesComFiltroNomeAtor.contains(f)) {
-                filmesFiltrados.add(f);
+            final boolean containsFilterNomeDiretor = filme.getDiretor().getNome().toLowerCase(Locale.ROOT).contains(nomeDiretor.toLowerCase(Locale.ROOT));
+            if(!containsFilterNomeDiretor){
+                if(filmesFiltrados.contains(filme)){
+                    filmesFiltrados.remove(filme);
+                }
+            }
+            boolean contemPersonagem = false;
+            boolean contemAtor = false;
+            for (PersonagemAtor personagem : filme.getPersonagens()) {
+                final boolean containsFilterNomePersonagem = personagem.getNomePersonagem().toLowerCase(Locale.ROOT).contains(nomePersonagem.toLowerCase(Locale.ROOT));
+                if(containsFilterNomePersonagem){
+                    contemPersonagem = true;
+                }
+                final boolean containsFilterNomeAtor = personagem.getAtor().getNome().toLowerCase(Locale.ROOT).contains(nomeAtor.toLowerCase(Locale.ROOT));
+                if(containsFilterNomeAtor){
+                    contemAtor = true;
+                }
+            }
+            if(!contemPersonagem) {
+                if(filmesFiltrados.contains(filme)){
+                    filmesFiltrados.remove(filme);
+                }
+            }
+            if(!contemAtor) {
+                if(filmesFiltrados.contains(filme)){
+                    filmesFiltrados.remove(filme);
+                }
             }
         }
 
