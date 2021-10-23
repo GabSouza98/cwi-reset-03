@@ -1,10 +1,12 @@
 package br.com.cwi.reset.projeto1.repository;
 
 import br.com.cwi.reset.projeto1.domain.Filme;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class FilmeRepository {
 
     private List<Filme> filmes = new ArrayList<>();
