@@ -28,11 +28,11 @@ public class DiretorService {
 
         new ValidacaoDiretor().accept(diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade(), TipoDominioException.DIRETOR);
 
-        Diretor diretor = new Diretor(id++,
-                diretorRequest.getNome(),
-                diretorRequest.getDataNascimento(),
-                diretorRequest.getAnoInicioAtividade());
-        this.fakeDatabase.persisteDiretor(diretor);
+//        Diretor diretor = new Diretor(id++,
+//                diretorRequest.getNome(),
+//                diretorRequest.getDataNascimento(),
+//                diretorRequest.getAnoInicioAtividade());
+//        this.fakeDatabase.persisteDiretor(diretor);
     }
 
     public List<Diretor> listarDiretores(String filtroNome) throws ListaVaziaException, FiltroException {

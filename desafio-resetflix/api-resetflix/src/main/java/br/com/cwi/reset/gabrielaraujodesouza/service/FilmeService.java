@@ -44,16 +44,16 @@ public class FilmeService {
         Estudio estudio = this.estudioService.consultarEstudio(filmeRequest.getIdEstudio());
         List<PersonagemAtor> personagemAtor = this.personagemService.criarPersonagem(filmeRequest.getPersonagens());
 
-        Filme filme = new Filme(id++,
-                filmeRequest.getNome(),
-                filmeRequest.getAnoLancamento(),
-                filmeRequest.getCapaFilme(),
-                filmeRequest.getGeneros(),
-                diretor,
-                estudio,
-                filmeRequest.getResumo(),
-                personagemAtor);
-        this.fakeDatabase.persisteFilme(filme);
+//        Filme filme = new Filme(id++,
+//                filmeRequest.getNome(),
+//                filmeRequest.getAnoLancamento(),
+//                filmeRequest.getCapaFilme(),
+//                filmeRequest.getGeneros(),
+//                diretor,
+//                estudio,
+//                filmeRequest.getResumo(),
+//                personagemAtor);
+//        this.fakeDatabase.persisteFilme(filme);
     }
 
     public List<Filme> consultarFilmes(String nomeFilme, String nomeDiretor, String nomePersonagem, String nomeAtor) throws ListaVaziaException, FilmeNaoEncontradoException {

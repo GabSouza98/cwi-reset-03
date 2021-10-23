@@ -39,13 +39,13 @@ public class PersonagemService {
 
         for(PersonagemRequest personagemRequest : personagens) {
             Ator atorValidado = this.atorService.consultarAtor(personagemRequest.getIdAtor());
-            PersonagemAtor personagemAtor = new PersonagemAtor(id++,
-                    atorValidado,
-                    personagemRequest.getNomePersonagem(),
-                    personagemRequest.getDescricaoPersonagem(),
-                    personagemRequest.getTipoAtuacao());
-            fakeDatabase.persistePersonagem(personagemAtor);
-            listaPersonagemAtor.add(personagemAtor);
+//            PersonagemAtor personagemAtor = new PersonagemAtor(id++,
+//                    atorValidado,
+//                    personagemRequest.getNomePersonagem(),
+//                    personagemRequest.getDescricaoPersonagem(),
+//                    personagemRequest.getTipoAtuacao());
+//            fakeDatabase.persistePersonagem(personagemAtor);
+//            listaPersonagemAtor.add(personagemAtor);
         }
         return listaPersonagemAtor;
     }

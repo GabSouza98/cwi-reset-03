@@ -1,27 +1,31 @@
 package br.com.cwi.reset.gabrielaraujodesouza.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
+@Entity
 public class Ator {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
     @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate dataNascimento;
-    private Integer anoInicioAtividade;
+    @Enumerated(EnumType.STRING)
     private StatusCarreira statusCarreira;
+    private Integer anoInicioAtividade;
 
-    public Ator(Integer id, String nome, LocalDate dataNascimento, Integer anoInicioAtividade, StatusCarreira statusCarreira) {
-        this.id = id;
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.anoInicioAtividade = anoInicioAtividade;
-        this.statusCarreira = statusCarreira;
+    public Ator() {
     }
 
-    public StatusCarreira getStatusCarreira() {
-        return statusCarreira;
+    public Ator(String nome, LocalDate dataNascimento, StatusCarreira statusCarreira, Integer anoInicioAtividade) {
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.statusCarreira = statusCarreira;
+        this.anoInicioAtividade = anoInicioAtividade;
     }
 
     public Integer getId() {
@@ -36,8 +40,25 @@ public class Ator {
         return dataNascimento;
     }
 
+    public StatusCarreira getStatusCarreira() {
+        return statusCarreira;
+    }
+
     public Integer getAnoInicioAtividade() {
         return anoInicioAtividade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ator ator = (Ator) o;
+        return Objects.equals(id, ator.id) && Objects.equals(nome, ator.nome) && Objects.equals(dataNascimento, ator.dataNascimento) && statusCarreira == ator.statusCarreira && Objects.equals(anoInicioAtividade, ator.anoInicioAtividade);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, dataNascimento, statusCarreira, anoInicioAtividade);
     }
 
     public void setId(Integer id) {
@@ -52,11 +73,11 @@ public class Ator {
         this.dataNascimento = dataNascimento;
     }
 
-    public void setAnoInicioAtividade(Integer anoInicioAtividade) {
-        this.anoInicioAtividade = anoInicioAtividade;
-    }
-
     public void setStatusCarreira(StatusCarreira statusCarreira) {
         this.statusCarreira = statusCarreira;
+    }
+
+    public void setAnoInicioAtividade(Integer anoInicioAtividade) {
+        this.anoInicioAtividade = anoInicioAtividade;
     }
 }

@@ -32,12 +32,12 @@ public class EstudioService {
                 estudioRequest.getStatusAtividade(),
                 TipoDominioException.ESTUDIO);
 
-        Estudio estudio = new Estudio(id++,
-                estudioRequest.getNome(),
-                estudioRequest.getDescricao(),
-                estudioRequest.getDataCriacao(),
-                estudioRequest.getStatusAtividade());
-        this.fakeDatabase.persisteEstudio(estudio);
+//        Estudio estudio = new Estudio(id++,
+//                estudioRequest.getNome(),
+//                estudioRequest.getDescricao(),
+//                estudioRequest.getDataCriacao(),
+//                estudioRequest.getStatusAtividade());
+//        this.fakeDatabase.persisteEstudio(estudio);
     }
 
     public List<Estudio> consultarEstudios(String filtroNome) throws ListaVaziaException, FiltroException {

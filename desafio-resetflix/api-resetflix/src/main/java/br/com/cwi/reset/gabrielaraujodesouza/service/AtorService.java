@@ -5,19 +5,27 @@ import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.FiltroException
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaException;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
+import br.com.cwi.reset.gabrielaraujodesouza.repository.AtorRepository;
 import br.com.cwi.reset.gabrielaraujodesouza.request.AtorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.model.StatusCarreira;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 import br.com.cwi.reset.gabrielaraujodesouza.response.AtorEmAtividade;
 import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoAtor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+@Service
 public class AtorService {
+
+    @Autowired
+    private AtorRepository atorRepository;
+
 
     private static Integer id = 1;
     private FakeDatabase fakeDatabase;
@@ -30,12 +38,12 @@ public class AtorService {
 
         new ValidacaoAtor().accept(atorRequest.getNome(),atorRequest.getDataNascimento(),atorRequest.getAnoInicioAtividade(),atorRequest.getStatusCarreira(),TipoDominioException.ATOR);
 
-        Ator ator = new Ator(id++,
-                    atorRequest.getNome(),
-                    atorRequest.getDataNascimento(),
-                    atorRequest.getAnoInicioAtividade(),
-                    atorRequest.getStatusCarreira());
-        this.fakeDatabase.persisteAtor(ator);
+//        Ator ator = new Ator(id++,
+//                    atorRequest.getNome(),
+//                    atorRequest.getDataNascimento(),
+//                    atorRequest.getAnoInicioAtividade(),
+//                    atorRequest.getStatusCarreira());
+//        this.fakeDatabase.persisteAtor(ator);
     }
 
     public List<AtorEmAtividade> listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {

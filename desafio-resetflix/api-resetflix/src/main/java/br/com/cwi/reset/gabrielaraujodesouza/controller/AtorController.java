@@ -9,6 +9,7 @@ import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
 import br.com.cwi.reset.gabrielaraujodesouza.request.AtorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.response.AtorEmAtividade;
 import br.com.cwi.reset.gabrielaraujodesouza.service.AtorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +19,8 @@ import java.util.List;
 @RequestMapping("/atores")
 public class AtorController {
 
+    @Autowired
     private AtorService atorService;
-    public AtorController() {
-        this.atorService = new AtorService(FakeDatabase.getInstance());
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
