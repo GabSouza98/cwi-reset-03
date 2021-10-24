@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/atores")
@@ -33,16 +34,16 @@ public class AtorController {
     public List<Ator> consultarAtores() throws ListaVaziaException {
         return this.atorService.consultarAtores();
     }
-//
-//    @GetMapping("/em_atividade")
-//    public List<AtorEmAtividade> listarAtoresEmAtividade(@RequestParam(required = false) String filtroNome) throws ListaVaziaException, FiltroException {
-//        return this.atorService.listarAtoresEmAtividade(filtroNome);
-//    }
-//
-//    @GetMapping("/{id}")
-//    public Ator consultarAtor(@PathVariable Integer id) throws CampoVazioException, IdException {
-//        return this.atorService.consultarAtor(id);
-//    }
+
+    @GetMapping("/em_atividade")
+    public List<AtorEmAtividade> listarAtoresEmAtividade(@RequestParam(required = false) String filtroNome) throws ListaVaziaException, FiltroException {
+        return this.atorService.listarAtoresEmAtividade(filtroNome);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Ator> consultarAtor(@PathVariable(required = true) Integer id) throws CampoVazioException, IdException {
+        return this.atorService.consultarAtor(id);
+    }
 
 
 }
