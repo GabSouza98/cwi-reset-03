@@ -19,7 +19,6 @@ public class DiretorService {
 
     private static Integer id = 1;
     private FakeDatabase fakeDatabase;
-
     public DiretorService(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
     }

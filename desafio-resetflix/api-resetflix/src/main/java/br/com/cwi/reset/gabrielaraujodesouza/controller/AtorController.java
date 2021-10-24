@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class AtorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarAtor(@RequestBody AtorRequest atorRequest) throws Exception {
+    public void criarAtor(@Valid @RequestBody AtorRequest atorRequest) throws Exception {
         this.atorService.criarAtor(atorRequest);
     }
 
@@ -32,19 +33,16 @@ public class AtorController {
     public List<Ator> consultarAtores() throws ListaVaziaException {
         return this.atorService.consultarAtores();
     }
-
-    @GetMapping("/em_atividade")
-    public List<AtorEmAtividade> listarAtoresEmAtividade(@RequestParam(required = false) String filtroNome) throws ListaVaziaException, FiltroException {
-        return this.atorService.listarAtoresEmAtividade(filtroNome);
-    }
-
-    @GetMapping("/{id}")
-    public Ator consultarAtor(@PathVariable Integer id) throws CampoVazioException, IdException {
-        return this.atorService.consultarAtor(id);
-    }
-
-
-
+//
+//    @GetMapping("/em_atividade")
+//    public List<AtorEmAtividade> listarAtoresEmAtividade(@RequestParam(required = false) String filtroNome) throws ListaVaziaException, FiltroException {
+//        return this.atorService.listarAtoresEmAtividade(filtroNome);
+//    }
+//
+//    @GetMapping("/{id}")
+//    public Ator consultarAtor(@PathVariable Integer id) throws CampoVazioException, IdException {
+//        return this.atorService.consultarAtor(id);
+//    }
 
 
 }

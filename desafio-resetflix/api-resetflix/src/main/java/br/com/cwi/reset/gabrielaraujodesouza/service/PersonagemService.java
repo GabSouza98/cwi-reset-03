@@ -20,9 +20,10 @@ public class PersonagemService {
     private FakeDatabase fakeDatabase;
     private AtorService atorService;
 
+
     public PersonagemService(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
-        this.atorService = new AtorService(FakeDatabase.getInstance());
+//        this.atorService = new AtorService(FakeDatabase.getInstance());
     }
 
     public List<PersonagemAtor> criarPersonagem(List<PersonagemRequest> personagens) throws Exception {
@@ -34,11 +35,11 @@ public class PersonagemService {
                     personagemRequest.getNomePersonagem(),
                     personagemRequest.getDescricaoPersonagem(),
                     personagemRequest.getTipoAtuacao());
-            Ator atorTeste = this.atorService.consultarAtor(personagemRequest.getIdAtor());
+//            Ator atorTeste = this.atorService.consultarAtor(personagemRequest.getIdAtor());
         }
 
         for(PersonagemRequest personagemRequest : personagens) {
-            Ator atorValidado = this.atorService.consultarAtor(personagemRequest.getIdAtor());
+//            Ator atorValidado = this.atorService.consultarAtor(personagemRequest.getIdAtor());
 //            PersonagemAtor personagemAtor = new PersonagemAtor(id++,
 //                    atorValidado,
 //                    personagemRequest.getNomePersonagem(),
