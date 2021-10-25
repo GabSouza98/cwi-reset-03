@@ -8,23 +8,24 @@ import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaExcep
 import br.com.cwi.reset.gabrielaraujodesouza.model.Diretor;
 import br.com.cwi.reset.gabrielaraujodesouza.request.DiretorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.service.DiretorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/diretores")
 public class DiretorController {
 
+    @Autowired
     private DiretorService diretorService;
-    public DiretorController() {
-        this.diretorService = new DiretorService(FakeDatabase.getInstance());
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void cadastrarDiretor(@RequestBody DiretorRequest diretorRequest) throws Exception {
+    public void cadastrarDiretor(@Valid @RequestBody DiretorRequest diretorRequest) throws Exception {
         this.diretorService.cadastrarDiretor(diretorRequest);
     }
 
@@ -34,7 +35,7 @@ public class DiretorController {
     }
 
     @GetMapping("/{id}")
-    public Diretor consultarDiretor(@PathVariable Integer id) throws ListaVaziaException, CampoVazioException, IdException {
+    public Optional<Diretor> consultarDiretor(@PathVariable Integer id) throws ListaVaziaException, CampoVazioException, IdException {
         return this.diretorService.consultarDiretor(id);
     }
 

@@ -27,28 +27,22 @@ public class AtorService {
 
     ModelMapper modelMapper = new ModelMapper();
 
-
     public void criarAtor(AtorRequest atorRequest) throws Exception {
 
         new ValidacaoAtor().accept(atorRequest.getNome(), atorRequest.getDataNascimento(), atorRequest.getAnoInicioAtividade(), TipoDominioException.ATOR);
 
-        for(Ator a : atorRepository.findAll()){
-            if (a.getNome().toLowerCase(Locale.ROOT).equals(atorRequest.getNome().toLowerCase(Locale.ROOT))) {
-                throw new NomeDuplicadoException(TipoDominioException.ATOR.getSingular(), atorRequest.getNome());
-            }
+        if(atorRepository.findByNomeEqualsIgnoreCase(atorRequest.getNome()) != null) {
+            throw new NomeDuplicadoException(TipoDominioException.ATOR.getSingular(), atorRequest.getNome());
         }
 
-        Ator ator = new Ator(
-                    atorRequest.getNome(),
-                    atorRequest.getDataNascimento(),
-                    atorRequest.getStatusCarreira(),
-                    atorRequest.getAnoInicioAtividade()
-                    );
-
-        //Ator ator = modelMapper.map(atorRequest, Ator.class);
-
+//        Ator ator = new Ator(
+//                    atorRequest.getNome(),
+//                    atorRequest.getDataNascimento(),
+//                    atorRequest.getStatusCarreira(),
+//                    atorRequest.getAnoInicioAtividade()
+//                    );
+        Ator ator = modelMapper.map(atorRequest, Ator.class);
         atorRepository.save(ator);
-
     }
 
     public List<AtorEmAtividade> listarAtoresEmAtividade(String filtroNome) throws ListaVaziaException, FiltroException {
@@ -66,17 +60,17 @@ public class AtorService {
             for (Ator ator : atorRepository.findByStatusCarreiraAndNomeContainingIgnoreCase(StatusCarreira.EM_ATIVIDADE, filtroNome)){
                 retorno.add(new AtorEmAtividade(ator.getId(), ator.getNome(), ator.getDataNascimento()));
             }
+            if (retorno.isEmpty()) {
+                throw new FiltroException("Ator", filtroNome);
+            }
+            return retorno;
 
         } else {
             for (Ator ator : atorRepository.findByStatusCarreira(StatusCarreira.EM_ATIVIDADE)){
                 retorno.add(new AtorEmAtividade(ator.getId(), ator.getNome(), ator.getDataNascimento()));
             }
+            return retorno;
         }
-
-        if (retorno.isEmpty()) {
-            throw new FiltroException("Ator", filtroNome);
-        }
-        return retorno;
     }
 
     public Optional<Ator> consultarAtor(Integer id) throws IdException, CampoVazioException {
@@ -84,19 +78,6 @@ public class AtorService {
         if(id==null) {
             throw new CampoVazioException("id");
         }
-
-
-//        List<Ator> atores = fakeDatabase.recuperaAtores();
-//
-//        List<Ator> atoresAux = atores.stream()
-//                .filter(a -> a.getId() == id)
-//                .collect(Collectors.toList());
-//
-//        if(atoresAux.size() == 1) {
-//            return atoresAux.get(0);
-//        } else {
-//            throw new IdException(TipoDominioException.ATOR.getSingular(),id);
-//        }
 
         Optional<Ator> atorProcurado = atorRepository.findById(id);
         if((!atorProcurado.isPresent())){

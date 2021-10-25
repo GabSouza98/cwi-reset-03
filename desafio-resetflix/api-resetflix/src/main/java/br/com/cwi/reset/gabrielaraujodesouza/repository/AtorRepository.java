@@ -14,13 +14,11 @@ import java.util.Optional;
 @Repository
 public interface AtorRepository extends CrudRepository<Ator,Integer> {
 
-    Ator findByNome(String nome);
     Optional<Ator> findById(Integer id);
-
     Ator save(Ator ator);
     void delete(Ator ator);
     List<Ator> findAll();
-    List<Ator> findByNomeContainingIgnoreCase(String nome);
+    Ator findByNomeEqualsIgnoreCase(String nome);
     List<Ator> findByStatusCarreira (StatusCarreira statusCarreira);
     List<Ator> findByStatusCarreiraAndNomeContainingIgnoreCase (StatusCarreira statusCarreira, String nome);
 

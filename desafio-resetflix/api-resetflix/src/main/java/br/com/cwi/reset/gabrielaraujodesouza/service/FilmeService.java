@@ -25,7 +25,7 @@ public class FilmeService {
     public FilmeService(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
         this.estudioService = new EstudioService(FakeDatabase.getInstance());
-        this.diretorService = new DiretorService(FakeDatabase.getInstance());
+//        this.diretorService = new DiretorService(FakeDatabase.getInstance());
         this.personagemService = new PersonagemService(FakeDatabase.getInstance());
     }
 
@@ -40,7 +40,7 @@ public class FilmeService {
                 filmeRequest.getResumo(),
                 filmeRequest.getPersonagens());
 
-        Diretor diretor = this.diretorService.consultarDiretor(filmeRequest.getIdDiretor());
+//        Diretor diretor = this.diretorService.consultarDiretor(filmeRequest.getIdDiretor());
         Estudio estudio = this.estudioService.consultarEstudio(filmeRequest.getIdEstudio());
         List<PersonagemAtor> personagemAtor = this.personagemService.criarPersonagem(filmeRequest.getPersonagens());
 
