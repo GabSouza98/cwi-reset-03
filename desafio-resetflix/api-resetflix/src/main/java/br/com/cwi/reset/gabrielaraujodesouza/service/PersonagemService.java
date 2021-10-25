@@ -7,24 +7,24 @@ import br.com.cwi.reset.gabrielaraujodesouza.exception.TipoDominioException;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
 import br.com.cwi.reset.gabrielaraujodesouza.model.PersonagemAtor;
+import br.com.cwi.reset.gabrielaraujodesouza.repository.PersonagemRepository;
 import br.com.cwi.reset.gabrielaraujodesouza.request.PersonagemRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoPersonagem;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class PersonagemService {
 
-    private static Integer id = 1;
-    private FakeDatabase fakeDatabase;
+    @Autowired
     private AtorService atorService;
-
-
-    public PersonagemService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-//        this.atorService = new AtorService(FakeDatabase.getInstance());
-    }
+    @Autowired
+    private PersonagemRepository personagemRepository;
 
     public List<PersonagemAtor> criarPersonagem(List<PersonagemRequest> personagens) throws Exception {
 
@@ -35,38 +35,37 @@ public class PersonagemService {
                     personagemRequest.getNomePersonagem(),
                     personagemRequest.getDescricaoPersonagem(),
                     personagemRequest.getTipoAtuacao());
-//            Ator atorTeste = this.atorService.consultarAtor(personagemRequest.getIdAtor());
+            Ator validaAtor = this.atorService.consultarAtor(personagemRequest.getIdAtor());
         }
 
         for(PersonagemRequest personagemRequest : personagens) {
-//            Ator atorValidado = this.atorService.consultarAtor(personagemRequest.getIdAtor());
-//            PersonagemAtor personagemAtor = new PersonagemAtor(id++,
-//                    atorValidado,
-//                    personagemRequest.getNomePersonagem(),
-//                    personagemRequest.getDescricaoPersonagem(),
-//                    personagemRequest.getTipoAtuacao());
-//            fakeDatabase.persistePersonagem(personagemAtor);
-//            listaPersonagemAtor.add(personagemAtor);
+            PersonagemAtor personagemAtor = new PersonagemAtor(
+                    this.atorService.consultarAtor(personagemRequest.getIdAtor()),
+                    personagemRequest.getNomePersonagem(),
+                    personagemRequest.getDescricaoPersonagem(),
+                    personagemRequest.getTipoAtuacao());
+            personagemRepository.save(personagemAtor);
+            listaPersonagemAtor.add(personagemAtor);
         }
         return listaPersonagemAtor;
     }
 
-    public PersonagemAtor consultarPersonagem(Integer id) throws IdException, CampoVazioException {
-
-        if(id==null) {
-            throw new CampoVazioException("id");
-        }
-
-        List<PersonagemAtor> personagens = fakeDatabase.recuperaPersonagens();
-        List<PersonagemAtor> personagensAux = personagens.stream()
-                .filter(a -> a.getId() == id)
-                .collect(Collectors.toList());
-
-        if(personagensAux.size() == 1) {
-            return personagensAux.get(0);
-        } else {
-            throw new IdException(TipoDominioException.PERSONAGEM.getSingular(), id);
-        }
-    }
+//    public PersonagemAtor consultarPersonagem(Integer id) throws IdException, CampoVazioException {
+//
+//        if(id==null) {
+//            throw new CampoVazioException("id");
+//        }
+//
+//        List<PersonagemAtor> personagens = fakeDatabase.recuperaPersonagens();
+//        List<PersonagemAtor> personagensAux = personagens.stream()
+//                .filter(a -> a.getId() == id)
+//                .collect(Collectors.toList());
+//
+//        if(personagensAux.size() == 1) {
+//            return personagensAux.get(0);
+//        } else {
+//            throw new IdException(TipoDominioException.PERSONAGEM.getSingular(), id);
+//        }
+//    }
 
 }

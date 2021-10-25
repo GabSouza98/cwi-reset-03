@@ -54,7 +54,7 @@ public class ValidacaoFilme {
             for(int j=0;j<personagens.size();j++) {
                 if (i!=j) {
                     if (personagens.get(i).getIdAtor() == personagens.get(j).getIdAtor()) {
-                        if(personagens.get(i).getNomePersonagem().equals(personagens.get(j).getNomePersonagem())) {
+                        if(personagens.get(i).getNomePersonagem().toLowerCase(Locale.ROOT).equals(personagens.get(j).getNomePersonagem().toLowerCase(Locale.ROOT))) {
                             throw new ParAtorPersonagemDuplicadoException();
                         }
                     }

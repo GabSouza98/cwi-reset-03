@@ -30,8 +30,6 @@ public class FilmeService {
     @Autowired
     private FilmeRepository filmeRepository;
 
-    ModelMapper modelMapper = new ModelMapper();
-
     public void criarFilme(FilmeRequest filmeRequest) throws Exception {
 
         new ValidacaoFilme().accept(filmeRequest.getNome(),
@@ -58,7 +56,6 @@ public class FilmeService {
                 personagemAtor,
                 filmeRequest.getResumo());
         filmeRepository.save(filme);
-
 
     }
 //
