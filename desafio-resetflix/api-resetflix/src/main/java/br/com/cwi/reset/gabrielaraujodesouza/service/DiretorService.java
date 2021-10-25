@@ -39,6 +39,7 @@ public class DiretorService {
 //                diretorRequest.getNome(),
 //                diretorRequest.getDataNascimento(),
 //                diretorRequest.getAnoInicioAtividade());
+
         Diretor diretor = modelMapper.map(diretorRequest, Diretor.class);
         diretorRepository.save(diretor);
     }
@@ -71,10 +72,11 @@ public class DiretorService {
         }
 
         Optional<Diretor> diretorProcurado = diretorRepository.findById(id);
-        if((!diretorProcurado.isPresent())){
-            throw new IdException(TipoDominioException.DIRETOR.getSingular(),id);
-        } else{
+
+        if((diretorProcurado.isPresent())){
             return diretorProcurado;
+        } else{
+            throw new IdException(TipoDominioException.DIRETOR.getSingular(),id);
         }
     }
 }

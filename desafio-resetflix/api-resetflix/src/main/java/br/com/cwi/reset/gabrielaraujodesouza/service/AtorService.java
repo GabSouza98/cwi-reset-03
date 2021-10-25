@@ -80,10 +80,10 @@ public class AtorService {
         }
 
         Optional<Ator> atorProcurado = atorRepository.findById(id);
-        if((!atorProcurado.isPresent())){
-            throw new IdException(TipoDominioException.ATOR.getSingular(),id);
-        } else{
+        if((atorProcurado.isPresent())){
             return atorProcurado;
+        } else{
+            throw new IdException(TipoDominioException.ATOR.getSingular(),id);
         }
     }
 

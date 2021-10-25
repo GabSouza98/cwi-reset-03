@@ -1,89 +1,76 @@
 package br.com.cwi.reset.gabrielaraujodesouza.service;
 
-import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.CampoVazioException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.FiltroException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.*;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
+import br.com.cwi.reset.gabrielaraujodesouza.repository.EstudioRepository;
 import br.com.cwi.reset.gabrielaraujodesouza.request.EstudioRequest;
-import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoEstudio;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class EstudioService {
 
-    private static Integer id = 1;
-    private FakeDatabase fakeDatabase;
+    @Autowired
+    private EstudioRepository estudioRepository;
 
-    public EstudioService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-    }
+    ModelMapper modelMapper = new ModelMapper();
 
     public void criarEstudio(EstudioRequest estudioRequest) throws Exception {
 
-        new ValidacaoEstudio().accept(estudioRequest.getNome(),
-                estudioRequest.getDescricao(),
-                estudioRequest.getDataCriacao(),
-                estudioRequest.getStatusAtividade(),
-                TipoDominioException.ESTUDIO);
+        if(estudioRepository.findByNomeEqualsIgnoreCase(estudioRequest.getNome()) != null) {
+            throw new NomeDuplicadoException(TipoDominioException.ESTUDIO.getSingular(), estudioRequest.getNome());
+        }
 
-//        Estudio estudio = new Estudio(id++,
+//        Estudio estudio = new Estudio(
 //                estudioRequest.getNome(),
 //                estudioRequest.getDescricao(),
 //                estudioRequest.getDataCriacao(),
 //                estudioRequest.getStatusAtividade());
-//        this.fakeDatabase.persisteEstudio(estudio);
+
+        Estudio estudio = modelMapper.map(estudioRequest, Estudio.class);
+        estudioRepository.save(estudio);
     }
 
     public List<Estudio> consultarEstudios(String filtroNome) throws ListaVaziaException, FiltroException {
 
-        final List<Estudio> estudiosCadastrados = fakeDatabase.recuperaEstudios();
-
-        if (estudiosCadastrados.isEmpty()) {
+        if (estudioRepository.findAll().isEmpty()) {
             throw new ListaVaziaException(TipoDominioException.ESTUDIO.getSingular(), TipoDominioException.ESTUDIO.getPlural());
         }
 
         final List<Estudio> retorno = new ArrayList<>();
 
         if(filtroNome!=null){
-            for(Estudio estudio : estudiosCadastrados) {
-                final boolean containsFilter = estudio.getNome().toLowerCase(Locale.ROOT).contains(filtroNome.toLowerCase(Locale.ROOT));
-                if(containsFilter){
-                    retorno.add(estudio);
-                }
+            for(Estudio estudio : estudioRepository.findByNomeContainingIgnoreCase(filtroNome)) {
+                retorno.add(estudio);
             }
+            if(retorno.isEmpty()){
+                throw new FiltroException("Estudio", filtroNome);
+            }
+            return retorno;
         } else {
-            return estudiosCadastrados;
+            return estudioRepository.findAll();
         }
-
-        if(retorno.size()<1){
-            throw new FiltroException("Estúdio",filtroNome);
-        }
-        return retorno;
     }
 
-    public Estudio consultarEstudio(Integer id) throws IdException, CampoVazioException {
+    public Optional<Estudio> consultarEstudio(Integer id) throws IdException, CampoVazioException {
 
         if(id==null) {
             throw new CampoVazioException("id");
         }
 
-        List<Estudio> estudios = fakeDatabase.recuperaEstudios();
-        List<Estudio> estudiosAux = estudios.stream()
-                .filter(a -> a.getId() == id)
-                .collect(Collectors.toList());
+        Optional<Estudio> estudioProcurado = estudioRepository.findById(id);
 
-        if(estudiosAux.size() == 1) {
-            return estudiosAux.get(0);
+        if(estudioProcurado.isPresent()) {
+            return estudioProcurado;
         } else {
-            throw new IdException(TipoDominioException.ESTUDIO.getSingular(), id);
+            throw new IdException(TipoDominioException.ESTUDIO.getSingular(),id);
         }
     }
-
-
 }
