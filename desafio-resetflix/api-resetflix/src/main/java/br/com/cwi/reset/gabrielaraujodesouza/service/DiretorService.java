@@ -65,16 +65,16 @@ public class DiretorService {
         }
     }
 
-    public Optional<Diretor> consultarDiretor(Integer id) throws IdException, CampoVazioException {
+    public Diretor consultarDiretor(Integer id) throws IdException, CampoVazioException {
 
         if(id==null) {
             throw new CampoVazioException("id");
         }
 
-        Optional<Diretor> diretorProcurado = diretorRepository.findById(id);
+        Optional<Diretor> optionalDiretorProcurado = diretorRepository.findById(id);
 
-        if((diretorProcurado.isPresent())){
-            return diretorProcurado;
+        if((optionalDiretorProcurado.isPresent())){
+            return optionalDiretorProcurado.get();
         } else{
             throw new IdException(TipoDominioException.DIRETOR.getSingular(),id);
         }

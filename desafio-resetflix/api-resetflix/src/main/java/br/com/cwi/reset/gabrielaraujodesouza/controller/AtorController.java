@@ -41,7 +41,7 @@ public class AtorController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Ator> consultarAtor(@PathVariable(required = true) Integer id) throws CampoVazioException, IdException {
+    public Ator consultarAtor(@PathVariable(required = true) Integer id) throws CampoVazioException, IdException {
         return this.atorService.consultarAtor(id);
     }
 

@@ -35,7 +35,7 @@ public class DiretorController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Diretor> consultarDiretor(@PathVariable Integer id) throws ListaVaziaException, CampoVazioException, IdException {
+    public Diretor consultarDiretor(@PathVariable Integer id) throws ListaVaziaException, CampoVazioException, IdException {
         return this.diretorService.consultarDiretor(id);
     }
 

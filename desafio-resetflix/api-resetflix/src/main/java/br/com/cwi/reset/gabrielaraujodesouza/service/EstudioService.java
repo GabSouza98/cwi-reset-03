@@ -59,16 +59,16 @@ public class EstudioService {
         }
     }
 
-    public Optional<Estudio> consultarEstudio(Integer id) throws IdException, CampoVazioException {
+    public Estudio consultarEstudio(Integer id) throws IdException, CampoVazioException {
 
         if(id==null) {
             throw new CampoVazioException("id");
         }
 
-        Optional<Estudio> estudioProcurado = estudioRepository.findById(id);
+        Optional<Estudio> optionalEstudioProcurado = estudioRepository.findById(id);
 
-        if(estudioProcurado.isPresent()) {
-            return estudioProcurado;
+        if(optionalEstudioProcurado.isPresent()) {
+            return optionalEstudioProcurado.get();
         } else {
             throw new IdException(TipoDominioException.ESTUDIO.getSingular(),id);
         }

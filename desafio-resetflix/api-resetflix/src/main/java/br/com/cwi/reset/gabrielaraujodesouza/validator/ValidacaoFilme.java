@@ -22,21 +22,8 @@ public class ValidacaoFilme {
                        final String resumo,
                        final List<PersonagemRequest> personagens) throws Exception {
 
-        if (nome == null) {
-            throw new NomeVazioException();
-        }
 
-        if (anoLancamento == null) {
-            throw new AnoLancamentoVazioException();
-        }
-
-        if (capaFilme == null) {
-            throw new CapaFilmeVazioException();
-        }
-
-        if (generos == null ) {
-            throw new ListaGenerosNulaException();
-        } else if (generos.isEmpty()) {
+        if (generos.isEmpty()) {
             throw new ListaGenerosVaziaException();
         }
 
@@ -51,21 +38,7 @@ public class ValidacaoFilme {
             }
         }
 
-        if (idDiretor == null) {
-            throw new IdDiretorNullException();
-        }
-
-        if (idEstudio == null) {
-            throw new IdEstudioNullException();
-        }
-
-        if (resumo == null) {
-            throw new ResumoNullException();
-        }
-
-        if (personagens == null) {
-            throw new ListaPersonagensNulaException();
-        } else if (personagens.isEmpty()) {
+        if (personagens.isEmpty()) {
             throw new ListaPersonagensVaziaException();
         }
 

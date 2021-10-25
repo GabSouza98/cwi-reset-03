@@ -73,15 +73,15 @@ public class AtorService {
         }
     }
 
-    public Optional<Ator> consultarAtor(Integer id) throws IdException, CampoVazioException {
+    public Ator consultarAtor(Integer id) throws IdException, CampoVazioException {
 
         if(id==null) {
             throw new CampoVazioException("id");
         }
 
-        Optional<Ator> atorProcurado = atorRepository.findById(id);
-        if((atorProcurado.isPresent())){
-            return atorProcurado;
+        Optional<Ator> optionalAtorProcurado = atorRepository.findById(id);
+        if((optionalAtorProcurado.isPresent())){
+            return optionalAtorProcurado.get();
         } else{
             throw new IdException(TipoDominioException.ATOR.getSingular(),id);
         }

@@ -35,7 +35,7 @@ public class EstudioController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Estudio> consultarEstudio(@PathVariable Integer id) throws CampoVazioException, IdException {
+    public Estudio consultarEstudio(@PathVariable Integer id) throws CampoVazioException, IdException {
         return this.estudioService.consultarEstudio(id);
     }
 }
