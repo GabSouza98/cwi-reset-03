@@ -29,7 +29,6 @@ public class ValidacaoFilme {
 
         //verifica duplicidade de genero
         List<Genero> generoAux = new ArrayList<>();
-
         for (Genero g : generos) {
             if(generoAux.contains(g)) {
                 throw new GeneroDuplicadoException();
@@ -41,43 +40,5 @@ public class ValidacaoFilme {
         if (personagens.isEmpty()) {
             throw new ListaPersonagensVaziaException();
         }
-
-        for (PersonagemRequest p : personagens) {
-            new ValidacaoPersonagem().accept(p.getIdAtor(),
-                    p.getNomePersonagem(),
-                    p.getDescricaoPersonagem(),
-                    p.getTipoAtuacao());
-        }
-
-        // IMPLEMENTAÇÃO 1
-        for(int i=0;i<personagens.size();i++){
-            for(int j=0;j<personagens.size();j++) {
-                if (i!=j) {
-                    if (personagens.get(i).getIdAtor() == personagens.get(j).getIdAtor()) {
-                        if(personagens.get(i).getNomePersonagem().toLowerCase(Locale.ROOT).equals(personagens.get(j).getNomePersonagem().toLowerCase(Locale.ROOT))) {
-                            throw new ParAtorPersonagemDuplicadoException();
-                        }
-                    }
-                }
-            }
-        }
-
-        // IMPLEMENTAÇÃO 2
-//        Set set = new HashSet();
-//        for(PersonagemRequest pRequest : personagens) {
-//            set.add(pRequest.getIdAtor().toString().concat(pRequest.getNomePersonagem()));
-//        }
-//        if (set.size() < personagens.size()) {
-//            throw new ParAtorPersonagemDuplicadoException();
-//        }
-
-
-//
-
-
-
-
-
-
     }
 }

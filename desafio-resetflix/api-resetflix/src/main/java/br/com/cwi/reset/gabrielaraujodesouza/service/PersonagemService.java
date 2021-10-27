@@ -1,6 +1,7 @@
 package br.com.cwi.reset.gabrielaraujodesouza.service;
 
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.filme.ParAtorPersonagemDuplicadoException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.CampoVazioException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.TipoDominioException;
@@ -15,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,12 +33,16 @@ public class PersonagemService {
 
         List<PersonagemAtor> listaPersonagemAtor = new ArrayList<>();
 
+        final Set<PersonagemRequest> personagemRequestSet = new HashSet<>();
+
         for(PersonagemRequest personagemRequest : personagens) {
-            new ValidacaoPersonagem().accept(personagemRequest.getIdAtor(),
-                    personagemRequest.getNomePersonagem(),
-                    personagemRequest.getDescricaoPersonagem(),
-                    personagemRequest.getTipoAtuacao());
+
             Ator validaAtor = this.atorService.consultarAtor(personagemRequest.getIdAtor());
+            if (personagemRequestSet.contains(personagemRequest)) {
+                throw new ParAtorPersonagemDuplicadoException();
+            } else {
+                personagemRequestSet.add(personagemRequest);
+            }
         }
 
         for(PersonagemRequest personagemRequest : personagens) {
@@ -50,22 +57,12 @@ public class PersonagemService {
         return listaPersonagemAtor;
     }
 
-//    public PersonagemAtor consultarPersonagem(Integer id) throws IdException, CampoVazioException {
-//
-//        if(id==null) {
-//            throw new CampoVazioException("id");
-//        }
-//
-//        List<PersonagemAtor> personagens = fakeDatabase.recuperaPersonagens();
-//        List<PersonagemAtor> personagensAux = personagens.stream()
-//                .filter(a -> a.getId() == id)
-//                .collect(Collectors.toList());
-//
-//        if(personagensAux.size() == 1) {
-//            return personagensAux.get(0);
-//        } else {
-//            throw new IdException(TipoDominioException.PERSONAGEM.getSingular(), id);
-//        }
-//    }
+    public boolean consultarPersonagemAtor(Ator ator) {
 
+        if (personagemRepository.findByAtor(ator).isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

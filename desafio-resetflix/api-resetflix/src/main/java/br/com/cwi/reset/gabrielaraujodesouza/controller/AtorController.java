@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +45,18 @@ public class AtorController {
     @GetMapping("/{id}")
     public Ator consultarAtor(@PathVariable(required = true) Integer id) throws CampoVazioException, IdException {
         return this.atorService.consultarAtor(id);
+    }
+
+    @PutMapping("/{id}")
+    public void atualizarAtor(@PathVariable(required = true) Integer id, @Valid @RequestBody AtorRequest atorRequest) throws Exception {
+        this.atorService.atualizarAtor(id, atorRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public void removerAtor(@PathVariable
+                            @NotNull(message="Campo obrigatório não informado. Favor informar o campo id")
+                            Integer id) throws Exception {
+        this.atorService.removerAtor(id);
     }
 
 

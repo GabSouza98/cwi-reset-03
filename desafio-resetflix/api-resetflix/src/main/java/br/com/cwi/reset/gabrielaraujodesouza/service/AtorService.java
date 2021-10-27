@@ -1,7 +1,9 @@
 package br.com.cwi.reset.gabrielaraujodesouza.service;
 
+import br.com.cwi.reset.gabrielaraujodesouza.exception.ator_e_diretor.AtorAtraladoAPersonagemException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.*;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
+import br.com.cwi.reset.gabrielaraujodesouza.model.PersonagemAtor;
 import br.com.cwi.reset.gabrielaraujodesouza.repository.AtorRepository;
 import br.com.cwi.reset.gabrielaraujodesouza.request.AtorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.model.StatusCarreira;
@@ -25,6 +27,9 @@ public class AtorService {
     @Autowired
     private AtorRepository atorRepository;
 
+    @Autowired
+    private PersonagemService personagemService;
+
     ModelMapper modelMapper = new ModelMapper();
 
     public void criarAtor(AtorRequest atorRequest) throws Exception {
@@ -35,12 +40,6 @@ public class AtorService {
             throw new NomeDuplicadoException(TipoDominioException.ATOR.getSingular(), atorRequest.getNome());
         }
 
-//        Ator ator = new Ator(
-//                    atorRequest.getNome(),
-//                    atorRequest.getDataNascimento(),
-//                    atorRequest.getStatusCarreira(),
-//                    atorRequest.getAnoInicioAtividade()
-//                    );
         Ator ator = modelMapper.map(atorRequest, Ator.class);
         atorRepository.save(ator);
     }
@@ -94,5 +93,43 @@ public class AtorService {
         } else {
             return atores;
         }
+    }
+
+    public void atualizarAtor(Integer id, AtorRequest atorRequest) throws Exception {
+
+        Ator atorCadastrado = consultarAtor(id);
+
+        new ValidacaoAtor().accept(atorRequest.getNome(), atorRequest.getDataNascimento(), atorRequest.getAnoInicioAtividade(), TipoDominioException.ATOR);
+
+        //se o nome for igual ao cadastrado, não é necessario verificar o banco.
+        //se o nome for diferente, é necessário verificar se não vai ser igual a outro ator que já tenha.
+        if(!atorCadastrado.getNome().equals(atorRequest.getNome())) {
+            if(!isNull(atorRepository.findByNomeEqualsIgnoreCase(atorRequest.getNome()))) {
+                throw new NomeDuplicadoException(TipoDominioException.ATOR.getSingular(), atorRequest.getNome());
+            }
+        }
+
+        Ator atorAtualizado = new Ator(id,
+                atorRequest.getNome(),
+                atorRequest.getDataNascimento(),
+                atorRequest.getStatusCarreira(),
+                atorRequest.getAnoInicioAtividade());
+
+        atorRepository.save(atorAtualizado);
+    }
+
+    public void removerAtor(Integer id) throws CampoVazioException, IdException, AtorAtraladoAPersonagemException {
+        Ator atorCadastrado = consultarAtor(id);
+
+        if (personagemService.consultarPersonagemAtor(atorCadastrado)) {
+            atorRepository.delete(atorCadastrado);
+        } else {
+            throw new AtorAtraladoAPersonagemException();
+        }
+
+
+
+
+
     }
 }

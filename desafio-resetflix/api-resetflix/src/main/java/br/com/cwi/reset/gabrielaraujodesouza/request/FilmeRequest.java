@@ -2,17 +2,19 @@ package br.com.cwi.reset.gabrielaraujodesouza.request;
 
 import br.com.cwi.reset.gabrielaraujodesouza.model.Genero;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class FilmeRequest {
 
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo nome.")
+    @NotBlank(message = "Campo obrigatório não informado. Favor informar o campo nome.")
     private String nome;
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo anoLancamento.")
     private Integer anoLancamento;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo capaFilme.")
+    @NotBlank(message = "Campo obrigatório não informado. Favor informar o campo capaFilme.")
     private String capaFilme;
     @NotEmpty(message = "Deve ser informado pelo menos um gênero para o cadastro do filme.")
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo generos.")
@@ -21,10 +23,11 @@ public class FilmeRequest {
     private Integer idDiretor;
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo idEstudio.")
     private Integer idEstudio;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo resumo.")
+    @NotBlank(message = "Campo obrigatório não informado. Favor informar o campo resumo.")
     private String resumo;
     @NotEmpty(message = "A lista de personagens informada está vazia.")
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo personagens.")
+    @Valid
     private List<PersonagemRequest> personagens;
 
     public String getNome() {

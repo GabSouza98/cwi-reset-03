@@ -6,6 +6,7 @@ import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.FiltroException
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaException;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Diretor;
+import br.com.cwi.reset.gabrielaraujodesouza.request.AtorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.request.DiretorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.service.DiretorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,16 @@ public class DiretorController {
     @GetMapping("/{id}")
     public Diretor consultarDiretor(@PathVariable Integer id) throws ListaVaziaException, CampoVazioException, IdException {
         return this.diretorService.consultarDiretor(id);
+    }
+
+    @PutMapping("/{id}")
+    public void atualizarDiretor(@PathVariable Integer id, @Valid @RequestBody DiretorRequest diretorRequest) throws Exception {
+        this.diretorService.atualizarDiretor(id, diretorRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public void removerDiretores(@PathVariable(required = true) Integer id) throws Exception {
+        this.diretorService.removerDiretores(id);
     }
 
 }

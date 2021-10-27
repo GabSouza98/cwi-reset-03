@@ -2,15 +2,17 @@ package br.com.cwi.reset.gabrielaraujodesouza.request;
 
 import br.com.cwi.reset.gabrielaraujodesouza.model.TipoAtuacao;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 public class PersonagemRequest {
 
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo idAtor.")
     private Integer idAtor;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo nomePersonagem.")
+    @NotBlank(message = "Campo obrigatório não informado. Favor informar o campo nomePersonagem.")
     private String nomePersonagem;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo descricaoPersonagem.")
+    @NotBlank(message = "Campo obrigatório não informado. Favor informar o campo descricaoPersonagem.")
     private String descricaoPersonagem;
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo tipoAtuacao.")
     private TipoAtuacao tipoAtuacao;
@@ -53,4 +55,18 @@ public class PersonagemRequest {
     public void setTipoAtuacao(TipoAtuacao tipoAtuacao) {
         this.tipoAtuacao = tipoAtuacao;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonagemRequest that = (PersonagemRequest) o;
+        return Objects.equals(idAtor, that.idAtor) && Objects.equals(nomePersonagem, that.nomePersonagem);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idAtor, nomePersonagem);
+    }
+
 }

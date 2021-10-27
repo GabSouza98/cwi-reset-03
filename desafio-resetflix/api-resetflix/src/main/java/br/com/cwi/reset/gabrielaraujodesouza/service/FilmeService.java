@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static java.util.Objects.isNull;
+
 @Service
 public class FilmeService {
 
@@ -58,68 +60,96 @@ public class FilmeService {
         filmeRepository.save(filme);
 
     }
-//
-//    public List<Filme> consultarFilmes(String nomeFilme, String nomeDiretor, String nomePersonagem, String nomeAtor) throws ListaVaziaException, FilmeNaoEncontradoException {
-//
-//        final List<Filme> filmesCadastrados = fakeDatabase.recuperaFilmes();
-//
-//        //verifica se há filme cadastrado
-//        if (filmesCadastrados.isEmpty()) {
-//            throw new ListaVaziaException(TipoDominioException.FILME.getSingular(), TipoDominioException.FILME.getPlural());
-//        }
-//
-//        //verifica o caso mais simples, todos os parametros vazios
-//        if (nomeFilme.isEmpty() &&
-//                nomeDiretor.isEmpty() &&
-//                nomePersonagem.isEmpty() &&
-//                nomeAtor.isEmpty()){
-//            return filmesCadastrados;
-//        }
-//
-//        //duplica a lista de filmes existentes
-//        List filmesFiltrados = new ArrayList(filmesCadastrados);
-//
-//        for(Filme filme : filmesCadastrados) {
-//            final boolean containsFilterNomeFilme = filme.getNome().toLowerCase(Locale.ROOT).contains(nomeFilme.toLowerCase(Locale.ROOT));
-//            if(!containsFilterNomeFilme){
-//                if(filmesFiltrados.contains(filme)){
-//                    filmesFiltrados.remove(filme);
-//                }
-//            }
-//            final boolean containsFilterNomeDiretor = filme.getDiretor().getNome().toLowerCase(Locale.ROOT).contains(nomeDiretor.toLowerCase(Locale.ROOT));
-//            if(!containsFilterNomeDiretor){
-//                if(filmesFiltrados.contains(filme)){
-//                    filmesFiltrados.remove(filme);
-//                }
-//            }
-//            boolean contemPersonagem = false;
-//            boolean contemAtor = false;
-//            for (PersonagemAtor personagem : filme.getPersonagens()) {
-//                final boolean containsFilterNomePersonagem = personagem.getNomePersonagem().toLowerCase(Locale.ROOT).contains(nomePersonagem.toLowerCase(Locale.ROOT));
-//                if(containsFilterNomePersonagem){
-//                    contemPersonagem = true;
-//                }
-//                final boolean containsFilterNomeAtor = personagem.getAtor().getNome().toLowerCase(Locale.ROOT).contains(nomeAtor.toLowerCase(Locale.ROOT));
-//                if(containsFilterNomeAtor){
-//                    contemAtor = true;
-//                }
-//            }
-//            if(!contemPersonagem) {
-//                if(filmesFiltrados.contains(filme)){
-//                    filmesFiltrados.remove(filme);
-//                }
-//            }
-//            if(!contemAtor) {
-//                if(filmesFiltrados.contains(filme)){
-//                    filmesFiltrados.remove(filme);
-//                }
-//            }
-//        }
-//
-//        if (filmesFiltrados.isEmpty()){
-//            throw new FilmeNaoEncontradoException(nomeFilme,nomeDiretor,nomePersonagem,nomeAtor);
-//        }
-//
-//        return filmesFiltrados;
-//    }
+
+    public List<Filme> consultarFilmes(String nomeFilme, String nomeDiretor, String nomePersonagem, String nomeAtor) throws ListaVaziaException, FilmeNaoEncontradoException {
+
+        final List<Filme> filmesCadastrados = filmeRepository.findAll();
+
+        //verifica se há filme cadastrado
+        if (filmesCadastrados.isEmpty()) {
+            throw new ListaVaziaException(TipoDominioException.FILME.getSingular(), TipoDominioException.FILME.getPlural());
+        }
+
+        final List<Filme> filtrarNomePersonagem = filtrarNomePersonagem(filmesCadastrados, nomePersonagem);
+        final List<Filme> filtrarNomeAtor = filtrarNomeAtor(filtrarNomePersonagem, nomeAtor);
+        final List<Filme> filtrarNomeDiretor = filtrarNomeDiretor(filtrarNomeAtor, nomeDiretor);
+        final List<Filme> filtroFinal = filtrarNomeFilme(filtrarNomeDiretor, nomeFilme);
+
+        if (filtroFinal.isEmpty()){
+            throw new FilmeNaoEncontradoException(nomeFilme,nomeDiretor,nomePersonagem,nomeAtor);
+        }
+
+        return filtroFinal;
+    }
+
+    private List<Filme> filtrarNomeFilme(final List<Filme> listaOriginal, final String nome) {
+
+        if (nome.isEmpty()) {
+            return listaOriginal;
+        }
+
+        return filmeRepository.findByNomeContainingIgnoreCase(nome);
+
+    }
+
+    private List<Filme> filtrarNomeDiretor(final List<Filme> listaOriginal, final String nome) {
+
+        if (nome.isEmpty()) {
+            return listaOriginal;
+        }
+
+        return filmeRepository.findByDiretorNomeContainingIgnoreCase(nome);
+
+    }
+
+    private List<Filme> filtrarNomeAtor(final List<Filme> listaOriginal, final String nome) {
+        if (nome.isEmpty()) {
+            return listaOriginal;
+        }
+
+        final List<Filme> filmeFiltrado = new ArrayList<>();
+
+        for (Filme filme : listaOriginal) {
+            for (PersonagemAtor personagens : filme.getPersonagens()) {
+                if (personagens.getAtor().getNome().toLowerCase(Locale.ROOT).contains(nome.toLowerCase(Locale.ROOT))) {
+                    filmeFiltrado.add(filme);
+                    break;
+                }
+            }
+        }
+        return filmeFiltrado;
+    }
+
+    private List<Filme> filtrarNomePersonagem(final List<Filme> listaOriginal, final String nome) {
+        if (nome.isEmpty()) {
+            return listaOriginal;
+        }
+
+        final List<Filme> filmeFiltrado = new ArrayList<>();
+
+        for (Filme filme : listaOriginal) {
+            for (PersonagemAtor personagens : filme.getPersonagens()) {
+                if (personagens.getNomePersonagem()
+                        .toLowerCase(Locale.ROOT)
+                        .contains(nome.toLowerCase(Locale.ROOT))
+                ) {
+                    filmeFiltrado.add(filme);
+                    break;
+                }
+            }
+        }
+
+        return filmeFiltrado;
+    }
+
+    public boolean consultarDiretor(Diretor diretor) {
+
+        if(filmeRepository.findByDiretor(diretor).isEmpty()){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }

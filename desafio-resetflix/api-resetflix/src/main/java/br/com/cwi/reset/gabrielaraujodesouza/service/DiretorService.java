@@ -1,13 +1,17 @@
 package br.com.cwi.reset.gabrielaraujodesouza.service;
 
+import br.com.cwi.reset.gabrielaraujodesouza.exception.ator_e_diretor.AtorAtraladoAPersonagemException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.ator_e_diretor.DiretorAtreladoAFilmeException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.*;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Diretor;
 import br.com.cwi.reset.gabrielaraujodesouza.repository.AtorRepository;
 import br.com.cwi.reset.gabrielaraujodesouza.repository.DiretorRepository;
+import br.com.cwi.reset.gabrielaraujodesouza.request.AtorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.request.DiretorRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
+import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoAtor;
 import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoDiretor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +23,15 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+
 @Service
 public class DiretorService {
 
     @Autowired
     private DiretorRepository diretorRepository;
+    @Autowired
+    private FilmeService filmeService;
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -34,11 +42,6 @@ public class DiretorService {
         if(diretorRepository.findByNomeEqualsIgnoreCase(diretorRequest.getNome()) != null) {
             throw new NomeDuplicadoException(TipoDominioException.DIRETOR.getSingular(), diretorRequest.getNome());
         }
-
-//        Diretor diretor = new Diretor(
-//                diretorRequest.getNome(),
-//                diretorRequest.getDataNascimento(),
-//                diretorRequest.getAnoInicioAtividade());
 
         Diretor diretor = modelMapper.map(diretorRequest, Diretor.class);
         diretorRepository.save(diretor);
@@ -79,4 +82,39 @@ public class DiretorService {
             throw new IdException(TipoDominioException.DIRETOR.getSingular(),id);
         }
     }
+
+    public void atualizarDiretor(Integer id, DiretorRequest diretorRequest) throws Exception {
+
+        Diretor diretorCadastrado = consultarDiretor(id);
+
+        new ValidacaoDiretor().accept(diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade(), TipoDominioException.DIRETOR);
+
+        if (!diretorCadastrado.getNome().equals(diretorRequest.getNome())) {
+            if (!isNull(diretorRepository.findByNomeEqualsIgnoreCase(diretorRequest.getNome()))) {
+                throw new NomeDuplicadoException(TipoDominioException.DIRETOR.getSingular(), diretorRequest.getNome());
+            }
+        }
+
+        Diretor diretorAtualizado = new Diretor(id,
+                diretorRequest.getNome(),
+                diretorRequest.getDataNascimento(),
+                diretorRequest.getAnoInicioAtividade());
+
+        diretorRepository.save(diretorAtualizado);
+    }
+
+    public void removerDiretores(Integer id) throws CampoVazioException, IdException, DiretorAtreladoAFilmeException {
+        Diretor diretorCadastrado = consultarDiretor(id);
+
+        if (filmeService.consultarDiretor(diretorCadastrado)) {
+            diretorRepository.delete(diretorCadastrado);
+        } else {
+            throw new DiretorAtreladoAFilmeException();
+        }
+
+
+
+    }
+
+
 }

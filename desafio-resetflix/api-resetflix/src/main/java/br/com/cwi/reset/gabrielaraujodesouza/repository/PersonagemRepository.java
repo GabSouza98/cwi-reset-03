@@ -1,5 +1,6 @@
 package br.com.cwi.reset.gabrielaraujodesouza.repository;
 
+import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Diretor;
 import br.com.cwi.reset.gabrielaraujodesouza.model.PersonagemAtor;
 import org.springframework.data.repository.CrudRepository;
@@ -17,5 +18,6 @@ public interface PersonagemRepository extends CrudRepository<PersonagemAtor,Inte
     PersonagemAtor findByNomePersonagemEqualsIgnoreCase(String nome);
     List<PersonagemAtor> findAll();
     List<PersonagemAtor> findByNomePersonagemContainingIgnoreCase(String nome);
+    List<PersonagemAtor> findByAtor(Ator ator);
 
 }

@@ -26,14 +26,14 @@ public class FilmeController {
     public void criarFilme(@Valid @RequestBody FilmeRequest filmeRequest) throws Exception {
         this.filmeService.criarFilme(filmeRequest);
     }
-//
-//    @GetMapping
-//    public List<Filme> consultarFilmes(@RequestParam(required = false, defaultValue = "") String nomeFilme,
-//                                       @RequestParam(required = false, defaultValue = "") String nomeDiretor,
-//                                       @RequestParam(required = false, defaultValue = "") String nomePersonagem,
-//                                       @RequestParam(required = false, defaultValue = "") String nomeAtor) throws ListaVaziaException, FilmeNaoEncontradoException {
-//        return this.filmeService.consultarFilmes(nomeFilme,nomeDiretor,nomePersonagem,nomeAtor);
-//    }
+
+    @GetMapping
+    public List<Filme> consultarFilmes(@RequestParam(required = false, defaultValue = "") String nomeFilme,
+                                       @RequestParam(required = false, defaultValue = "") String nomeDiretor,
+                                       @RequestParam(required = false, defaultValue = "") String nomePersonagem,
+                                       @RequestParam(required = false, defaultValue = "") String nomeAtor) throws ListaVaziaException, FilmeNaoEncontradoException {
+        return this.filmeService.consultarFilmes(nomeFilme,nomeDiretor,nomePersonagem,nomeAtor);
+    }
 
 
 }
