@@ -46,7 +46,7 @@ public class DiretorController {
     }
 
     @DeleteMapping("/{id}")
-    public void removerDiretores(@PathVariable(required = true) Integer id) throws Exception {
+    public void removerDiretores(@PathVariable Integer id) throws Exception {
         this.diretorService.removerDiretores(id);
     }
 

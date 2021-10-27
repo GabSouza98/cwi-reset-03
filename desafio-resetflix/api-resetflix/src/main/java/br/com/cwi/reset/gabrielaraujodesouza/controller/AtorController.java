@@ -48,7 +48,7 @@ public class AtorController {
     }
 
     @PutMapping("/{id}")
-    public void atualizarAtor(@PathVariable(required = true) Integer id, @Valid @RequestBody AtorRequest atorRequest) throws Exception {
+    public void atualizarAtor(@PathVariable Integer id, @Valid @RequestBody AtorRequest atorRequest) throws Exception {
         this.atorService.atualizarAtor(id, atorRequest);
     }
 
