@@ -65,4 +65,10 @@ public class PersonagemService {
             return false;
         }
     }
+
+    public void deletarPersonagens(List<PersonagemAtor> personagens) {
+        for (PersonagemAtor personagem : personagens){
+            personagemRepository.delete(personagem);
+        }
+    }
 }

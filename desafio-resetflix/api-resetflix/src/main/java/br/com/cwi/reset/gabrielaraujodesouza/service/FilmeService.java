@@ -3,6 +3,7 @@ package br.com.cwi.reset.gabrielaraujodesouza.service;
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.TipoDominioException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.filme.FilmeNaoEncontradoException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaException;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Diretor;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
@@ -149,7 +150,16 @@ public class FilmeService {
         } else {
             return false;
         }
-
     }
 
+    public void removerFilme(Integer id) throws IdException {
+
+        Filme filmeCadastrado = filmeRepository.findByIdEquals(id);
+
+        if(isNull(filmeCadastrado)) {
+            throw new IdException("Filme", id);
+        }
+        personagemService.deletarPersonagens(filmeCadastrado.getPersonagens());
+        filmeRepository.delete(filmeCadastrado);
+    }
 }

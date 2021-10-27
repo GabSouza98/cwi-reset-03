@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface FilmeRepository extends CrudRepository<Filme,Integer> {
 
-    Optional<Filme> findById(Integer id);
+    Filme findByIdEquals(Integer id);
     Filme save(Filme filme);
     void delete(Filme filme);
     Filme findByNomeEqualsIgnoreCase(String nome);

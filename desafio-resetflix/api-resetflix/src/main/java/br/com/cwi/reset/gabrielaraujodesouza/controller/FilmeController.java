@@ -2,6 +2,7 @@ package br.com.cwi.reset.gabrielaraujodesouza.controller;
 
 import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.filme.FilmeNaoEncontradoException;
+import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaException;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Filme;
 import br.com.cwi.reset.gabrielaraujodesouza.request.EstudioRequest;
@@ -33,6 +34,11 @@ public class FilmeController {
                                        @RequestParam(required = false, defaultValue = "") String nomePersonagem,
                                        @RequestParam(required = false, defaultValue = "") String nomeAtor) throws ListaVaziaException, FilmeNaoEncontradoException {
         return this.filmeService.consultarFilmes(nomeFilme,nomeDiretor,nomePersonagem,nomeAtor);
+    }
+
+    @DeleteMapping("/{id}")
+    public void removerFilme(@PathVariable Integer id) throws IdException {
+        this.filmeService.removerFilme(id);
     }
 
 
