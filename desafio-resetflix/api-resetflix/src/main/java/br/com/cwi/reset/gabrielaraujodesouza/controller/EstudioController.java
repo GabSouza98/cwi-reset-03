@@ -1,6 +1,5 @@
 package br.com.cwi.reset.gabrielaraujodesouza.controller;
 
-import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.CampoVazioException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.FiltroException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/estudios")

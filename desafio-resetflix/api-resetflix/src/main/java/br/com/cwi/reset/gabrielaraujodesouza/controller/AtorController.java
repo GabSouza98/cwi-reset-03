@@ -1,6 +1,5 @@
 package br.com.cwi.reset.gabrielaraujodesouza.controller;
 
-import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.CampoVazioException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.FiltroException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
@@ -14,10 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/atores")

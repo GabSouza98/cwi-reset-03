@@ -1,17 +1,10 @@
 package br.com.cwi.reset.gabrielaraujodesouza.service;
 
-import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.filme.ParAtorPersonagemDuplicadoException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.CampoVazioException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.TipoDominioException;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Ator;
-import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
 import br.com.cwi.reset.gabrielaraujodesouza.model.PersonagemAtor;
 import br.com.cwi.reset.gabrielaraujodesouza.repository.PersonagemRepository;
 import br.com.cwi.reset.gabrielaraujodesouza.request.PersonagemRequest;
-import br.com.cwi.reset.gabrielaraujodesouza.validator.ValidacaoPersonagem;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class PersonagemService {

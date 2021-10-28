@@ -1,11 +1,6 @@
 package br.com.cwi.reset.gabrielaraujodesouza.validator;
 
-import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.ator_e_diretor.NomeVazioException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.estudio.StatusAtividadeVazioException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.filme.*;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.NomeDuplicadoException;
-import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Genero;
 import br.com.cwi.reset.gabrielaraujodesouza.request.PersonagemRequest;
 

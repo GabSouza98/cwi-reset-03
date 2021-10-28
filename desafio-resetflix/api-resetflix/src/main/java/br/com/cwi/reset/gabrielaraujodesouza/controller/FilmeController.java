@@ -1,11 +1,9 @@
 package br.com.cwi.reset.gabrielaraujodesouza.controller;
 
-import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.filme.FilmeNaoEncontradoException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.IdException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.ListaVaziaException;
 import br.com.cwi.reset.gabrielaraujodesouza.model.Filme;
-import br.com.cwi.reset.gabrielaraujodesouza.request.EstudioRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.request.FilmeRequest;
 import br.com.cwi.reset.gabrielaraujodesouza.service.FilmeService;
 import org.springframework.beans.factory.annotation.Autowired;

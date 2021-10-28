@@ -109,11 +109,13 @@ public class AtorService {
             }
         }
 
-        Ator atorAtualizado = new Ator(id,
+        Ator atorAtualizado = new Ator(
                 atorRequest.getNome(),
                 atorRequest.getDataNascimento(),
                 atorRequest.getStatusCarreira(),
                 atorRequest.getAnoInicioAtividade());
+
+        atorAtualizado.setId(id);
 
         atorRepository.save(atorAtualizado);
     }

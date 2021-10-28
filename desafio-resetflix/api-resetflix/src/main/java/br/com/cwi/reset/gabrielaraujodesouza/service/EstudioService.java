@@ -28,12 +28,6 @@ public class EstudioService {
             throw new NomeDuplicadoException(TipoDominioException.ESTUDIO.getSingular(), estudioRequest.getNome());
         }
 
-//        Estudio estudio = new Estudio(
-//                estudioRequest.getNome(),
-//                estudioRequest.getDescricao(),
-//                estudioRequest.getDataCriacao(),
-//                estudioRequest.getStatusAtividade());
-
         Estudio estudio = modelMapper.map(estudioRequest, Estudio.class);
         estudioRepository.save(estudio);
     }

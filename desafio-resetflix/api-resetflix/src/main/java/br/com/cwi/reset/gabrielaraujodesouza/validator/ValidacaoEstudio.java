@@ -1,18 +1,14 @@
 package br.com.cwi.reset.gabrielaraujodesouza.validator;
 
-import br.com.cwi.reset.gabrielaraujodesouza.FakeDatabase;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.*;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.ator_e_diretor.NomeVazioException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.estudio.DataCriacaoMaiorQueAtualException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.estudio.DataCriacaoVazioException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.estudio.DescricaoVazioException;
 import br.com.cwi.reset.gabrielaraujodesouza.exception.estudio.StatusAtividadeVazioException;
-import br.com.cwi.reset.gabrielaraujodesouza.exception.genericos.NomeDuplicadoException;
-import br.com.cwi.reset.gabrielaraujodesouza.model.Estudio;
 import br.com.cwi.reset.gabrielaraujodesouza.model.StatusAtividade;
 
 import java.time.LocalDate;
-import java.util.Locale;
 
 public class ValidacaoEstudio {
 
@@ -36,12 +32,6 @@ public class ValidacaoEstudio {
 
         if (LocalDate.now().isBefore(dataCriacao)) {
             throw new DataCriacaoMaiorQueAtualException(tipoDominioException.getPlural());
-        }
-
-        for (Estudio e : FakeDatabase.getInstance().recuperaEstudios()) {
-            if (e.getNome().toLowerCase(Locale.ROOT).equals(nome.toLowerCase(Locale.ROOT))) {
-                throw new NomeDuplicadoException(tipoDominioException.getSingular(), nome);
-            }
         }
     }
 }
