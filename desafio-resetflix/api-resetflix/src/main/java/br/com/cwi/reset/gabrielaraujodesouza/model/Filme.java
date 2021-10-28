@@ -1,8 +1,6 @@
 package br.com.cwi.reset.gabrielaraujodesouza.model;
 
 import javax.persistence.*;
-import java.awt.*;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,20 +24,20 @@ public class Filme {
     private Diretor diretor;
     @OneToMany
     @JoinColumn(name = "id_personagem_ator")
-    private List<PersonagemAtor> personagens;
+    private List<PersonagemAtor> personagenss;
     private String resumo;
 
     public Filme() {
     }
 
-    public Filme(String nome, Integer anoLancamento, String capaFilme, List<Genero> generos, Estudio estudio, Diretor diretor, List<PersonagemAtor> personagens, String resumo) {
+    public Filme(String nome, Integer anoLancamento, String capaFilme, List<Genero> generos, Estudio estudio, Diretor diretor, List<PersonagemAtor> personagenss, String resumo) {
         this.nome = nome;
         this.anoLancamento = anoLancamento;
         this.capaFilme = capaFilme;
         this.generos = generos;
         this.estudio = estudio;
         this.diretor = diretor;
-        this.personagens = personagens;
+        this.personagenss = personagenss;
         this.resumo = resumo;
     }
 
@@ -71,8 +69,8 @@ public class Filme {
         return diretor;
     }
 
-    public List<PersonagemAtor> getPersonagens() {
-        return personagens;
+    public List<PersonagemAtor> getPersonagenss() {
+        return personagenss;
     }
 
     public String getResumo() {
@@ -107,8 +105,8 @@ public class Filme {
         this.diretor = diretor;
     }
 
-    public void setPersonagens(List<PersonagemAtor> personagens) {
-        this.personagens = personagens;
+    public void setPersonagenss(List<PersonagemAtor> personagens) {
+        this.personagenss = personagenss;
     }
 
     public void setResumo(String resumo) {
@@ -120,11 +118,11 @@ public class Filme {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Filme filme = (Filme) o;
-        return Objects.equals(id, filme.id) && Objects.equals(nome, filme.nome) && Objects.equals(anoLancamento, filme.anoLancamento) && Objects.equals(capaFilme, filme.capaFilme) && Objects.equals(generos, filme.generos) && Objects.equals(estudio, filme.estudio) && Objects.equals(diretor, filme.diretor) && Objects.equals(personagens, filme.personagens) && Objects.equals(resumo, filme.resumo);
+        return Objects.equals(id, filme.id) && Objects.equals(nome, filme.nome) && Objects.equals(anoLancamento, filme.anoLancamento) && Objects.equals(capaFilme, filme.capaFilme) && Objects.equals(generos, filme.generos) && Objects.equals(estudio, filme.estudio) && Objects.equals(diretor, filme.diretor) && Objects.equals(personagenss, filme.personagenss) && Objects.equals(resumo, filme.resumo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, anoLancamento, capaFilme, generos, estudio, diretor, personagens, resumo);
+        return Objects.hash(id, nome, anoLancamento, capaFilme, generos, estudio, diretor, personagenss, resumo);
     }
 }
