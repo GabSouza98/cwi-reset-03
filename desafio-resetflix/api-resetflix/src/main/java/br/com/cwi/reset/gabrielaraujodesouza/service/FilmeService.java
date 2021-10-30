@@ -206,7 +206,7 @@ public class FilmeService {
         if(isNull(filmeCadastrado)) {
             throw new IdException("Filme", id);
         }
-        personagemService.deletarPersonagens(filmeCadastrado.getPersonagenss());
+        //personagemService.deletarPersonagens(filmeCadastrado.getPersonagenss());
         filmeRepository.delete(filmeCadastrado);
     }
 }

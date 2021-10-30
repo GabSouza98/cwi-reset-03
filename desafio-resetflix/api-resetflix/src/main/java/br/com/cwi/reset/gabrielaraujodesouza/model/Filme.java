@@ -22,7 +22,7 @@ public class Filme {
     @ManyToOne
     @JoinColumn(name = "id_diretor")
     private Diretor diretor;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_personagem_ator")
     private List<PersonagemAtor> personagenss;
     private String resumo;
